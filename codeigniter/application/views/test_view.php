@@ -1,1 +1,3 @@
-HERE!
+<?php 
+	echo BASEPATH;
+?>

@@ -9,9 +9,6 @@ class Test extends CI_Controller {
 	}
 
 	public function index () {
-		$query = $this->db->get("accomplishment_report");
-		print_r($query->result());
-
 		$this->load->view('test_view');
 	}
 }
