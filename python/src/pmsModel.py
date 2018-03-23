@@ -17,15 +17,15 @@ def connectDatabase(hostdb='local'):
 
 def getDataFrame(query, hostdb='local'):
     try:
-        db, cur = senslopedb_connect(hostdb)
+        db, cur = connectDatabase(hostdb)
         df = psql.read_sql(query, db)
         db.close()
-        return df
+        return df.to_json()
     except KeyboardInterrupt:
         print_out("Exception detected in accessing database")
 
 def executeQuery(query, hostdb='local'):
-    db, cur = senslopedb_connect(hostdb)
+    db, cur = connectDatabase(hostdb)
     cur.execute(query)
     db.commit()
     db.close()
@@ -34,4 +34,4 @@ connectDatabase()
 
 query = "SELECT * FROM smsinbox LIMIT 1"
 
-print executeQuery(query)
+print getDataFrame(query)
