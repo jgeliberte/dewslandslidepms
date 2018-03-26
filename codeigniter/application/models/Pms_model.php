@@ -9,6 +9,7 @@ class Pms_model extends CI_Model {
 
 	public function insertModule($module) {
 		$result = $this->db->insert("modules",$module);
+		// $this->db->select('');
 		return $result;
 	}
 
@@ -18,15 +19,18 @@ class Pms_model extends CI_Model {
 	}
 
 	public function insertAccuracyReport($report) {
-
+		$result = $this->db->insert("accuracy",$report);
+		return $result;
 	}
 
 	public function insertErrorRateReport($report) {
-
+		$result = $this->db->insert("error_rate",$report);
+		return $result;
 	}
 
-	public function insertErrorRateReport($report) {
-
+	public function insertTimelinessReport($report) {
+		$result = $this->db->insert("timeliness",$report);
+		return $result;
 	}
 
 	public function getTeam() {
