@@ -1,7 +1,6 @@
 <?php
 class Api_test extends TestCase
 {
-
 	public function test_insertDynaslopeTeam() {
 		$output = $this->request("GET",["Api","insertDynaslopeTeam","team_".rand(),"team description"]);
 		$this->assertEquals($output,true);
@@ -44,9 +43,16 @@ class Api_test extends TestCase
 		$this->assertEquals($output,true);
 	}
 
-	// public function test_inserTimelinessReport() {
-	// 	$data = {
-	// 		''
-	// 	}
-	// }
+	public function test_inserTimelinessReport() {
+		$data = [
+			'type' => 'timeliness',
+			'metric_id' => '29',
+			'metric' => 'metric_1965136936',
+			'ts_received' => '2017-09-21 03:33:33',
+			'execution_time' => rand()
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","insertReport"],$send_data);
+		$this->assertEquals($output,true);
+	}
 }

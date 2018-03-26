@@ -80,7 +80,12 @@ class Api extends CI_Controller {
 				$result = $this->pms_model->insertErrorRateReport($report_summary);
 				break;
 			case 'timeliness':
-				$result = $this->pms_model->insertTimelinessReport($report);
+				$report_summary = [
+				'metric_id' => $report['metric_id'],
+				'ts_received' => $report['ts_received'],
+				'execution_time' => $report['execution_time']
+				];
+				$result = $this->pms_model->insertTimelinessReport($report_summary);
 				break;
 			default:
 				echo "Unknown category!\n\n";
