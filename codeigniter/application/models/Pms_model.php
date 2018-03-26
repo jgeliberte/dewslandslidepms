@@ -9,7 +9,6 @@ class Pms_model extends CI_Model {
 
 	public function insertModule($module) {
 		$result = $this->db->insert("modules",$module);
-		// $this->db->select('');
 		return $result;
 	}
 
@@ -45,22 +44,37 @@ class Pms_model extends CI_Model {
 		}
 	}
 
-	public function getModule() {
-		switch (variable) {
-			case 'value':
+	public function getModule($module, $type = "") {
+		switch ($module['type']) {
+			case 'accuracy':
 				# code...
 				break;
-			
+			case 'error_rate':
+				# code...
+				break;
+			case 'timeliness':
+				# code...
+				break;
 			default:
 				# code...
 				break;
 		}
 	}
 
-	public function getMetric($metric) {
-		$query = $this->db->get('metrics');
+	public function getMetric($metric, $type = "") {
+		$this->db->select('*');
+		$this->db->from('metrics');
 		$this->db->where('name', $metric);
-		return $query->result();
+		$result = $this->db->get();
+		return $result->result();
+	}
+
+	public function getModuleByType($module) {
+
+	}
+
+	public function getMetricByType($metric) {
+
 	}
 }
 
