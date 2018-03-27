@@ -8,12 +8,14 @@ class Pms_model extends CI_Model {
 	}
 
 	public function insertModule($module) {
-		$result = $this->db->insert("modules",$module);
+		$this->db->insert("modules",$module);
+		$result = $this->db->insert_id();
 		return $result;
 	}
 
 	public function insertMetric($metric) {
-		$result = $this->db->insert("metrics",$metric);
+		$this->db->insert("metrics",$metric);
+		$result = $this->db->insert_id();
 		return $result;
 	}
 
@@ -44,29 +46,53 @@ class Pms_model extends CI_Model {
 		}
 	}
 
-	public function getModule($module, $type = "") {
-		switch ($module['type']) {
-			case 'accuracy':
-				# code...
-				break;
-			case 'error_rate':
-				# code...
-				break;
-			case 'timeliness':
-				# code...
-				break;
-			default:
-				# code...
-				break;
+	public function getModule($module, $limit = "all") {
+		$this->db->select('*');
+		$this->db->from('modules');
+		$this->db->where('name',$module);
+		if ($limit == "specific") {$this->db->limit(1);}
+		$result = $this->db->get();
+		$raw_data = $result->result();
+		if ($limit == "specific") {
+			if (sizeOf($raw_data) > 0) {
+				$data = [
+					'module_id' => $raw_data[0]->module_id,
+					'team_id' => $raw_data[0]->team_id,
+					'name' => $raw_data[0]->name,
+					'description' => $raw_data[0]->description
+				];
+			} else {
+				$data = $raw_data;
+			}
+		} else {
+			$data = $raw_data;
 		}
+		return $data;
 	}
 
-	public function getMetric($metric, $type = "") {
+	public function getMetric($metric, $limit = "all") {
 		$this->db->select('*');
 		$this->db->from('metrics');
 		$this->db->where('name', $metric);
+		if ($limit == "specific") {$this->db->limit(1);}
 		$result = $this->db->get();
-		return $result->result();
+		$raw_data = $result->result();
+		if ($limit == "specific") {
+			if (sizeOf($raw_data) > 0) {
+				$data = [
+					'metric_id' => $raw_data[0]->metric_id,
+					'module_id' => $raw_data[0]->module_id,
+					'name' => $raw_data[0]->name,
+					'description' => $raw_data[0]->description
+				];
+			} else {
+				$data = $raw_data;
+			}
+		} else {
+
+			$data = $raw_data;
+		}
+		return $data;
 	}
 
 	public function getModuleByType($module) {

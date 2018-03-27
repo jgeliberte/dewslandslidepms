@@ -14,17 +14,15 @@ class Api extends CI_Controller {
 
 	public function insertReport() {
 		$report = $_POST['data'];
-		$metric_exist = (count($metric = $this->pms_model->getMetric($report['metric'])) > 0) ? true : false;
+		$metric_exist = (sizeOf($metric = $this->pms_model->getMetric($report['metric_name'],$report['limit'])) > 0) ? true : false;
 		if ($metric_exist) {
 			$status = $this->categorizeReport($report);
 		} else {
-			$module_exist = (count($module = $this->pms_model->getModule($report['module'],$report['type'])) > 0) ? true : false;
+			$module_exist = (sizeOf($module = $this->pms_model->getModule($report['module'],$report['limit'])) > 0) ? true : false;
 			if ($module_exist) {
-				var_dump("GO HERE");
-				insertMetric($module->id,$metric_name);
+				$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
 			} else {
-				var_dump("NO GO HERE");
-				insertMetric(insertModule($report->team_id,$report->module),$metric_name);
+				$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module']),$report['metric_name']);
 			}
 			$status = $this->categorizeReport($report);
 		}
