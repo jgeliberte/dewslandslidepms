@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CodeIgniter Application Test Suite" tests="10" assertions="10" failures="1" errors="0" time="0.358859">
+    <testsuite name="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" tests="7" assertions="7" failures="1" errors="0" time="0.297049">
+      <testcase name="testInsertDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="4" assertions="1" time="0.038394"/>
+      <testcase name="testInsertModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="9" assertions="1" time="0.034761"/>
+      <testcase name="testInsertMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="14" assertions="1" time="0.034912"/>
+      <testcase name="testInsertAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="19" assertions="1" time="0.045111"/>
+      <testcase name="testInsertErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="35" assertions="1" time="0.043284"/>
+      <testcase name="testInsertTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="50" assertions="1" time="0.041322"/>
+      <testcase name="testInsertAccuracyReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="65" assertions="1" time="0.059265">
+        <failure type="PHPUnit_Framework_ExpectationFailedException">Api_test::testInsertAccuracyReportNewMetric
+Failed asserting that true matches expected '1281'.
+
+/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php:79
+</failure>
+      </testcase>
+    </testsuite>
+    <testsuite name="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" tests="3" assertions="3" failures="0" errors="0" time="0.061810">
+      <testcase name="test_index" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="13" assertions="1" time="0.025757"/>
+      <testcase name="test_method_404" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="19" assertions="1" time="0.023962"/>
+      <testcase name="test_APPPATH" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="25" assertions="1" time="0.012091"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

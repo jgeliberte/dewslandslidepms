@@ -21,8 +21,11 @@ class Api extends CI_Controller {
 			$module_exist = (sizeOf($module = $this->pms_model->getModule($report['module'],$report['limit'])) > 0) ? true : false;
 			if ($module_exist) {
 				$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
+				$report['metric_id'] = $metric_id;
 			} else {
 				$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module']),$report['metric_name']);
+				$report['metric_id'] = $module_id;
+				$report['module_id'] = $metric_id;
 			}
 			$status = $this->categorizeReport($report);
 		}
