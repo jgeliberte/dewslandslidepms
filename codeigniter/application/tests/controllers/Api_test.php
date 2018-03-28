@@ -19,7 +19,8 @@ class Api_test extends TestCase
 	public function testInsertAccuracyReport() {
 		$data = [
 			'type' => 'accuracy',
-			'metric_id' => '29',
+			'metric_id' => '1',
+			'team_id' => '1',
 			'metric_name' => 'metric_1965136936',
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
@@ -29,13 +30,14 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertEquals($output,true);
+		$this->assertInternalType("int",(int) $output);
 	}
 
 	public function testInsertErrorRateReport() {
 		$data = [
 			'type' => 'error_rate',
-			'metric_id' => '29',
+			'metric_id' => '1',
+			'team_id' => '1',
 			'metric_name' => 'metric_1965136936',
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
@@ -50,7 +52,8 @@ class Api_test extends TestCase
 	public function testInsertTimelinessReport() {
 		$data = [
 			'type' => 'timeliness',
-			'metric_id' => '29',
+			'metric_id' => '1',
+			'team_id' => '1',
 			'metric_name' => 'metric_1965136936',
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
@@ -80,70 +83,88 @@ class Api_test extends TestCase
 
 	}
 
-	// public function testInsertErrorRateReportWithoutMetric() {
-	// 	$data = [
-	// 		'type' => 'error_rate',
-	// 		'metric_id' => '',
-	// 		'metric' => 'new_metric_'.rand(),
-	// 		'module' => 'chatterbox',
-	// 		'ts_received' => '2017-09-21 03:33:33',
-	// 		'ts_data' => '2017-09-21 03:30:00',
-	// 		'report_message' => 'This is just a test No.'.rand()
-	// 	];
-	// 	$send_data = ['data' => $data];
-	// }
+	public function testInsertErrorRateReportNewMetric() {
+		$data = [
+			'type' => 'error_rate',
+			'team_id' => '1',
+			'metric_id' => '',
+			'metric_name' => 'new_metric_'.rand(),
+			'module' => 'chatterbox',
+			'ts_received' => '2017-09-21 03:33:33',
+			'ts_data' => '2017-09-21 03:30:00',
+			'report_message' => 'This is just a test No.'.rand().' for Accuracy report without metric',
+			'limit' => 'specific'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","insertReport"],$send_data);
+		$this->assertInternalType("int",(int) $output);
+	}
 
-	// public function testInsertTimelinessReportWithoutMetric() {
-	// 	$data = [
-	// 		'type' => 'timeliness',
-	// 		'metric_id' => '',
-	// 		'metric' => 'new_metric_'.rand(),
-	// 		'module' => 'chatterbox',
-	// 		'ts_received' => '2017-09-21 03:33:33',
-	// 		'ts_data' => '2017-09-21 03:30:00',
-	// 		'report_message' => 'This is just a test No.'.rand()
-	// 	];
-	// 	$send_data = ['data' => $data];
-	// }
+	public function testInsertTimelinessReportNewMetric() {
+		$data = [
+			'type' => 'timeliness',
+			'team_id' => '1',
+			'metric_id' => '',
+			'metric_name' => 'new_metric_'.rand(),
+			'module' => 'chatterbox',
+			'ts_received' => '2017-09-21 03:33:33',
+			'execution_time' => '23',
+			'report_message' => 'This is just a test No.'.rand().' for Accuracy report without metric',
+			'limit' => 'specific'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","insertReport"],$send_data);
+		$this->assertInternalType("int",(int) $output);
+	}
 
-	// public function testInsertAccuracyReportWithoutModule() {
-	// 	$data = [
-	// 		'type' => 'accuracy',
-	// 		'metric_id' => '',
-	// 		'metric' => 'new_metric_'.rand(),
-	// 		'ts_received' => '2017-09-21 03:33:33',
-	// 		'ts_data' => '2017-09-21 03:30:00',
-	// 		'report_message' => 'This is just a test No.'.rand()
-	// 	];
-	// 	$send_data = ['data' => $data];
-	// }
+	public function testInsertAccuracyReportNewModuleMetrics() {
+		$data = [
+			'type' => 'accuracy',
+			'team_id' => '1',
+			'metric_id' => '',
+			'metric_name' => 'new_metric_'.rand(),
+			'module' => 'new_module_'.rand(),
+			'ts_received' => '2017-09-21 03:33:33',
+			'ts_data' => '2017-09-21 03:30:00',
+			'report_message' => 'This is just a test No.'.rand().' for Accuracy report new module and metric',
+			'limit' => 'specific'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","insertReport"],$send_data);
+		$this->assertInternalType("int",(int) $output);
+	}
 
-	// public function testInsertErrorRateReportWithoutModule() {
+	public function testInsertErrorRateReportWithoutModule() {
+		$data = [
+			'type' => 'error_rate',
+			'team_id' => '1',
+			'metric_id' => '',
+			'metric_name' => 'new_metric_'.rand(),
+			'module' => 'new_module_'.rand(),
+			'ts_received' => '2017-09-21 03:33:33',
+			'ts_data' => '2017-09-21 03:30:00',
+			'report_message' => 'This is just a test No.'.rand().' for Error rate report new module and metric',
+			'limit' => 'specific'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","insertReport"],$send_data);
+		$this->assertInternalType("int",(int) $output);
+	}
 
-	// }
-
-	// public function testInsertTimelinessReportWithoutModule() {
-
-	// }
-
-	// public function testInsertAccuracyReportWithoutModuleMetrics() {
-
-	// }
-
-	// public function testInsertErrorRateReportWithoutModuleMetrics() {
-
-	// }
-
-	// public function testInsertTimelinessWithoutModuleMetrics() {
-
-	// }
-
-	// public function testModuleWithoutTeam() {
-
-	// }
-
-	// public function testMetricWithoutModule() {
-
-	// }
-
+	public function testInsertTimelinessReportNewModuleMetric() {
+		$data = [
+			'type' => 'timeliness',
+			'team_id' => '1',
+			'metric_id' => '',
+			'metric_name' => 'new_metric_'.rand(),
+			'module' => 'new_module',
+			'ts_received' => '2017-09-21 03:33:33',
+			'execution_time' => '23',
+			'report_message' => 'This is just a test No.'.rand().' for Timeliness report without metric',
+			'limit' => 'specific'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","insertReport"],$send_data);
+		$this->assertInternalType("int",(int) $output);
+	}
 }
