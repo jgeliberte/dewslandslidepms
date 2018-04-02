@@ -34,23 +34,32 @@ class Pms_model extends CI_Model {
 		return $result;
 	}
 
-	public function getTeam() {
-		switch (variable) {
-			case 'value':
-				# code...
-				break;
-			
-			default:
-				# code...
-				break;
+	public function getTeam($team, $limit = "all") {
+		$this->db->select("*");
+		$this->db->from("dynaslope_teams");
+		if ($limit == "specific") {$this->db->where("name",$team);$this->db->limit(1);}
+		$result = $this->db->get();
+		$raw_data = $result->result();
+		if ($limit == "specific") {
+			if (sizeOf($raw_data) > 0) {
+				$data = [
+					'team_id' => $raw_data[0]->team_id,
+					'name' => $raw_data[0]->name,
+					'description' => $raw_data[0]->description
+				];
+			} else {
+				$data = $raw_data;
+			}
+		} else {
+			$data = $raw_data;
 		}
+		return $data;
 	}
 
 	public function getModule($module, $limit = "all") {
 		$this->db->select('*');
 		$this->db->from('modules');
-		$this->db->where('name',$module);
-		if ($limit == "specific") {$this->db->limit(1);}
+		if ($limit == "specific") {$this->db->where('name',$module);$this->db->limit(1);}
 		$result = $this->db->get();
 		$raw_data = $result->result();
 		if ($limit == "specific") {
@@ -73,8 +82,7 @@ class Pms_model extends CI_Model {
 	public function getMetric($metric, $limit = "all") {
 		$this->db->select('*');
 		$this->db->from('metrics');
-		$this->db->where('name', $metric);
-		if ($limit == "specific") {$this->db->limit(1);}
+		if ($limit == "specific") {$this->db->where('name', $metric);$this->db->limit(1);}
 		$result = $this->db->get();
 		$raw_data = $result->result();
 		if ($limit == "specific") {
@@ -89,7 +97,6 @@ class Pms_model extends CI_Model {
 				$data = $raw_data;
 			}
 		} else {
-
 			$data = $raw_data;
 		}
 		return $data;

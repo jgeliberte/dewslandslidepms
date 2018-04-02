@@ -95,6 +95,69 @@ class Api extends CI_Controller {
 		}
 		return $result;
 	}
+
+	public function getModule($module = "", $limit = "all") {
+		$result = $this->pms_model->getModule($module,$limit);
+		print_r($result);
+		return $result;
+	}
+
+	public function getAllModules($module = "") {
+		$result = $this->pms_model->getModule($module);
+		print_r($result);
+		return $result;
+	}
+
+	public function getMetric($metric = "",$limit = "all") {
+		$result = $this->pms_model->getMetric($metric,$limit);
+		print_r($result);
+		return $result;
+	}
+
+	public function getAllMetrics($metric = "") {
+		$result = $this->pms_model->getMetric($metric);
+		print_r($result);
+		return $result;
+	}
+
+	public function getDynaslopeTeams($team = "", $limit = "all") {
+		$result = $this->pms_model->getTeam($team, $limit);
+		print_r($result);
+		return $result;
+	}
+
+	public function getReports() {
+
+	}
+
+	public function updateModule() {
+
+	}
+
+	public function updateMetric() {
+
+	}
+
+	public function updateDynaslopeTeams() {
+
+	}
+
+	public function updateReports() {
+
+	}
+
+	public function deleteModule() {
+
+	}
+
+	public function deleteMetric() {
+
+	}
+
+	public function deleteReport() {
+
+	}
+	
 }
 
 ?>

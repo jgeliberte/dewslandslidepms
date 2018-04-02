@@ -25,7 +25,7 @@ class Api_test extends TestCase
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
 			'ts_data' => '2017-09-21 03:30:00',
-			'report_message' => 'This is just a test No.'.rand(),
+			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4",
 			'limit' => 'specific'
 		];
 		$send_data = ['data' => $data];
@@ -41,7 +41,7 @@ class Api_test extends TestCase
 			'metric_name' => 'metric_1965136936',
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
-			'report_message' => 'This is just a test No.'.rand(),
+			'report_message' => 'This is just a test No.'.rand(). " from test case No. 5",
 			'limit' => 'specific'
 		];
 		$send_data = ['data' => $data];
@@ -166,5 +166,61 @@ class Api_test extends TestCase
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
 		$this->assertInternalType("int",(int) $output);
+	}
+
+	// TODO : FETCH / UPDATE / DELETE
+
+	public function testGetModule() {
+		$output = $this->request("GET",["Api","getModule","chatterbox","specific"]);
+		$this->assertInternalType("array",(array) $output);
+	}
+
+	public function testGetAllModuless() {
+		$output = $this->request("GET",["Api","getAllModules"]);
+		$this->assertInternalType("array",(array) $output);
+	}
+
+	public function testGetMetric() {
+		$output = $this->request("GET",["Api","getAllModules","metric_2057687492","specific"]);
+		$this->assertInternalType("array",(array) $output);
+	}
+
+	public function testGetAllMetrics() {
+		$output = $this->request("GET",["Api","getAllModules"]);
+		$this->assertInternalType("array",(array) $output);	
+	}
+
+	public function testGetDynaslopeTeam() {
+		$output = $this->request("GET",["Api","getDynaslopeTeams","team_2018124281","specific"]);
+		$this->assertInternalType("array",(array) $output);	
+	}
+
+	public function testGetAllDynaslopeTeams() {
+		$output = $this->request("GET",["Api","getDynaslopeTeams"]);
+		$this->assertInternalType("array",(array) $output);	
+	}
+
+	public function testGetSpecificAccuracyReport() {
+
+	}
+
+	public function testGetAllSpecificAccuracyReport() {
+
+	}
+
+	public function testGetSpecificErrorRateReport() {
+
+	}
+
+	public function testGetAllErrorRateReport() {
+
+	}
+
+	public function testGetSpecificTimelinessReport() {
+
+	}
+
+	public function testGetAllTimelinessReport() {
+
 	}
 }
