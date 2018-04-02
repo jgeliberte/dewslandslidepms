@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="CodeIgniter Application Test Suite" tests="27" assertions="21" failures="0" errors="0" time="0.910458">
-    <testsuite name="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" tests="24" assertions="18" failures="0" errors="0" time="0.841975">
-      <testcase name="testInsertDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="4" assertions="1" time="0.042281"/>
-      <testcase name="testInsertModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="9" assertions="1" time="0.033162"/>
-      <testcase name="testInsertMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="14" assertions="1" time="0.036937"/>
-      <testcase name="testInsertAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="19" assertions="1" time="0.042790"/>
-      <testcase name="testInsertErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="36" assertions="1" time="0.049882"/>
-      <testcase name="testInsertTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="52" assertions="1" time="0.042548"/>
-      <testcase name="testInsertAccuracyReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="68" assertions="1" time="0.052989"/>
-      <testcase name="testInsertErrorRateReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="86" assertions="1" time="0.058558"/>
-      <testcase name="testInsertTimelinessReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="103" assertions="1" time="0.050648"/>
-      <testcase name="testInsertAccuracyReportNewModuleMetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="120" assertions="1" time="0.055883"/>
-      <testcase name="testInsertErrorRateReportWithoutModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="137" assertions="1" time="0.059112"/>
-      <testcase name="testInsertTimelinessReportNewModuleMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="154" assertions="1" time="0.050347"/>
-      <testcase name="testGetModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="173" assertions="1" time="0.032620"/>
-      <testcase name="testGetAllModuless" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="178" assertions="1" time="0.030353"/>
-      <testcase name="testGetMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="183" assertions="1" time="0.030768"/>
-      <testcase name="testGetAllMetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="188" assertions="1" time="0.030917"/>
-      <testcase name="testGetDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="193" assertions="1" time="0.031659"/>
-      <testcase name="testGetAllDynaslopeTeams" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="198" assertions="1" time="0.033165"/>
-      <testcase name="testGetSpecificAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="203" assertions="0" time="0.016354"/>
-      <testcase name="testGetAllSpecificAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="207" assertions="0" time="0.010356"/>
-      <testcase name="testGetSpecificErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="211" assertions="0" time="0.010937"/>
-      <testcase name="testGetAllErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="215" assertions="0" time="0.010277"/>
-      <testcase name="testGetSpecificTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="219" assertions="0" time="0.015044"/>
-      <testcase name="testGetAllTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="223" assertions="0" time="0.014389"/>
+  <testsuite name="CodeIgniter Application Test Suite" tests="27" assertions="27" failures="0" errors="0" time="1.019948">
+    <testsuite name="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" tests="24" assertions="24" failures="0" errors="0" time="0.957129">
+      <testcase name="testInsertDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="4" assertions="1" time="0.036831"/>
+      <testcase name="testInsertModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="9" assertions="1" time="0.036000"/>
+      <testcase name="testInsertMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="14" assertions="1" time="0.031872"/>
+      <testcase name="testInsertAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="19" assertions="1" time="0.050627"/>
+      <testcase name="testInsertErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="36" assertions="1" time="0.041905"/>
+      <testcase name="testInsertTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="52" assertions="1" time="0.043548"/>
+      <testcase name="testInsertAccuracyReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="68" assertions="1" time="0.054637"/>
+      <testcase name="testInsertErrorRateReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="86" assertions="1" time="0.054206"/>
+      <testcase name="testInsertTimelinessReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="103" assertions="1" time="0.053938"/>
+      <testcase name="testInsertAccuracyReportNewModuleMetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="120" assertions="1" time="0.072583"/>
+      <testcase name="testInsertErrorRateReportWithoutModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="137" assertions="1" time="0.054888"/>
+      <testcase name="testInsertTimelinessReportNewModuleMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="154" assertions="1" time="0.047776"/>
+      <testcase name="testGetModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="173" assertions="1" time="0.029468"/>
+      <testcase name="testGetAllModuless" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="178" assertions="1" time="0.028679"/>
+      <testcase name="testGetMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="183" assertions="1" time="0.034186"/>
+      <testcase name="testGetAllMetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="188" assertions="1" time="0.030809"/>
+      <testcase name="testGetDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="193" assertions="1" time="0.030030"/>
+      <testcase name="testGetAllDynaslopeTeams" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="198" assertions="1" time="0.031403"/>
+      <testcase name="testGetSpecificAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="203" assertions="1" time="0.032101"/>
+      <testcase name="testGetAllAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="208" assertions="1" time="0.034718"/>
+      <testcase name="testGetSpecificErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="213" assertions="1" time="0.035147"/>
+      <testcase name="testGetAllErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="218" assertions="1" time="0.029763"/>
+      <testcase name="testGetSpecificTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="223" assertions="1" time="0.031892"/>
+      <testcase name="testGetAllTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="228" assertions="1" time="0.030122"/>
     </testsuite>
-    <testsuite name="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" tests="3" assertions="3" failures="0" errors="0" time="0.068483">
-      <testcase name="test_index" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="13" assertions="1" time="0.026082"/>
-      <testcase name="test_method_404" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="19" assertions="1" time="0.030755"/>
-      <testcase name="test_APPPATH" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="25" assertions="1" time="0.011646"/>
+    <testsuite name="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" tests="3" assertions="3" failures="0" errors="0" time="0.062819">
+      <testcase name="test_index" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="13" assertions="1" time="0.026146"/>
+      <testcase name="test_method_404" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="19" assertions="1" time="0.023834"/>
+      <testcase name="test_APPPATH" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="25" assertions="1" time="0.012839"/>
     </testsuite>
   </testsuite>
 </testsuites>

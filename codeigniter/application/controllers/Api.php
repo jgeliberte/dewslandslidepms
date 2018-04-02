@@ -96,14 +96,14 @@ class Api extends CI_Controller {
 		return $result;
 	}
 
-	public function getModule($module = "", $limit = "all") {
+	public function getModule($module = "", $limit = "specific") {
 		$result = $this->pms_model->getModule($module,$limit);
 		print_r($result);
 		return $result;
 	}
 
-	public function getAllModules($module = "") {
-		$result = $this->pms_model->getModule($module);
+	public function getAllModules($module = "", $limit = "all") {
+		$result = $this->pms_model->getModule($module,$limit);
 		print_r($result);
 		return $result;
 	}
@@ -114,8 +114,8 @@ class Api extends CI_Controller {
 		return $result;
 	}
 
-	public function getAllMetrics($metric = "") {
-		$result = $this->pms_model->getMetric($metric);
+	public function getAllMetrics($metric = "", $limit = "all") {
+		$result = $this->pms_model->getMetric($metric,$limit);
 		print_r($result);
 		return $result;
 	}
@@ -126,8 +126,26 @@ class Api extends CI_Controller {
 		return $result;
 	}
 
-	public function getReports() {
+	public function getReports($type, $report_id = "", $metric_id = "" , $limit = "all") {
+		switch ($type) {
+			case 'accuracy':
+				$result = $this->pms_model->getAccuracyReport($report_id, $metric_id , $limit);
+				break;
 
+			case 'error_rate':
+				$result = $this->pms_model->getErrorRateReport($report_id, $metric_id , $limit);
+				break;
+
+			case 'timeliness':
+				$result = $this->pms_model->getTimelinessReport($report_id, $metric_id , $limit);
+				break;
+			
+			default:
+				$result = "Type Error: Contact Developer for now.";
+				break;
+		}
+		print_r($result);
+		return $result;
 	}
 
 	public function updateModule() {

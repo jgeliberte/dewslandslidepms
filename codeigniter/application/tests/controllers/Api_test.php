@@ -201,26 +201,32 @@ class Api_test extends TestCase
 	}
 
 	public function testGetSpecificAccuracyReport() {
-
+		$output = $this->request("GET",["Api","getReports","accuracy","1","2","specific"]);
+		$this->assertInternalType("array", (array) $output);
 	}
 
-	public function testGetAllSpecificAccuracyReport() {
-
+	public function testGetAllAccuracyReport() {
+		$output = $this->request("GET",["Api","getReports","accuracy"]);
+		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetSpecificErrorRateReport() {
-
+		$output = $this->request("GET",["Api","getReports","error_rate","1","1","specific"]);
+		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetAllErrorRateReport() {
-
+		$output = $this->request("GET",["Api","getReports","error_rate"]);
+		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetSpecificTimelinessReport() {
-
+		$output = $this->request("GET",["Api","getReports","timeliness","1","1","specific"]);
+		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetAllTimelinessReport() {
-
+		$output = $this->request("GET",["Api","getReports","timeliness"]);
+		$this->assertInternalType("array", (array) $output);
 	}
 }
