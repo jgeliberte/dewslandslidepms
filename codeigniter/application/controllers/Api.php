@@ -149,15 +149,41 @@ class Api extends CI_Controller {
 	}
 
 	public function updateModule() {
+		$module = $_POST['data'];
+		$updated_module = [
+			"team_id" => $module["team_id"],
+			"name" => $module["name"],
+			"description" => $module["description"]
+		];
+		$result = $this->pms_model->updateModule($updated_module,$module['module_id']);
 
+		print $result;
+		return $result;
 	}
 
 	public function updateMetric() {
+		$metric = $_POST['data'];
+		$updated_module = [
+			"module_id" => $metric["module_id"],
+			"name" => $metric["name"],
+			"description" => $metric["description"]
+		];
+		$result = $this->pms_model->updateMetric($updated_module,$metric['metric_id']);
 
+		print $result;
+		return $result;
 	}
 
 	public function updateDynaslopeTeams() {
+		$team = $_POST['data'];
+		$updated_team = [
+			"name" => $team['name'],
+			"description" => $team['description']
+		];
+		$result = $this->pms_model->updateTeam($updated_team,$team['team_id']);
 
+		print $result;
+		return $result;
 	}
 
 	public function updateReports() {

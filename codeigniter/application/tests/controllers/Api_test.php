@@ -197,36 +197,113 @@ class Api_test extends TestCase
 
 	public function testGetAllDynaslopeTeams() {
 		$output = $this->request("GET",["Api","getDynaslopeTeams"]);
+		print_r($output);
 		$this->assertInternalType("array",(array) $output);	
 	}
 
 	public function testGetSpecificAccuracyReport() {
 		$output = $this->request("GET",["Api","getReports","accuracy","1","2","specific"]);
+		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetAllAccuracyReport() {
 		$output = $this->request("GET",["Api","getReports","accuracy"]);
+		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetSpecificErrorRateReport() {
 		$output = $this->request("GET",["Api","getReports","error_rate","1","1","specific"]);
+		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetAllErrorRateReport() {
 		$output = $this->request("GET",["Api","getReports","error_rate"]);
+		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetSpecificTimelinessReport() {
 		$output = $this->request("GET",["Api","getReports","timeliness","1","1","specific"]);
+		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetAllTimelinessReport() {
 		$output = $this->request("GET",["Api","getReports","timeliness"]);
+		print_r($output);
 		$this->assertInternalType("array", (array) $output);
+	}
+
+	public function testUpdateModule() {
+		$data = [
+			'module_id' => '1',
+			'team_id' => '1',
+			'name' => 'update_module_'.rand(),
+			'description' => 'Update Module description'
+		];
+
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","updateModule"],$send_data);
+		$this->assertEquals(true, $output);
+	}
+
+	public function testUpdateMetric() {
+		$data = [
+			'metric_id' => '1',
+			'module_id' => '1',
+			'name' => 'update_metric_'.rand(),
+			'description' => 'Update Metric description'
+		];
+
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","updateMetric"],$send_data);
+		$this->assertEquals(true, $output);
+	}
+
+	public function testUpdateDynaslopeTeam() {
+		$data = [
+			'team_id' => '1',
+			'name' => 'new team name baby'.rand(),
+			'description' => 'new description baby'.rand()
+		];
+
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","updateDynaslopeTeams"],$send_data);
+		$this->assertEquals(true, $output);
+	}
+
+	public function testUpdateAccuracyReport() {
+
+	}
+
+	public function testUpdateErrorRateReport() {
+
+	}
+
+	public function testUpdateTimelinessReport() {
+
+	}
+
+	public function testUpdateAccuracyWithNewMetricModule() {
+
+	}
+
+	public function testUPdateErrorRateWithNewMetricModule() {
+
+	}
+
+	public function testUpdateTimelinessWithNewMetricModule() {
+
+	}
+
+	public function testDeleteModule() {
+
+	}
+
+	public function testDeleteMetric() {
+
 	}
 }

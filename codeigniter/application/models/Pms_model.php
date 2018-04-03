@@ -183,6 +183,27 @@ class Pms_model extends CI_Model {
 		}
 		return $data;
 	}
+
+	public function updateModule($module, $id) {
+		$this->db->set($module);
+		$this->db->where('module_id', $id);
+		$result = $this->db->update('modules');
+		return $result;
+	}
+
+	public function updateMetric($metric, $id) {
+		$this->db->set($metric);
+		$this->db->where('metric_id', $id);
+		$result = $this->db->update('metrics');
+		return $result;
+	}
+
+	public function updateTeam($team, $id) {
+		$this->db->set($team);
+		$this->db->where('team_id', $id);
+		$result = $this->db->update('dynaslope_teams');
+		return $result;
+	}
 }
 
 ?>

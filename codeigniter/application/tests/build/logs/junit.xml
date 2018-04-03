@@ -1,36 +1,915 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="CodeIgniter Application Test Suite" tests="27" assertions="27" failures="0" errors="0" time="1.019948">
-    <testsuite name="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" tests="24" assertions="24" failures="0" errors="0" time="0.957129">
-      <testcase name="testInsertDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="4" assertions="1" time="0.036831"/>
-      <testcase name="testInsertModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="9" assertions="1" time="0.036000"/>
-      <testcase name="testInsertMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="14" assertions="1" time="0.031872"/>
-      <testcase name="testInsertAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="19" assertions="1" time="0.050627"/>
-      <testcase name="testInsertErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="36" assertions="1" time="0.041905"/>
-      <testcase name="testInsertTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="52" assertions="1" time="0.043548"/>
-      <testcase name="testInsertAccuracyReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="68" assertions="1" time="0.054637"/>
-      <testcase name="testInsertErrorRateReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="86" assertions="1" time="0.054206"/>
-      <testcase name="testInsertTimelinessReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="103" assertions="1" time="0.053938"/>
-      <testcase name="testInsertAccuracyReportNewModuleMetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="120" assertions="1" time="0.072583"/>
-      <testcase name="testInsertErrorRateReportWithoutModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="137" assertions="1" time="0.054888"/>
-      <testcase name="testInsertTimelinessReportNewModuleMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="154" assertions="1" time="0.047776"/>
-      <testcase name="testGetModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="173" assertions="1" time="0.029468"/>
-      <testcase name="testGetAllModuless" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="178" assertions="1" time="0.028679"/>
-      <testcase name="testGetMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="183" assertions="1" time="0.034186"/>
-      <testcase name="testGetAllMetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="188" assertions="1" time="0.030809"/>
-      <testcase name="testGetDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="193" assertions="1" time="0.030030"/>
-      <testcase name="testGetAllDynaslopeTeams" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="198" assertions="1" time="0.031403"/>
-      <testcase name="testGetSpecificAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="203" assertions="1" time="0.032101"/>
-      <testcase name="testGetAllAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="208" assertions="1" time="0.034718"/>
-      <testcase name="testGetSpecificErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="213" assertions="1" time="0.035147"/>
-      <testcase name="testGetAllErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="218" assertions="1" time="0.029763"/>
-      <testcase name="testGetSpecificTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="223" assertions="1" time="0.031892"/>
-      <testcase name="testGetAllTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="228" assertions="1" time="0.030122"/>
+  <testsuite name="CodeIgniter Application Test Suite" tests="38" assertions="30" failures="0" errors="0" time="1.305615">
+    <testsuite name="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" tests="35" assertions="27" failures="0" errors="0" time="1.245185">
+      <testcase name="testInsertDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="4" assertions="1" time="0.050411"/>
+      <testcase name="testInsertModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="9" assertions="1" time="0.041451"/>
+      <testcase name="testInsertMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="14" assertions="1" time="0.037189"/>
+      <testcase name="testInsertAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="19" assertions="1" time="0.050960"/>
+      <testcase name="testInsertErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="36" assertions="1" time="0.045351"/>
+      <testcase name="testInsertTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="52" assertions="1" time="0.046064"/>
+      <testcase name="testInsertAccuracyReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="68" assertions="1" time="0.063055"/>
+      <testcase name="testInsertErrorRateReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="86" assertions="1" time="0.054277"/>
+      <testcase name="testInsertTimelinessReportNewMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="103" assertions="1" time="0.056146"/>
+      <testcase name="testInsertAccuracyReportNewModuleMetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="120" assertions="1" time="0.062860"/>
+      <testcase name="testInsertErrorRateReportWithoutModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="137" assertions="1" time="0.068444"/>
+      <testcase name="testInsertTimelinessReportNewModuleMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="154" assertions="1" time="0.058936"/>
+      <testcase name="testGetModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="173" assertions="1" time="0.030487"/>
+      <testcase name="testGetAllModuless" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="178" assertions="1" time="0.033373"/>
+      <testcase name="testGetMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="183" assertions="1" time="0.030424"/>
+      <testcase name="testGetAllMetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="188" assertions="1" time="0.032400"/>
+      <testcase name="testGetDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="193" assertions="1" time="0.041092"/>
+      <testcase name="testGetAllDynaslopeTeams" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="198" assertions="1" time="0.037035">
+        <system-out>Array
+(
+    [0] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 1
+            [name] =&gt; team_1039877841
+            [description] =&gt; team description
+        )
+
+    [1] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 2
+            [name] =&gt; team_2029234179
+            [description] =&gt; team description
+        )
+
+    [2] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 3
+            [name] =&gt; team_730278135
+            [description] =&gt; team description
+        )
+
+    [3] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 4
+            [name] =&gt; team_1516619050
+            [description] =&gt; team description
+        )
+
+    [4] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 5
+            [name] =&gt; team_2126260318
+            [description] =&gt; team description
+        )
+
+    [5] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 6
+            [name] =&gt; team_31031847
+            [description] =&gt; team description
+        )
+
+    [6] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 7
+            [name] =&gt; team_137931813
+            [description] =&gt; team description
+        )
+
+    [7] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 8
+            [name] =&gt; team_506499999
+            [description] =&gt; team description
+        )
+
+    [8] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 9
+            [name] =&gt; team_8049036
+            [description] =&gt; team description
+        )
+
+    [9] =&gt; stdClass Object
+        (
+            [team_id] =&gt; 10
+            [name] =&gt; team_1302408011
+            [description] =&gt; team description
+        )
+
+)
+</system-out>
+      </testcase>
+      <testcase name="testGetSpecificAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="204" assertions="1" time="0.034832">
+        <system-out>Array
+(
+    [report_id] =&gt; 1
+    [metric_id] =&gt; 2
+    [ts_received] =&gt; 2017-09-21 03:33:33
+    [ts_data] =&gt; 2017-09-21 03:30:00
+    [report_message] =&gt; This is just a test No.1157435443 from test case No. 4
+)
+</system-out>
+      </testcase>
+      <testcase name="testGetAllAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="210" assertions="1" time="0.030199">
+        <system-out>Array
+(
+    [0] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 1
+            [metric_id] =&gt; 2
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1157435443 from test case No. 4
+        )
+
+    [1] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 2
+            [metric_id] =&gt; 3
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1003092803 for Accuracy report without metric
+        )
+
+    [2] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 3
+            [metric_id] =&gt; 3
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1036963634 for Accuracy report new module and metric
+        )
+
+    [3] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 4
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1605574911 from test case No. 4
+        )
+
+    [4] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 5
+            [metric_id] =&gt; 10
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1718988980 for Accuracy report without metric
+        )
+
+    [5] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 6
+            [metric_id] =&gt; 7
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.782506443 for Accuracy report new module and metric
+        )
+
+    [6] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 7
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1845749179 from test case No. 4
+        )
+
+    [7] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 8
+            [metric_id] =&gt; 17
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1052857692 for Accuracy report without metric
+        )
+
+    [8] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 9
+            [metric_id] =&gt; 10
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.745068215 for Accuracy report new module and metric
+        )
+
+    [9] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 10
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.142172778 from test case No. 4
+        )
+
+    [10] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 11
+            [metric_id] =&gt; 24
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1813618743 for Accuracy report without metric
+        )
+
+    [11] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 12
+            [metric_id] =&gt; 13
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.958316280 for Accuracy report new module and metric
+        )
+
+    [12] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 13
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1706512709 from test case No. 4
+        )
+
+    [13] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 14
+            [metric_id] =&gt; 31
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.596149173 for Accuracy report without metric
+        )
+
+    [14] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 15
+            [metric_id] =&gt; 16
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1018312015 for Accuracy report new module and metric
+        )
+
+    [15] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 16
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1371671222 from test case No. 4
+        )
+
+    [16] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 17
+            [metric_id] =&gt; 38
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.391952574 for Accuracy report without metric
+        )
+
+    [17] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 18
+            [metric_id] =&gt; 19
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.996083197 for Accuracy report new module and metric
+        )
+
+    [18] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 19
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1322812387 from test case No. 4
+        )
+
+    [19] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 20
+            [metric_id] =&gt; 45
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.353915461 for Accuracy report without metric
+        )
+
+    [20] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 21
+            [metric_id] =&gt; 22
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.270550411 for Accuracy report new module and metric
+        )
+
+    [21] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 22
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.490649585 from test case No. 4
+        )
+
+    [22] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 23
+            [metric_id] =&gt; 52
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1328693235 for Accuracy report without metric
+        )
+
+    [23] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 24
+            [metric_id] =&gt; 25
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.952179253 for Accuracy report new module and metric
+        )
+
+    [24] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 25
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1854973743 from test case No. 4
+        )
+
+    [25] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 26
+            [metric_id] =&gt; 59
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.250189735 for Accuracy report without metric
+        )
+
+    [26] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 27
+            [metric_id] =&gt; 28
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.124203546 for Accuracy report new module and metric
+        )
+
+    [27] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 28
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.893163178 from test case No. 4
+        )
+
+    [28] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 29
+            [metric_id] =&gt; 66
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.1275995697 for Accuracy report without metric
+        )
+
+    [29] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 30
+            [metric_id] =&gt; 31
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [ts_data] =&gt; 2017-09-21 03:30:00
+            [report_message] =&gt; This is just a test No.631942220 for Accuracy report new module and metric
+        )
+
+)
+</system-out>
+      </testcase>
+      <testcase name="testGetSpecificErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="216" assertions="1" time="0.031745">
+        <system-out>Array
+(
+    [report_id] =&gt; 1
+    [metric_id] =&gt; 1
+    [ts_received] =&gt; 2017-09-21 03:33:33
+    [report_message] =&gt; This is just a test No.1307823641 from test case No. 5
+)
+</system-out>
+      </testcase>
+      <testcase name="testGetAllErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="222" assertions="1" time="0.030861">
+        <system-out>Array
+(
+    [0] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 1
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1307823641 from test case No. 5
+        )
+
+    [1] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 2
+            [metric_id] =&gt; 4
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.918160213 for Accuracy report without metric
+        )
+
+    [2] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 3
+            [metric_id] =&gt; 4
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1412560212 for Error rate report new module and metric
+        )
+
+    [3] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 4
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1108182361 from test case No. 5
+        )
+
+    [4] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 5
+            [metric_id] =&gt; 11
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1482835109 for Accuracy report without metric
+        )
+
+    [5] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 6
+            [metric_id] =&gt; 8
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1111334763 for Error rate report new module and metric
+        )
+
+    [6] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 7
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.227836259 from test case No. 5
+        )
+
+    [7] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 8
+            [metric_id] =&gt; 18
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.629556287 for Accuracy report without metric
+        )
+
+    [8] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 9
+            [metric_id] =&gt; 11
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1230008213 for Error rate report new module and metric
+        )
+
+    [9] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 10
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.149840825 from test case No. 5
+        )
+
+    [10] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 11
+            [metric_id] =&gt; 25
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.2059046771 for Accuracy report without metric
+        )
+
+    [11] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 12
+            [metric_id] =&gt; 14
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.415852214 for Error rate report new module and metric
+        )
+
+    [12] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 13
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1618323183 from test case No. 5
+        )
+
+    [13] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 14
+            [metric_id] =&gt; 32
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.527114313 for Accuracy report without metric
+        )
+
+    [14] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 15
+            [metric_id] =&gt; 17
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.228231723 for Error rate report new module and metric
+        )
+
+    [15] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 16
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1354085390 from test case No. 5
+        )
+
+    [16] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 17
+            [metric_id] =&gt; 39
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.452789646 for Accuracy report without metric
+        )
+
+    [17] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 18
+            [metric_id] =&gt; 20
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.935355661 for Error rate report new module and metric
+        )
+
+    [18] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 19
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.2110738928 from test case No. 5
+        )
+
+    [19] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 20
+            [metric_id] =&gt; 46
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.662226901 for Accuracy report without metric
+        )
+
+    [20] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 21
+            [metric_id] =&gt; 23
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.767021737 for Error rate report new module and metric
+        )
+
+    [21] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 22
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1094390952 from test case No. 5
+        )
+
+    [22] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 23
+            [metric_id] =&gt; 53
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1981312535 for Accuracy report without metric
+        )
+
+    [23] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 24
+            [metric_id] =&gt; 26
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.892357830 for Error rate report new module and metric
+        )
+
+    [24] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 25
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.197925972 from test case No. 5
+        )
+
+    [25] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 26
+            [metric_id] =&gt; 60
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.67307191 for Accuracy report without metric
+        )
+
+    [26] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 27
+            [metric_id] =&gt; 29
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1139318684 for Error rate report new module and metric
+        )
+
+    [27] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 28
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.721397261 from test case No. 5
+        )
+
+    [28] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 29
+            [metric_id] =&gt; 67
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.1687110240 for Accuracy report without metric
+        )
+
+    [29] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 30
+            [metric_id] =&gt; 32
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [report_message] =&gt; This is just a test No.894324193 for Error rate report new module and metric
+        )
+
+)
+</system-out>
+      </testcase>
+      <testcase name="testGetSpecificTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="228" assertions="1" time="0.038502">
+        <system-out>Array
+(
+    [report_id] =&gt; 1
+    [metric_id] =&gt; 1
+    [ts_received] =&gt; 2017-09-21 03:33:33
+    [execution_time] =&gt; 638792000
+)
+</system-out>
+      </testcase>
+      <testcase name="testGetAllTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="234" assertions="1" time="0.035741">
+        <system-out>Array
+(
+    [0] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 1
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 638792000
+        )
+
+    [1] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 2
+            [metric_id] =&gt; 5
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [2] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 3
+            [metric_id] =&gt; 5
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [3] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 4
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 262772000
+        )
+
+    [4] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 5
+            [metric_id] =&gt; 12
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [5] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 6
+            [metric_id] =&gt; 15
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [6] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 7
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 1228490000
+        )
+
+    [7] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 8
+            [metric_id] =&gt; 19
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [8] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 9
+            [metric_id] =&gt; 22
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [9] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 10
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 1487760000
+        )
+
+    [10] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 11
+            [metric_id] =&gt; 26
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [11] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 12
+            [metric_id] =&gt; 29
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [12] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 13
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 44173300
+        )
+
+    [13] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 14
+            [metric_id] =&gt; 33
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [14] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 15
+            [metric_id] =&gt; 36
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [15] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 16
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 1012150000
+        )
+
+    [16] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 17
+            [metric_id] =&gt; 40
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [17] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 18
+            [metric_id] =&gt; 43
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [18] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 19
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 411261000
+        )
+
+    [19] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 20
+            [metric_id] =&gt; 47
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [20] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 21
+            [metric_id] =&gt; 50
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [21] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 22
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 770355000
+        )
+
+    [22] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 23
+            [metric_id] =&gt; 54
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [23] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 24
+            [metric_id] =&gt; 57
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [24] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 25
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 2093270000
+        )
+
+    [25] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 26
+            [metric_id] =&gt; 61
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [26] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 27
+            [metric_id] =&gt; 64
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [27] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 28
+            [metric_id] =&gt; 1
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 1217180000
+        )
+
+    [28] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 29
+            [metric_id] =&gt; 68
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+    [29] =&gt; stdClass Object
+        (
+            [report_id] =&gt; 30
+            [metric_id] =&gt; 71
+            [ts_received] =&gt; 2017-09-21 03:33:33
+            [execution_time] =&gt; 23
+        )
+
+)
+</system-out>
+      </testcase>
+      <testcase name="testUpdateModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="240" assertions="1" time="0.038962"/>
+      <testcase name="testUpdateMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="253" assertions="1" time="0.035777"/>
+      <testcase name="testUpdateDynaslopeTeam" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="266" assertions="1" time="0.036866"/>
+      <testcase name="testUpdateAccuracyReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="278" assertions="0" time="0.014307"/>
+      <testcase name="testUpdateErrorRateReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="282" assertions="0" time="0.011818"/>
+      <testcase name="testUpdateTimelinessReport" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="286" assertions="0" time="0.011108"/>
+      <testcase name="testUpdateAccuracyWithNewMetricModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="290" assertions="0" time="0.011535"/>
+      <testcase name="testUPdateErrorRateWithNewMetricModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="294" assertions="0" time="0.011608"/>
+      <testcase name="testUpdateTimelinessWithNewMetricModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="298" assertions="0" time="0.009996"/>
+      <testcase name="testDeleteModule" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="302" assertions="0" time="0.009873"/>
+      <testcase name="testDeleteMetric" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="306" assertions="0" time="0.011500"/>
     </testsuite>
-    <testsuite name="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" tests="3" assertions="3" failures="0" errors="0" time="0.062819">
-      <testcase name="test_index" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="13" assertions="1" time="0.026146"/>
-      <testcase name="test_method_404" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="19" assertions="1" time="0.023834"/>
-      <testcase name="test_APPPATH" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="25" assertions="1" time="0.012839"/>
+    <testsuite name="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" tests="3" assertions="3" failures="0" errors="0" time="0.060430">
+      <testcase name="test_index" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="13" assertions="1" time="0.026384"/>
+      <testcase name="test_method_404" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="19" assertions="1" time="0.023865"/>
+      <testcase name="test_APPPATH" class="Welcome_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Welcome_test.php" line="25" assertions="1" time="0.010181"/>
     </testsuite>
   </testsuite>
 </testsuites>
