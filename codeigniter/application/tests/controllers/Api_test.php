@@ -306,22 +306,22 @@ class Api_test extends TestCase
 		$this->assertInternalType("int",(int) $output);
 	}
 
-	public function testDeleteModule() {
-		$data = [
-			'module_id' => '1'
-		];
-		$send_data = ['data' => $data];
-		$output = $this->request("POST",["Api","deleteModule"],$send_data);
-		$this->assertEquals();
-	}
-
 	public function testDeleteMetric() {
 		$data = [
 			'metric_id' => '1'
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteMetric"],$send_data);
-		$this->assertEquals();
+		$this->assertEquals(true,$output);
+	}
+
+	public function testDeleteModule() {
+		$data = [
+			'module_id' => '1'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","deleteModule"],$send_data);
+		$this->assertEquals(true,$output);
 	}
 
 	public function testDeleteDynaslopeTeam() {
@@ -330,33 +330,36 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteTeam"],$send_data);
-		$this->assertEquals();
+		$this->assertEquals(true,$output);
 	}
 
 	public function testDeleteAccuracyReport() {
 		$data = [
+			'type' => 'accuracy',
 			'report_id' => '1'
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteReport"],$send_data);
-		$this->assertEquals();
+		$this->assertEquals(true,$output);
 	}
 
 	public function testDeleteErrorRateReport() {
 		$data = [
+			'type' => 'error_rate',
 			'report_id' => '1'
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteReport"],$send_data);
-		$this->assertEquals();
+		$this->assertEquals(true,$output);
 	}
 
 	public function testDeleteTimelinessReport() {
 		$data = [
+			'type' => 'timeliness',
 			'report_id' => '1'
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteReport"],$send_data);
-		$this->assertEquals();
+		$this->assertEquals(true,$output);
 	}
 }

@@ -224,24 +224,23 @@ class Api extends CI_Controller {
 		return $result;
 	}
 
-	public function deleteModule() {
-		$module = $_POST['data'];
-		$result = $this->pms_model->deleteModule($module);
-		print $result;
-		return $result;
-
-	}
-
 	public function deleteMetric() {
 		$metric = $_POST['data'];
-		$result = $this->pms_model->deleteMetric($metric);
+		$result = $this->pms_model->deleteMetric($metric['metric_id']);
 		print $result;
 		return $result;
 	}
 
-	public function deleteDynaslopeTeam() {
+	public function deleteModule() {
+		$module = $_POST['data'];
+		$result = $this->pms_model->deleteModule($module['module_id']);
+		print $result;
+		return $result;
+	}
+
+	public function deleteTeam() {
 		$team = $_POST['data'];
-		$result = $this->pms_model->deleteTeam($team);
+		$result = $this->pms_model->deleteTeam($team['team_id']);
 		print $result;
 		return $result;
 	}
@@ -250,13 +249,13 @@ class Api extends CI_Controller {
 		$report = $_POST['data'];
 		switch ($report['type']) {
 			case 'accuracy':
-				$result = $this->pms_model->deleteAccuracyReport($report['repord_id']);
+				$result = $this->pms_model->deleteAccuracyReport($report['report_id']);
 				break;
 			case 'error_rate':
-				$result = $this->pms_model->deleteErrorRateReport($report['repord_id']);
+				$result = $this->pms_model->deleteErrorRateReport($report['report_id']);
 				break;
 			case 'timeliness':
-				$result = $this->pms_model->deleteTimelinessReport($report['repord_id']);
+				$result = $this->pms_model->deleteTimelinessReport($report['report_id']);
 				break;
 			default:
 				echo "Invalid report category";

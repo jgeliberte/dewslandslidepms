@@ -227,28 +227,40 @@ class Pms_model extends CI_Model {
 		return $result;
 	}
 
-	public function deleteModule() {
-
+	public function deleteMetric($id) {
+		$this->db->where('metric_id', $id);
+		$result = $this->db->delete('metrics');
+		return $result;
 	}
 
-	public function deleteMetric() {
-
+	public function deleteModule($id) {
+		$this->db->where('module_id', $id);
+		$result = $this->db->delete('modules');
+		return $result;
 	}
 
-	public function deleteTeam() {
-
+	public function deleteTeam($id) {
+		$this->db->where('team_id', $id);
+		$result = $this->db->delete('dynaslope_teams');
+		return $result;
 	}
 
-	public function deleteAccuracyReport() {
-
+	public function deleteAccuracyReport($id) {
+	$this->db->where('report_id', $id);
+		$result = $this->db->delete('accuracy');
+		return $result;
 	}
 
-	public function deleteErrorRateReport() {
-
+	public function deleteErrorRateReport($id) {
+		$this->db->where('report_id', $id);
+		$result = $this->db->delete('error_rate');
+		return $result;
 	}
 
-	public function deleteTimelinessReport() {
-		
+	public function deleteTimelinessReport($id) {
+		$this->db->where('report_id', $id);
+		$result = $this->db->delete('timeliness');
+		return $result;
 	}
 }
 
