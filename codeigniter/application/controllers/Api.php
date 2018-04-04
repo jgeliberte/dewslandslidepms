@@ -14,8 +14,9 @@ class Api extends CI_Controller {
 
 	public function insertReport() {
 		$report = $_POST['data'];
-		$metric_exist = (sizeOf($metric = $this->pms_model->getMetric($report['metric_name'],$report['limit'])) > 0) ? true : false;
-		if ($metric_exist) {
+		// $metric_exist = (sizeOf($metric = $this->pms_model->getMetric($report['metric_name'],$report['limit'])) > 0) ? true : false;
+		$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
+		if ($metric) {
 			$status = $this->categorizeReport($report);
 		} else {
 			$module_exist = (sizeOf($module = $this->pms_model->getModule($report['module'],$report['limit'])) > 0) ? true : false;
@@ -186,20 +187,83 @@ class Api extends CI_Controller {
 		return $result;
 	}
 
-	public function updateReports() {
+	public function updateReport() {
+		$report = $_POST['data'];	
+		switch ($report['type']) {
+			case 'accuracy':
+				$updated_report = [
+					'metric_id' => $report['metric_id'],
+					'ts_received' => $report['ts_received'],
+					'ts_data' => $report['ts_data'],
+					'report_message' => $report['report_message']
+				];
+				$result = $this->pms_model->updateAccuracyReport($updated_report,$report['report_id']);
+				break;
+			case 'error_rate':
+				$updated_report = [
+					'metric_id' => $report['metric_id'],
+					'ts_received' => $report['ts_received'],
+					'report_message' => $report['report_message']
+				];
+				$result = $this->pms_model->updateErrorRateReport($updated_report,$report['report_id']);
+				break;
+			case 'timeliness':
+				$updated_report = [
+					'metric_id' => $report['metric_id'],
+					'ts_received' => $report['ts_received'],
+					'execution_time' => $report['execution_time']
+				];
+				$result = $this->pms_model->updateTimelinessReport($updated_report,$report['report_id']);
+				break;
+			default:
+				echo "Invalid report category!\n\n";
+				break;
+		}
 
+		print $result;
+		return $result;
 	}
 
 	public function deleteModule() {
+		$module = $_POST['data'];
+		$result = $this->pms_model->deleteModule($module);
+		print $result;
+		return $result;
 
 	}
 
 	public function deleteMetric() {
+		$metric = $_POST['data'];
+		$result = $this->pms_model->deleteMetric($metric);
+		print $result;
+		return $result;
+	}
 
+	public function deleteDynaslopeTeam() {
+		$team = $_POST['data'];
+		$result = $this->pms_model->deleteTeam($team);
+		print $result;
+		return $result;
 	}
 
 	public function deleteReport() {
-
+		$report = $_POST['data'];
+		switch ($report['type']) {
+			case 'accuracy':
+				$result = $this->pms_model->deleteAccuracyReport($report['repord_id']);
+				break;
+			case 'error_rate':
+				$result = $this->pms_model->deleteErrorRateReport($report['repord_id']);
+				break;
+			case 'timeliness':
+				$result = $this->pms_model->deleteTimelinessReport($report['repord_id']);
+				break;
+			default:
+				echo "Invalid report category";
+				break;
+		}
+		print $result;
+		return $result;
 	}
 	
 }

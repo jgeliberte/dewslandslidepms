@@ -1,6 +1,6 @@
 <?php
 class Api_test extends TestCase
-{
+{	
 	public function testInsertDynaslopeTeam() {
 		$output = $this->request("GET",["Api","insertDynaslopeTeam","team_".rand(),"team description"]);
 		$this->assertEquals($output,true);
@@ -168,14 +168,12 @@ class Api_test extends TestCase
 		$this->assertInternalType("int",(int) $output);
 	}
 
-	// TODO : FETCH / UPDATE / DELETE
-
 	public function testGetModule() {
 		$output = $this->request("GET",["Api","getModule","chatterbox","specific"]);
 		$this->assertInternalType("array",(array) $output);
 	}
 
-	public function testGetAllModuless() {
+	public function testGetAllModules() {
 		$output = $this->request("GET",["Api","getAllModules"]);
 		$this->assertInternalType("array",(array) $output);
 	}
@@ -197,43 +195,36 @@ class Api_test extends TestCase
 
 	public function testGetAllDynaslopeTeams() {
 		$output = $this->request("GET",["Api","getDynaslopeTeams"]);
-		print_r($output);
 		$this->assertInternalType("array",(array) $output);	
 	}
 
 	public function testGetSpecificAccuracyReport() {
 		$output = $this->request("GET",["Api","getReports","accuracy","1","2","specific"]);
-		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetAllAccuracyReport() {
 		$output = $this->request("GET",["Api","getReports","accuracy"]);
-		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetSpecificErrorRateReport() {
 		$output = $this->request("GET",["Api","getReports","error_rate","1","1","specific"]);
-		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetAllErrorRateReport() {
 		$output = $this->request("GET",["Api","getReports","error_rate"]);
-		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetSpecificTimelinessReport() {
 		$output = $this->request("GET",["Api","getReports","timeliness","1","1","specific"]);
-		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
 	public function testGetAllTimelinessReport() {
 		$output = $this->request("GET",["Api","getReports","timeliness"]);
-		print_r($output);
 		$this->assertInternalType("array", (array) $output);
 	}
 
@@ -276,34 +267,96 @@ class Api_test extends TestCase
 	}
 
 	public function testUpdateAccuracyReport() {
-
+		$data = [
+			'type' => 'accuracy',
+			'report_id' => '1',
+			'metric_id' => '1',
+			'ts_received' => '2017-09-21 03:33:33',
+			'ts_data' => '2017-09-21 03:30:00',
+			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4, updating of accuracy report"
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","updateReport"],$send_data);
+		$this->assertInternalType("int",(int) $output);
 	}
 
 	public function testUpdateErrorRateReport() {
-
+		$data = [
+			'type' => 'error_rate',
+			'report_id' => '1',
+			'metric_id' => '1',
+			'ts_received' => '2017-09-21 03:33:33',
+			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4, updating of accuracy report"
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","updateReport"],$send_data);
+		$this->assertInternalType("int",(int) $output);
 	}
 
 	public function testUpdateTimelinessReport() {
-
-	}
-
-	public function testUpdateAccuracyWithNewMetricModule() {
-
-	}
-
-	public function testUPdateErrorRateWithNewMetricModule() {
-
-	}
-
-	public function testUpdateTimelinessWithNewMetricModule() {
-
+		$data = [
+			'type' => 'timeliness',
+			'report_id' => '1',
+			'metric_id' => '1',
+			'ts_received' => '2017-09-21 03:33:33',
+			'execution_time' => rand(1,10)
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","updateReport"],$send_data);
+		$this->assertInternalType("int",(int) $output);
 	}
 
 	public function testDeleteModule() {
-
+		$data = [
+			'module_id' => '1'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","deleteModule"],$send_data);
+		$this->assertEquals();
 	}
 
 	public function testDeleteMetric() {
+		$data = [
+			'metric_id' => '1'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","deleteMetric"],$send_data);
+		$this->assertEquals();
+	}
 
+	public function testDeleteDynaslopeTeam() {
+		$data = [
+			'team_id' => '1'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","deleteTeam"],$send_data);
+		$this->assertEquals();
+	}
+
+	public function testDeleteAccuracyReport() {
+		$data = [
+			'report_id' => '1'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","deleteReport"],$send_data);
+		$this->assertEquals();
+	}
+
+	public function testDeleteErrorRateReport() {
+		$data = [
+			'report_id' => '1'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","deleteReport"],$send_data);
+		$this->assertEquals();
+	}
+
+	public function testDeleteTimelinessReport() {
+		$data = [
+			'report_id' => '1'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","deleteReport"],$send_data);
+		$this->assertEquals();
 	}
 }

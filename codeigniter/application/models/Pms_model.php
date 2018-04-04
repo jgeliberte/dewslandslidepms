@@ -99,7 +99,8 @@ class Pms_model extends CI_Model {
 		} else {
 			$data = $raw_data;
 		}
-		return $data;
+		// return $data;
+		return ($result->num_rows() > 0) ? $result->result() : false;
 	}
 
 	public function getAccuracyReport($report_id, $metric_id, $limit) {
@@ -203,6 +204,51 @@ class Pms_model extends CI_Model {
 		$this->db->where('team_id', $id);
 		$result = $this->db->update('dynaslope_teams');
 		return $result;
+	}
+
+	public function updateAccuracyReport($report, $id) {
+		$this->db->set($report);
+		$this->db->where('report_id',$id);
+		$result = $this->db->update('accuracy');
+		return $result;
+	}
+
+	public function updateErrorRateReport($report, $id) {
+		$this->db->set($report);
+		$this->db->where('report_id',$id);
+		$result = $this->db->update('error_rate');
+		return $result;
+	}
+
+	public function updateTimelinessReport($report, $id) {
+		$this->db->set($report);
+		$this->db->where('report_id',$id);
+		$result = $this->db->update('timeliness');
+		return $result;
+	}
+
+	public function deleteModule() {
+
+	}
+
+	public function deleteMetric() {
+
+	}
+
+	public function deleteTeam() {
+
+	}
+
+	public function deleteAccuracyReport() {
+
+	}
+
+	public function deleteErrorRateReport() {
+
+	}
+
+	public function deleteTimelinessReport() {
+		
 	}
 }
 
