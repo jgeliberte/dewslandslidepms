@@ -3,7 +3,8 @@ class Api_test extends TestCase
 {	
 	public function testInsertDynaslopeTeam() {
 		$output = $this->request("GET",["Api","insertDynaslopeTeam","team_".rand(),"team description"]);
-		$this->assertEquals($output,true);
+		$status = json_decode($output);
+		$this->assertEquals(true,$status->status);
 	}
 
 	public function testInsertModule() {
@@ -30,7 +31,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$result = json_decode($output);
+		$this->assertEquals(true,$result->status);
 	}
 
 	public function testInsertErrorRateReport() {
@@ -46,8 +48,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertEquals($output,true);
-	}
+		$result = json_decode($output);
+		$this->assertEquals(true,$result->status);	}
 
 	public function testInsertTimelinessReport() {
 		$data = [
@@ -62,7 +64,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertEquals($output,true);
+		$result = json_decode($output);
+		$this->assertEquals(true,$result->status);
 	}
 
 	public function testInsertAccuracyReportNewMetric() {
@@ -79,8 +82,9 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
-
+		$raw = explode("{",$output);
+		$result = json_decode("{".$raw[1]);
+		$this->assertEquals(true,$result->status);
 	}
 
 	public function testInsertErrorRateReportNewMetric() {
@@ -97,7 +101,9 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$raw = explode("{",$output);
+		$result = json_decode("{".$raw[1]);
+		$this->assertEquals(true,$result->status);
 	}
 
 	public function testInsertTimelinessReportNewMetric() {
@@ -114,7 +120,9 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$raw = explode("{",$output);
+		$result = json_decode("{".$raw[1]);
+		$this->assertEquals(true,$result->status);
 	}
 
 	public function testInsertAccuracyReportNewModuleMetrics() {
@@ -131,7 +139,9 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$raw = explode("{",$output);
+		$result = json_decode("{".$raw[1]);
+		$this->assertEquals(true,$result->status);
 	}
 
 	public function testInsertErrorRateReportWithoutModule() {
@@ -148,7 +158,9 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$raw = explode("{",$output);
+		$result = json_decode("{".$raw[1]);
+		$this->assertEquals(true,$result->status);
 	}
 
 	public function testInsertTimelinessReportNewModuleMetric() {
@@ -165,7 +177,9 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$raw = explode("{",$output);
+		$result = json_decode("{".$raw[1]);
+		$this->assertEquals(true,$result->status);
 	}
 
 	public function testGetModule() {
@@ -238,7 +252,8 @@ class Api_test extends TestCase
 
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","updateModule"],$send_data);
-		$this->assertEquals(true, $output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testUpdateMetric() {
@@ -251,7 +266,8 @@ class Api_test extends TestCase
 
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","updateMetric"],$send_data);
-		$this->assertEquals(true, $output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testUpdateDynaslopeTeam() {
@@ -263,7 +279,8 @@ class Api_test extends TestCase
 
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","updateDynaslopeTeams"],$send_data);
-		$this->assertEquals(true, $output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testUpdateAccuracyReport() {
@@ -277,7 +294,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","updateReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testUpdateErrorRateReport() {
@@ -290,7 +308,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","updateReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testUpdateTimelinessReport() {
@@ -303,7 +322,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","updateReport"],$send_data);
-		$this->assertInternalType("int",(int) $output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testDeleteMetric() {
@@ -312,7 +332,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteMetric"],$send_data);
-		$this->assertEquals(true,$output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testDeleteModule() {
@@ -321,7 +342,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteModule"],$send_data);
-		$this->assertEquals(true,$output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testDeleteDynaslopeTeam() {
@@ -330,7 +352,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteTeam"],$send_data);
-		$this->assertEquals(true,$output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testDeleteAccuracyReport() {
@@ -340,7 +363,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteReport"],$send_data);
-		$this->assertEquals(true,$output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testDeleteErrorRateReport() {
@@ -350,7 +374,8 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteReport"],$send_data);
-		$this->assertEquals(true,$output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 
 	public function testDeleteTimelinessReport() {
@@ -360,6 +385,7 @@ class Api_test extends TestCase
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","deleteReport"],$send_data);
-		$this->assertEquals(true,$output);
+		$result = json_decode($output);
+		$this->assertEquals(true, $result->status);
 	}
 }

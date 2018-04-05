@@ -13,43 +13,59 @@ class Api extends CI_Controller {
 	}
 
 	public function insertReport() {
+		$err = "";
 		$report = $_POST['data'];
-		// $metric_exist = (sizeOf($metric = $this->pms_model->getMetric($report['metric_name'],$report['limit'])) > 0) ? true : false;
-		$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
-		if ($metric) {
-			$status = $this->categorizeReport($report);
-		} else {
-			$module_exist = (sizeOf($module = $this->pms_model->getModule($report['module'],$report['limit'])) > 0) ? true : false;
-			if ($module_exist) {
-				$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
-				$report['metric_id'] = $metric_id;
+		try {
+			$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
+			if ($metric) {
+				$status = $this->categorizeReport($report);
 			} else {
-				$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module']),$report['metric_name']);
-				$report['metric_id'] = $module_id;
-				$report['module_id'] = $metric_id;
+				$module_exist = sizeOf($module = $this->pms_model->getModule($report['module'],$report['limit']) > 0) ? true : false;
+				if ($module_exist) {
+					$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
+					$report['metric_id'] = $metric_id;
+				} else {
+					$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module']),$report['metric_name']);
+					$report['metric_id'] = $module_id;
+					$report['module_id'] = $metric_id;
+				}
+				$status = $this->categorizeReport($report);
 			}
-			$status = $this->categorizeReport($report);
-		}
-		print $status;
-		return $status;
+		} catch (Exception $e) {
+			$err = $e->getMessage();
+		};
+
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function insertDynaslopeTeam($team, $description = "") {
-		$team_data = array("name" => $team,"description" => $description) ;
-		$results = $this->pms_model->insertTeam($team_data);
-		print $results;
-		return $results;
+		$err = "";
+		try {
+			$team_data = array("name" => $team,"description" => $description) ;
+			$status = $this->pms_model->insertTeam($team_data);
+		} catch (Exception $e) {
+			$err = $e->getMessage();
+		}
+
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function insertModule($team_id, $module_name, $description = "") {
-		$module = array(
-			"team_id" => $team_id,
-			"name" => $module_name,
-			"description" => $description
-		);
-		$results = $this->pms_model->insertModule($module);
-		print $results;
-		return $results;
+		try {
+			$module = array(
+				"team_id" => $team_id,
+				"name" => $module_name,
+				"description" => $description
+			);
+			$result = $this->pms_model->insertModule($module);
+		} catch (Exception $e) {
+			$err = $e->getMessage();
+		}
+
+		print $result;
+		return $result;
 	}
 
 	public function insertMetric($module_id, $metric_name, $description = "") {
@@ -150,121 +166,170 @@ class Api extends CI_Controller {
 	}
 
 	public function updateModule() {
-		$module = $_POST['data'];
-		$updated_module = [
-			"team_id" => $module["team_id"],
-			"name" => $module["name"],
-			"description" => $module["description"]
-		];
-		$result = $this->pms_model->updateModule($updated_module,$module['module_id']);
+		$err = "";
+		try {
+			$module = $_POST['data'];
+			$updated_module = [
+				"team_id" => $module["team_id"],
+				"name" => $module["name"],
+				"description" => $module["description"]
+			];
+			$status = $this->pms_model->updateModule($updated_module,$module['module_id']);
+		} catch (Exception $e) {
+			$err = $e->getMessage();
+		}
 
-		print $result;
-		return $result;
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function updateMetric() {
-		$metric = $_POST['data'];
-		$updated_module = [
-			"module_id" => $metric["module_id"],
-			"name" => $metric["name"],
-			"description" => $metric["description"]
-		];
-		$result = $this->pms_model->updateMetric($updated_module,$metric['metric_id']);
+		$err = "";
+		try {
+			$metric = $_POST['data'];
+			$updated_module = [
+				"module_id" => $metric["module_id"],
+				"name" => $metric["name"],
+				"description" => $metric["description"]
+			];
+			$status = $this->pms_model->updateMetric($updated_module,$metric['metric_id']);
+		} catch (Exception $e) {
+			$err = $e->getMessage();
+		}
 
-		print $result;
-		return $result;
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function updateDynaslopeTeams() {
-		$team = $_POST['data'];
-		$updated_team = [
-			"name" => $team['name'],
-			"description" => $team['description']
-		];
-		$result = $this->pms_model->updateTeam($updated_team,$team['team_id']);
+		$err = "";
+		try {
+			$team = $_POST['data'];
+			$updated_team = [
+				"name" => $team['name'],
+				"description" => $team['description']
+			];
+			$status = $this->pms_model->updateTeam($updated_team,$team['team_id']);
+		} catch (Exception $e) {
+			$err = $e->getMessage();
+		}
 
-		print $result;
-		return $result;
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function updateReport() {
-		$report = $_POST['data'];	
-		switch ($report['type']) {
-			case 'accuracy':
-				$updated_report = [
-					'metric_id' => $report['metric_id'],
-					'ts_received' => $report['ts_received'],
-					'ts_data' => $report['ts_data'],
-					'report_message' => $report['report_message']
-				];
-				$result = $this->pms_model->updateAccuracyReport($updated_report,$report['report_id']);
-				break;
-			case 'error_rate':
-				$updated_report = [
-					'metric_id' => $report['metric_id'],
-					'ts_received' => $report['ts_received'],
-					'report_message' => $report['report_message']
-				];
-				$result = $this->pms_model->updateErrorRateReport($updated_report,$report['report_id']);
-				break;
-			case 'timeliness':
-				$updated_report = [
-					'metric_id' => $report['metric_id'],
-					'ts_received' => $report['ts_received'],
-					'execution_time' => $report['execution_time']
-				];
-				$result = $this->pms_model->updateTimelinessReport($updated_report,$report['report_id']);
-				break;
-			default:
-				echo "Invalid report category!\n\n";
-				break;
+		$err = "";
+		try {
+			$report = $_POST['data'];	
+			switch ($report['type']) {
+				case 'accuracy':
+					$updated_report = [
+						'metric_id' => $report['metric_id'],
+						'ts_received' => $report['ts_received'],
+						'ts_data' => $report['ts_data'],
+						'report_message' => $report['report_message']
+					];
+					$status = $this->pms_model->updateAccuracyReport($updated_report,$report['report_id']);
+					break;
+				case 'error_rate':
+					$updated_report = [
+						'metric_id' => $report['metric_id'],
+						'ts_received' => $report['ts_received'],
+						'report_message' => $report['report_message']
+					];
+					$status = $this->pms_model->updateErrorRateReport($updated_report,$report['report_id']);
+					break;
+				case 'timeliness':
+					$updated_report = [
+						'metric_id' => $report['metric_id'],
+						'ts_received' => $report['ts_received'],
+						'execution_time' => $report['execution_time']
+					];
+					$status = $this->pms_model->updateTimelinessReport($updated_report,$report['report_id']);
+					break;
+				default:
+					echo "Invalid report category!\n\n";
+					break;
+			}
+		} catch (Exception $e) {
+			$err = $e->getMessage();
 		}
 
-		print $result;
-		return $result;
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function deleteMetric() {
-		$metric = $_POST['data'];
-		$result = $this->pms_model->deleteMetric($metric['metric_id']);
-		print $result;
-		return $result;
+		$err = "";
+		try {
+			$metric = $_POST['data'];
+			$status = $this->pms_model->deleteMetric($metric['metric_id']);
+		} catch(Exception $e) {
+			$err = $e->getMessage();
+		}
+
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function deleteModule() {
-		$module = $_POST['data'];
-		$result = $this->pms_model->deleteModule($module['module_id']);
-		print $result;
-		return $result;
+		$err = "";
+		try {
+			$module = $_POST['data'];
+			$status = $this->pms_model->deleteModule($module['module_id']);
+		} catch (Exception $e) {
+			$err = $e->getMessage();
+		}
+
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function deleteTeam() {
-		$team = $_POST['data'];
-		$result = $this->pms_model->deleteTeam($team['team_id']);
-		print $result;
-		return $result;
+		$err = "";
+		try {
+			$team = $_POST['data'];
+			$status = $this->pms_model->deleteTeam($team['team_id']);
+		} catch (Exception $e) {
+			$err = $e->getMessage();
+		}
+
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
 	}
 
 	public function deleteReport() {
+		$err = "";
 		$report = $_POST['data'];
 		switch ($report['type']) {
 			case 'accuracy':
-				$result = $this->pms_model->deleteAccuracyReport($report['report_id']);
+				$status = $this->pms_model->deleteAccuracyReport($report['report_id']);
 				break;
 			case 'error_rate':
-				$result = $this->pms_model->deleteErrorRateReport($report['report_id']);
+				$status = $this->pms_model->deleteErrorRateReport($report['report_id']);
 				break;
 			case 'timeliness':
-				$result = $this->pms_model->deleteTimelinessReport($report['report_id']);
+				$status = $this->pms_model->deleteTimelinessReport($report['report_id']);
 				break;
 			default:
 				echo "Invalid report category";
+				$status = false;
 				break;
 		}
-		print $result;
+
+		print json_encode($this->returnStatus($status, $err));
+		return $this->returnStatus($status, $err);
+	}
+
+	public function returnStatus($status, $err = "") {
+		if ($status == true) {
+			$result = ['status' => $status];
+		} else {
+			$result = ['status' => false, 'err' => $err];
+		}
 		return $result;
 	}
-	
 }
 
 ?>
