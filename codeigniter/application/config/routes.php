@@ -49,6 +49,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
+
+$route['api/insert_report'] = 'api/insertReport';
+// $route['api/insert_module'] = 'welcome';
+// $route['api/insert_dewsl_team'] = 'welcome';
+// $route['api/insert_metric'] = 'welcome';
+
+// $route['api/get_report'] = 'welcome';
+// $route['api/get_module'] = 'welcome';
+// $route['api/get_dewsl_team'] = 'welcome';
+// $route['api/get_metric'] = 'welcome';
+
+// $route['api/update_report'] = 'welcome';
+// $route['api/update_module'] = 'welcome';
+// $route['api/update_dewsl_team'] = 'welcome';
+// $route['api/update_metric'] = 'welcome';
+
+// $route['api/delete_accuracy_report'] = 'welcome';
+// $route['api/delete_error_report'] = 'welcome';
+// $route['api/delete_module'] = 'welcome';
+// $route['api/delete_dewsl_team'] = 'welcome';
+// $route['api/delete_metric'] = 'welcome';
+
+
+
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+// $route['translate_uri_dashes'] = FALSE;
