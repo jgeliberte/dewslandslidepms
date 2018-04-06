@@ -92,6 +92,8 @@ const MODAL = {
                 console.log("VALIDATE");
                 const report = {
                     metric_name,
+                    team_id: '2',
+                    module_name: 'Chatterbox',
                     report_message: $("#report_message").val(),
                     ts_data: "2018-02-10 00:00:00",
                     limit: "specific",
