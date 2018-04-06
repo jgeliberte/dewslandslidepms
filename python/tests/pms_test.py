@@ -1,20 +1,14 @@
 import unittest
+import sys
+sys.path.append('../src')
+import pms
+import random
 
 class TestPMSLib(unittest.TestCase):
 
-    def test_upper(self):
-        self.assertEqual('foo'.upper(), 'FOO')
-
-    def test_isupper(self):
-        self.assertTrue('FOO'.isupper())
-        self.assertFalse('Foo'.isupper())
-
-    def test_split(self):
-        s = 'hello world'
-        self.assertEqual(s.split(), ['hello', 'world'])
-        # check that s.split fails when the separator is not a string
-        with self.assertRaises(TypeError):
-            s.split(2)
+    def test_insertNewTeam(self):
+        status = pms.insertTeam('new_team_python'+str(random.randint(1, 99999)), 'new team descrsiption')
+        self.assertTrue(status)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestPMSLib)
 unittest.TextTestRunner(verbosity=2).run(suite)

@@ -5,12 +5,13 @@ def connectDatabase(hostdb='local'):
     Hostdb = "localhost"
     Userdb = "root"
     Passdb = "senslope"
-    Namedb = "senslopedb"
+    Namedb = "performance_monitoring"
     while True:
         try:
             db = mysqlDriver.connect(host = Hostdb, user = Userdb, passwd = Passdb, db=Namedb)
             cur = db.cursor()
             cur.execute("use "+ Namedb)
+            print('connection success.')
             return db, cur
         except mysqlDriver.OperationalError:
             print_out('.')
@@ -25,13 +26,17 @@ def getDataFrame(query, hostdb='local'):
         print_out("Exception detected in accessing database")
 
 def executeQuery(query, hostdb='local'):
-    db, cur = connectDatabase(hostdb)
-    cur.execute(query)
-    db.commit()
-    db.close()
+    try:
+        db, cur = connectDatabase(hostdb)
+        cur.execute(query)
+        db.commit()
+        db.close()
+        status = True
+    except Exception as e:
+        status = False
+    return status
 
-connectDatabase()
-
-query = "SELECT * FROM smsinbox LIMIT 1"
-
-print getDataFrame(query)
+def insertTeam(team_name, team_description):
+    query = "INSERT INTO dynaslope_teams VALUES ('0','%s','%s');" %(team_name, team_description)
+    result = executeQuery(query)
+    return result

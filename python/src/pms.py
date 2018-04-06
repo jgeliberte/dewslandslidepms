@@ -1,27 +1,26 @@
 import pmsModel as model
 
-def insertReport()
+# def insertReport()
 
 
-def insertModule()
+# def insertModule()
 
 
-def insertMetric()
+# def insertMetric()
 
 
-def insertTeam()
+def insertTeam(team_name, team_description):
+	status = model.insertTeam(team_name, team_description)
+	return status
+
+# def categorizeReport()
 
 
-def categorizeReport()
+# def deleteModule()
 
 
-def deleteModule()
+# def deleteMetric()
 
 
-def deleteMetric()
+# def deleteReport()
 
-
-def deleteReport()
-
-
-if __name__ == "__main__":
