@@ -14,10 +14,10 @@ class Api extends CI_Controller {
 
 	public function insertReport() {
 		$err = "";
-		$report = $_POST['data'];
+		$report = $_POST; // ['data'];
 		try {
 			$metric_exist = sizeOf($metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']) > 0) ? true : false;
-			if ($metric) {
+			if ($metric_exist) {
 				$status = $this->categorizeReport($report);
 			} else {
 				$module_exist = sizeOf($module = $this->pms_model->getModule($report['module'],$report['limit']) > 0) ? true : false;
