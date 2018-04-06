@@ -20,7 +20,7 @@ class Api_test extends TestCase
 	public function testInsertAccuracyReport() {
 		$data = [
 			'type' => 'accuracy',
-			'metric_id' => '1',
+			'metric_id' => '',
 			'team_id' => '1',
 			'metric_name' => 'metric_1965136936',
 			'module' => 'chatterbox',
