@@ -16,7 +16,7 @@ class Api extends CI_Controller {
 		$err = "";
 		$report = $_POST['data'];
 		try {
-			$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
+			$metric_exist = sizeOf($metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']) > 0) ? true : false;
 			if ($metric) {
 				$status = $this->categorizeReport($report);
 			} else {
@@ -34,7 +34,7 @@ class Api extends CI_Controller {
 		} catch (Exception $e) {
 			$err = $e->getMessage();
 		};
-
+		
 		print json_encode($this->returnStatus($status, $err));
 		return $this->returnStatus($status, $err);
 	}
