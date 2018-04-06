@@ -40,3 +40,13 @@ def insertTeam(team_name, team_description):
     query = "INSERT INTO dynaslope_teams VALUES ('0','%s','%s');" %(team_name, team_description)
     result = executeQuery(query)
     return result
+
+def insertModule(team_id, module_name, module_description):
+    query = "INSERT INTO modules VALUES ('0','%s','%s','%s');" %(team_id, module_name, module_description)
+    result = executeQuery(query)
+    return result
+
+def insertMetric(module_id, metric_name, metric_description):
+    query = "INSERT INTO metrics VALUES ('0','%s','%s','%s');" %(module_id, metric_name, metric_description)
+    result = executeQuery(query)
+    return result
