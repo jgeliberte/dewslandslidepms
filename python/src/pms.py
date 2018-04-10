@@ -18,29 +18,44 @@ def insertTeam(team_name, team_description):
 	return status
 
 def insertAccuracyReport(report):
-	metric_id = model.getMetricId(report['metric_name'])
-	if len(metric_id) != 0:
-		status = model.insertAccuracy(metric_id['id'].values[0], report['ts_data'], report['report_message'])
+	metric = model.getMetric(report['metric_name'])
+	if len(metric) != 0:
+		status = model.insertAccuracy(metric['metric_id'].values[0], report['ts_data'], report['report_message'])
 	else:
 		status = False
 	return status
 
 def insertTimelinessReport(report):
-	metric_id = model.getMetricId(report['metric_name'])
-	if len(metric_id) != 0:
-		status = model.insertTimeliness(metric_id['id'].values[0], report['execution_time'])
+	metric = model.getMetric(report['metric_name'])
+	if len(metric) != 0:
+		status = model.insertTimeliness(metric['metric_id'].values[0], report['execution_time'])
 	else:
 		status = False
 	return status
 
 def insertErrorRateReport(report):
-	metric_id = model.getMetricId(report['metric_name'])
-	if len(metric_id) != 0:
-		status = model.insertErrorRate(metric_id['id'].values[0], report['report_message'])
+	metric = model.getMetric(report['metric_name'])
+	if len(metric) != 0:
+		status = model.insertErrorRate(metric['metric_id'].values[0], report['report_message'])
 	else:
 		status = False
 	return status
 
+def getMetric(metric):
+	metric = model.getMetric(metric['metric_name'], metric['limit'])
+	return metric
+
+def getModules(module):
+	module = model.getModule(module['module_name'], module['limit'])
+	return module
+
+# def getDynaslopeTeams():
+
+# def getAccuracyReport():
+
+# def getErrorRateReport():
+	
+# def getTimelinessReport():
 
 # def deleteModule()
 
@@ -49,4 +64,3 @@ def insertErrorRateReport(report):
 
 
 # def deleteReport()
-

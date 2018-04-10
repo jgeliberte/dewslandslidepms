@@ -46,5 +46,30 @@ class TestPMSLib(unittest.TestCase):
         status = pms.insertTimelinessReport(report)
         self.assertTrue(status)
 
+    def test_getMetric(self):
+        metric = {
+            "limit": "specific",
+            "metric_name": "new_metric89899"
+        }
+        status = pms.getMetric(metric)
+        self.assertEquals(len(status),1)
+
+    def test_getAllMetrics(self):
+        metric = {
+            "limit": "all",
+            "metric_name": ""
+        }
+        status = pms.getMetric(metric)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_getModules(self):
+        module = {
+            "limit": "specific",
+            "module_name": "new_metric28303"
+        }
 suite = unittest.TestLoader().loadTestsFromTestCase(TestPMSLib)
 unittest.TextTestRunner(verbosity=2).run(suite)

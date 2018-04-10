@@ -53,11 +53,6 @@ def insertMetric(module_id, metric_name, metric_description):
     result = executeQuery(query)
     return result
 
-def getMetricId(metric_name):
-    query = "SELECT metric_id as id FROM metrics WHERE name = '%s';" %metric_name
-    result = getDataFrame(query)
-    return result
-
 def insertAccuracy(metric_id, ts_data, report_message):
     now = datetime.datetime.now()
     query = "INSERT INTO accuracy VALUES ('0','%s','%s','%s','%s');" %(metric_id, now.strftime("%Y-%m-%d %H:%M"), ts_data, report_message)
@@ -75,3 +70,19 @@ def insertErrorRate(metric_id, report_message):
     query = "INSERT INTO error_rate VALUES ('0','%s','%s','%s');" %(metric_id, now.strftime("%Y-%m-%d %H:%M"), report_message)
     result = executeQuery(query)
     return result
+
+def getMetric(metric_name = "", limit = "all"):
+    if limit == "all":
+        query = "SELECT * FROM metrics"
+    else:
+        query = "SELECT * FROM metrics WHERE name = '%s' limit 1;" %metric_name
+    result = getDataFrame(query)
+    return result
+
+def getModules(module_name = "", limit = "all")
+    if limit == "all":
+        query = "SELECT * FROM metrics"
+    else:
+        query = "SELECT * FROM metrics WHERE name = '%s' limit 1;" %metric_name
+    result = getDataFrame(query)
+    return result 
