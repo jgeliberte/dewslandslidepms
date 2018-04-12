@@ -16,11 +16,11 @@ class Api extends CI_Controller {
 		$err = "";
 		$report = $_POST['data'];
 		try {
-			$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
+			$metric = $this->pms_model->getMetric($report['metric_name'], "specific");
 			if ($metric) {
 				$status = $this->categorizeReport($report);
 			} else {
-				$module_exist = sizeOf($module = $this->pms_model->getModule($report['module'],$report['limit']) > 0) ? true : false;
+				$module_exist = sizeOf($module = $this->pms_model->getModule($report['module'], "specific") > 0) ? true : false;
 				if ($module_exist) {
 					$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
 					$report['metric_id'] = $metric_id;

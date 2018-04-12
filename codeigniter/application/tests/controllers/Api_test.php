@@ -26,8 +26,7 @@ class Api_test extends TestCase
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
 			'ts_data' => '2017-09-21 03:30:00',
-			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4",
-			'limit' => 'specific'
+			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4"
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);

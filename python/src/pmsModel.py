@@ -79,10 +79,10 @@ def getMetric(metric_name = "", limit = "all"):
     result = getDataFrame(query)
     return result
 
-def getModules(module_name = "", limit = "all")
+def getModules(module_name = "", limit = "all"):
     if limit == "all":
-        query = "SELECT * FROM metrics"
+        query = "SELECT * FROM modules"
     else:
-        query = "SELECT * FROM metrics WHERE name = '%s' limit 1;" %metric_name
+        query = "SELECT * FROM modules WHERE name = '%s' limit 1;" %module_name
     result = getDataFrame(query)
     return result 
