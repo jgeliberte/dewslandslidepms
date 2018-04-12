@@ -104,7 +104,7 @@ class TestPMSLib(unittest.TestCase):
 
     def test_getAccuracyReport(self):
         report = {
-            "report_id": "5" ,
+            "report_id": "10" ,
             "limit": "specific"
         }
         status = pms.getAccuracyReport(report)
@@ -128,7 +128,7 @@ class TestPMSLib(unittest.TestCase):
 
     def test_getErrorRateReport(self):
         report = {
-            "report_id": "5",
+            "report_id": "10",
             "limit": "specific"
         }
         status = pms.getErrorRateReport(report)
@@ -152,7 +152,7 @@ class TestPMSLib(unittest.TestCase):
 
     def test_getTimelinessReport(self):
         report = {
-            "report_id": "5",
+            "report_id": "10",
             "limit": "specific"
         }
         status = pms.getTimelinessReport(report)
@@ -234,18 +234,35 @@ class TestPMSLib(unittest.TestCase):
         status = pms.updateTimelinessReport(report)
         self.assertTrue(status)
 
-    def test_deleteMetric(self):
+    def test_deleteMetricById(self):
+        metric_id = "6"
+        status = pms.deleteMetric(metric_id)
+        self.assertTrue(status)
 
     def test_deleteModule(self):
+        module_id = "6"
+        status = pms.deleteModule(module_id)
+        self.assertTrue(status)
 
     def test_deleteDynaslopeteam(self):
+        team_id = "6"
+        status = pms.deleteDynaslopeTeam(team_id)
+        self.assertTrue(status)
 
     def test_deleteAccuracyReport(self):
+        report_id = "5"
+        status = pms.deleteAccuracyReport(report_id)
+        self.assertTrue(status)
 
     def test_deleteErrorRateReport(self):
+        report_id = "5"
+        status = pms.deleteErrorRateReport(report_id)
+        self.assertTrue(status)
 
     def test_deleteTimelinessReport(self):
-
+        report_id = "5"
+        status = pms.deleteTimelinessReport(report_id)
+        self.assertTrue(status)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestPMSLib)
 unittest.TextTestRunner(verbosity=2).run(suite)

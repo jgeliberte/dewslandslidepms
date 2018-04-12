@@ -89,10 +89,26 @@ def updateTimelinessReport(report):
 	status = model.updateTimeliness(report['report_id'], report['metric_id'], report['ts_received'], report['execution_time'])
 	return status
 
-# def deleteModule()
+def deleteModule(module_id):
+	status = model.deleteModule(module_id)
+	return status
 
+def deleteMetric(metric_id):
+	status = model.deleteMetric(metric_id)
+	return status
 
-# def deleteMetric()
+def deleteDynaslopeTeam(team_id):
+	status = model.deleteTeam(team_id)
+	return status
 
+def deleteAccuracyReport(report_id):
+	status = model.deleteAccuracy(report_id)
+	return status
 
-# def deleteReport()
+def deleteErrorRateReport(report_id):
+	status = model.deleteErrorRate(report_id)
+	return status
+
+def deleteTimelinessReport(report_id):
+	status = model.deleteTimeliness(report_id)
+	return status

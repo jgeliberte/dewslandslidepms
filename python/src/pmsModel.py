@@ -149,3 +149,33 @@ def updateTimeliness(report_id, metric_id, ts_received, execution_time):
     query = "UPDATE timeliness SET metric_id = '%s', ts_received = '%s', execution_time = '%s' WHERE report_id = '%s';" %(metric_id, ts_received, execution_time, report_id)
     result = executeQuery(query)
     return result
+
+def deleteMetric(metric_id):
+    query = "DELETE FROM metrics WHERE metric_id = '%s';" %metric_id
+    result = executeQuery(query)
+    return result
+
+def deleteModule(module_id):
+    query = "DELETE FROM modules WHERE module_id = '%s';" %module_id
+    result = executeQuery(query)
+    return result
+
+def deleteTeam(team_id):
+    query = "DELETE FROM dynaslope_teams WHERE team_id = '%s';" %team_id
+    result = executeQuery(query)
+    return result
+
+def deleteAccuracy(report_id):
+    query = "DELETE FROM accuracy WHERE report_id = '%s';" %report_id
+    result = executeQuery(query)
+    return result
+
+def deleteErrorRate(report_id):
+    query = "DELETE FROM error_rate WHERE report_id = '%s';" %report_id
+    result = executeQuery(query)
+    return result
+
+def deleteTimeliness(report_id):
+    query = "DELETE FROM timeliness WHERE report_id = '%s';" %report_id
+    result = executeQuery(query)
+    return result
