@@ -2,6 +2,7 @@ import pymysql as mysqlDriver
 import pandas.io.sql as psql
 import sys
 import datetime
+from var_dump import var_dump
 
 def connectDatabase(hostdb='local'):
     Hostdb = "localhost"
@@ -117,4 +118,19 @@ def getTimeliness(report_id, limit):
     else:
         query = "SELECT * FROM timeliness WHERE report_id = '%s' limit 1;" %report_id
     result = getDataFrame(query)
+    return result
+
+def updateMetric(metric_id, module_id, metric_name, description):
+    query = "UPDATE metrics SET module_id = '%s', name = '%s', description = '%s' WHERE metric_id = '%s'" %(module_id, metric_name, description, metric_id)
+    result = executeQuery(query)
+    return result
+
+def updateModule(module_id, team_id, module_name, description):
+    query = "UPDATE modules SET team_id = '%s', name = '%s', description = '%s' WHERE module_id = '%s'" %(team_id, module_name, description, module_id)
+    result = executeQuery(query)
+    return result
+
+def updateDynaslopeTeam(team_id, team_name, description):
+    query = "UPDATE dynaslope_teams SET name = '%s', description = '%s' WHERE team_id = '%s'" %(team_name, description, team_id)
+    result = executeQuery(query)
     return result

@@ -49,7 +49,7 @@ class TestPMSLib(unittest.TestCase):
     def test_getMetric(self):
         metric = {
             "limit": "specific",
-            "metric_name": "new_metric89899"
+            "metric_name": "new_metric5206"
         }
         status = pms.getMetric(metric)
         self.assertEquals(len(status),1)
@@ -69,7 +69,7 @@ class TestPMSLib(unittest.TestCase):
     def test_getModules(self):
         module = {
             "limit": "specific",
-            "module_name": "new_metric28303"
+            "module_name": "new_module7704"
         }
         status = pms.getModules(module)
         if len(status) > 0:
@@ -81,7 +81,7 @@ class TestPMSLib(unittest.TestCase):
     def test_getDynaslopeTeam(self):
         module = {
             "limit": "specific",
-            "team_name": "new_team_python79934"
+            "team_name": "new_team_python630"
         }
         status = pms.getDynaslopeTeams(module)
         if len(status) > 0:
@@ -104,7 +104,7 @@ class TestPMSLib(unittest.TestCase):
 
     def test_getAccuracyReport(self):
         report = {
-            "report_id": "1" ,
+            "report_id": "5" ,
             "limit": "specific"
         }
         status = pms.getAccuracyReport(report)
@@ -128,7 +128,7 @@ class TestPMSLib(unittest.TestCase):
 
     def test_getErrorRateReport(self):
         report = {
-            "report_id": "1",
+            "report_id": "5",
             "limit": "specific"
         }
         status = pms.getErrorRateReport(report)
@@ -152,7 +152,7 @@ class TestPMSLib(unittest.TestCase):
 
     def test_getTimelinessReport(self):
         report = {
-            "report_id": "1",
+            "report_id": "5",
             "limit": "specific"
         }
         status = pms.getTimelinessReport(report)
@@ -176,31 +176,31 @@ class TestPMSLib(unittest.TestCase):
 
     def test_updateMetric(self):
         metric = {
-            "metric_id": "1",
+            "metric_id": "5",
             "module_id": "1",
             "metric_name": "Update Metric name"+str(random.randint(1, 9999)),
             "description": "Update Metric description"
         }
-        status = pms.updateMetric(report)
+        status = pms.updateMetric(metric)
         self.assertTrue(status)
 
     def test_updateModule(self):
-        metric = {
-            "module_id": "1",
+        module = {
+            "module_id": "5",
             "team_id": "1",
             "module_name": "Updated Module name"+str(random.randint(1, 9999)),
             "description": "Updated Module description"
         }
-        status = pms.updateModule(report)
+        status = pms.updateModule(module)
         self.assertTrue(status)
 
     def test_updateDynaslopeTeam(self):
-        metric = {
-            "team_id": "1",
-            "team_name": "Updated Team name"+str(random.randint(1, 9999)),
+        team = {
+            "team_id": "5",
+            "team_name": "update_team"+str(random.randint(1, 9999)),
             "description": "Updated Team description"
         }
-        status = pms.updateDynaslopeTeam(report)
+        status = pms.updateDynaslopeTeam(team)
         self.assertTrue(status)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestPMSLib)
