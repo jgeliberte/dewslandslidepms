@@ -17,13 +17,13 @@ class Api extends CI_Controller {
 		$report = $_POST;
 		try {
 			$report['ts_received'] = date('Y-m-d h:m:i');
-			$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
+			$metric = $this->pms_model->getMetric($report['metric_name'], 'specific');
 			$metric_exist = sizeOf($metric) > 0 ? true : false;
 			if ($metric_exist) {
 				$report['metric_id'] = $metric['metric_id'];
 				$status = $this->categorizeReport($report);
 			} else {
-				$module = $this->pms_model->getModule($report['module_name'],$report['limit']);
+				$module = $this->pms_model->getModule($report['module_name'], 'specific');
 				$module_exist = sizeOf($module) > 0 ? true : false;
 				if ($module_exist) {
 					$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);

@@ -23,8 +23,7 @@ class Api_test extends TestCase
 			'team_id' => '1',
 			'metric_name' => 'metric_1965136936',
 			'ts_data' => '2017-09-21 03:30:00',
-			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4",
-			'limit' => 'specific'
+			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4"
 		];
 		$send_data = ['data' => $data];
 		$output = $this->request("POST",["Api","insertReport"],$send_data);
