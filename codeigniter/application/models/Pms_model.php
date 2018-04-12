@@ -76,7 +76,7 @@ class Pms_model extends CI_Model {
 		} else {
 			$data = $raw_data;
 		}
-		return ($result->num_rows() > 0) ? $result->result() : false;
+		return $data;
 	}
 
 	public function getMetric($metric, $limit) {
@@ -99,8 +99,7 @@ class Pms_model extends CI_Model {
 		} else {
 			$data = $raw_data;
 		}
-		// return $data;
-		return ($result->num_rows() > 0) ? $result->result() : false;
+		return $data;
 	}
 
 	public function getAccuracyReport($report_id, $metric_id, $limit) {

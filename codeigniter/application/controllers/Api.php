@@ -14,18 +14,22 @@ class Api extends CI_Controller {
 
 	public function insertReport() {
 		$err = "";
-		$report = $_POST['data'];
+		$report = $_POST;
 		try {
-			$metric = $this->pms_model->getMetric($report['metric_name'], "specific");
-			if ($metric) {
+			$report['ts_received'] = date('Y-m-d h:m:i');
+			$metric = $this->pms_model->getMetric($report['metric_name'], 'specific');
+			$metric_exist = sizeOf($metric) > 0 ? true : false;
+			if ($metric_exist) {
+				$report['metric_id'] = $metric['metric_id'];
 				$status = $this->categorizeReport($report);
 			} else {
-				$module_exist = sizeOf($module = $this->pms_model->getModule($report['module'], "specific") > 0) ? true : false;
+				$module = $this->pms_model->getModule($report['module_name'], 'specific');
+				$module_exist = sizeOf($module) > 0 ? true : false;
 				if ($module_exist) {
 					$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
 					$report['metric_id'] = $metric_id;
 				} else {
-					$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module']),$report['metric_name']);
+					$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module_name']),$report['metric_name']);
 					$report['metric_id'] = $module_id;
 					$report['module_id'] = $metric_id;
 				}
@@ -34,7 +38,7 @@ class Api extends CI_Controller {
 		} catch (Exception $e) {
 			$err = $e->getMessage();
 		};
-
+		
 		print json_encode($this->returnStatus($status, $err));
 		return $this->returnStatus($status, $err);
 	}
@@ -64,7 +68,7 @@ class Api extends CI_Controller {
 			$err = $e->getMessage();
 		}
 
-		print $result;
+
 		return $result;
 	}
 
@@ -75,7 +79,7 @@ class Api extends CI_Controller {
 			"description" => $description
 		);
 		$results = $this->pms_model->insertMetric($metric);
-		print $results;
+
 		return $results;
 	}
 

@@ -20,11 +20,8 @@ class Api_test extends TestCase
 	public function testInsertAccuracyReport() {
 		$data = [
 			'type' => 'accuracy',
-			'metric_id' => '1',
 			'team_id' => '1',
 			'metric_name' => 'metric_1965136936',
-			'module' => 'chatterbox',
-			'ts_received' => '2017-09-21 03:33:33',
 			'ts_data' => '2017-09-21 03:30:00',
 			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4"
 		];
