@@ -49,13 +49,33 @@ def getModules(module):
 	module = model.getModule(module['module_name'], module['limit'])
 	return module
 
-# def getDynaslopeTeams():
+def getDynaslopeTeams(team):
+	team = model.getTeam(team['team_name'], team['limit'])
+	return team
 
-# def getAccuracyReport():
+def getAccuracyReport(report):
+	report = model.getAccuracy(report['report_id'], report['limit'])
+	return report
 
-# def getErrorRateReport():
-	
-# def getTimelinessReport():
+def getErrorRateReport(report):
+	report = model.getErrorRate(report['report_id'], report['limit'])
+	return report
+
+def getTimelinessReport(report):
+	report = model.getTimeliness(report['report_id'], report['limit'])
+	return report
+
+def updateMetric(metric):
+	status = model.updateMetric(metric['metric_id'], metric['module_id'], metric['metric_name'], metric['description'])
+	return status
+
+def updateModule(module):
+	status = model.updateModule(module['module_id'], module['team_id'], module['module_name'], module['description'])
+	return status
+
+def updateDynaslopeTeam(team):
+	status = model.updateDynaslopeTeam(team['team_id'], team['team_name'], team['description'])
+	return status
 
 # def deleteModule()
 

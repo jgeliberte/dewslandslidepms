@@ -79,10 +79,42 @@ def getMetric(metric_name = "", limit = "all"):
     result = getDataFrame(query)
     return result
 
-def getModules(module_name = "", limit = "all"):
+def getModule(module_name = "", limit = "all"):
     if limit == "all":
         query = "SELECT * FROM modules"
     else:
         query = "SELECT * FROM modules WHERE name = '%s' limit 1;" %module_name
     result = getDataFrame(query)
     return result 
+
+def getTeam(team_name = "", limit = "all"):
+    if limit == "all":
+        query = "SELECT * FROM dynaslope_teams"
+    else:
+        query = "SELECT * FROM dynaslope_teams WHERE name = '%s' limit 1;" %team_name
+    result = getDataFrame(query)
+    return result
+
+def getAccuracy(report_id, limit):
+    if limit == "all":
+        query = "SELECT * FROM accuracy"
+    else:
+        query = "SELECT * FROM accuracy WHERE report_id = '%s' limit 1;" %report_id
+    result = getDataFrame(query)
+    return result
+
+def getErrorRate(report_id, limit):
+    if limit == "all":
+        query = "SELECT * FROM error_rate"
+    else:
+        query = "SELECT * FROM error_rate WHERE report_id = '%s' limit 1;" %report_id
+    result = getDataFrame(query)
+    return result
+
+def getTimeliness(report_id, limit):
+    if limit == "all":
+        query = "SELECT * FROM timeliness"
+    else:
+        query = "SELECT * FROM timeliness WHERE report_id = '%s' limit 1;" %report_id
+    result = getDataFrame(query)
+    return result

@@ -71,5 +71,137 @@ class TestPMSLib(unittest.TestCase):
             "limit": "specific",
             "module_name": "new_metric28303"
         }
+        status = pms.getModules(module)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+   
+    def test_getDynaslopeTeam(self):
+        module = {
+            "limit": "specific",
+            "team_name": "new_team_python79934"
+        }
+        status = pms.getDynaslopeTeams(module)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_getAllDynaslopeTeams(self):
+        module = {
+            "limit": "all",
+            "team_name": ""
+        }
+        status = pms.getDynaslopeTeams(module)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_getAccuracyReport(self):
+        report = {
+            "report_id": "1" ,
+            "limit": "specific"
+        }
+        status = pms.getAccuracyReport(report)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_getAllAccuracyReport(self):
+        report = {
+            "report_id": "",
+            "limit": "all"
+        }
+        status = pms.getAccuracyReport(report)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_getErrorRateReport(self):
+        report = {
+            "report_id": "1",
+            "limit": "specific"
+        }
+        status = pms.getErrorRateReport(report)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_getAllErrorRateReport(self):
+        report = {
+            "report_id": "",
+            "limit": "all"
+        }
+        status = pms.getErrorRateReport(report)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_getTimelinessReport(self):
+        report = {
+            "report_id": "1",
+            "limit": "specific"
+        }
+        status = pms.getTimelinessReport(report)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_getAllTimelinessReport(self):
+        report = {
+            "report_id": "",
+            "limit": "all"
+        }
+        status = pms.getTimelinessReport(report)
+        if len(status) > 0:
+            status = True
+        else:
+            status = False
+        self.assertTrue(status)
+
+    def test_updateMetric(self):
+        metric = {
+            "metric_id": "1",
+            "module_id": "1",
+            "metric_name": "Update Metric name"+str(random.randint(1, 9999)),
+            "description": "Update Metric description"
+        }
+        status = pms.updateMetric(report)
+        self.assertTrue(status)
+
+    def test_updateModule(self):
+        metric = {
+            "module_id": "1",
+            "team_id": "1",
+            "module_name": "Updated Module name"+str(random.randint(1, 9999)),
+            "description": "Updated Module description"
+        }
+        status = pms.updateModule(report)
+        self.assertTrue(status)
+
+    def test_updateDynaslopeTeam(self):
+        metric = {
+            "team_id": "1",
+            "team_name": "Updated Team name"+str(random.randint(1, 9999)),
+            "description": "Updated Team description"
+        }
+        status = pms.updateDynaslopeTeam(report)
+        self.assertTrue(status)
+
 suite = unittest.TestLoader().loadTestsFromTestCase(TestPMSLib)
 unittest.TextTestRunner(verbosity=2).run(suite)
