@@ -203,5 +203,49 @@ class TestPMSLib(unittest.TestCase):
         status = pms.updateDynaslopeTeam(team)
         self.assertTrue(status)
 
+    def test_updateAccuracyReport(self):
+        report = {
+            "report_id": "5",
+            "metric_id": "2",
+            "ts_received": "2019-04-12 13:20:00",
+            "ts_data": "2029-09-09 09:09:00",
+            "report_message": "Update Accuracy report for test case No. 21"
+        }
+        status = pms.updateAccuracyReport(report)
+        self.assertTrue(status)
+
+    def test_updateErrorRateReport(self):
+        report = {
+            "report_id": "5",
+            "metric_id": "2",
+            "ts_received": "2019-04-12 13:20:00" ,
+            "report_message": "Update Error rate report for test case No. 22"
+        }
+        status = pms.updateErrorRateReport(report)
+        self.assertTrue(status)
+
+    def test_updateTimelinessReport(self):
+        report = {
+            "report_id": "5",
+            "metric_id": "2",
+            "ts_received": "2019-04-12 13:20:00",
+            "execution_time": "23"
+        }
+        status = pms.updateTimelinessReport(report)
+        self.assertTrue(status)
+
+    def test_deleteMetric(self):
+
+    def test_deleteModule(self):
+
+    def test_deleteDynaslopeteam(self):
+
+    def test_deleteAccuracyReport(self):
+
+    def test_deleteErrorRateReport(self):
+
+    def test_deleteTimelinessReport(self):
+
+
 suite = unittest.TestLoader().loadTestsFromTestCase(TestPMSLib)
 unittest.TextTestRunner(verbosity=2).run(suite)

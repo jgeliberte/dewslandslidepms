@@ -134,3 +134,18 @@ def updateDynaslopeTeam(team_id, team_name, description):
     query = "UPDATE dynaslope_teams SET name = '%s', description = '%s' WHERE team_id = '%s'" %(team_name, description, team_id)
     result = executeQuery(query)
     return result
+
+def updateAccuracy(report_id, metric_id, ts_received, ts_data, report_message):
+    query = "UPDATE accuracy SET metric_id = '%s', ts_received = '%s', ts_data = '%s', report_message = '%s' WHERE report_id = '%s';" %(metric_id, ts_received, ts_data, report_message, report_id)
+    result = executeQuery(query)
+    return result
+
+def updateErrorRate(report_id, metric_id, ts_received, report_message):
+    query = "UPDATE error_rate SET metric_id = '%s', ts_received = '%s', report_message = '%s' WHERE report_id = '%s';" %(metric_id, ts_received, report_message, report_id)
+    result = executeQuery(query)
+    return result
+
+def updateTimeliness(report_id, metric_id, ts_received, execution_time):
+    query = "UPDATE timeliness SET metric_id = '%s', ts_received = '%s', execution_time = '%s' WHERE report_id = '%s';" %(metric_id, ts_received, execution_time, report_id)
+    result = executeQuery(query)
+    return result

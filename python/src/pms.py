@@ -77,6 +77,18 @@ def updateDynaslopeTeam(team):
 	status = model.updateDynaslopeTeam(team['team_id'], team['team_name'], team['description'])
 	return status
 
+def updateAccuracyReport(report):
+	status = model.updateAccuracy(report['report_id'], report['metric_id'], report['ts_received'], report['ts_data'], report['report_message'])
+	return status
+
+def updateErrorRateReport(report):
+	status = model.updateErrorRate(report['report_id'], report['metric_id'], report['ts_received'], report['report_message'])
+	return status
+
+def updateTimelinessReport(report):
+	status = model.updateTimeliness(report['report_id'], report['metric_id'], report['ts_received'], report['execution_time'])
+	return status
+
 # def deleteModule()
 
 
