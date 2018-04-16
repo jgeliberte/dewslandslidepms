@@ -10,6 +10,9 @@ class Api extends CI_Controller {
 		$this->load->model('pms_model');
 		$this->load->helper('url');
 		$this->load->library('form_validation');
+
+		header("Access-Control-Allow-Origin: http://localhost");
+		header("Access-Control-Allow-Methods: GET, POST");
 	}
 
 	public function insertReport() {
