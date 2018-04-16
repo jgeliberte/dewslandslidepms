@@ -22,7 +22,8 @@ class Api_test extends TestCase
 			'type' => 'accuracy',
 			'team_id' => '1',
 			'metric_name' => 'metric_495645986',
-			'ts_data' => '2017-09-21 03:30:00',
+			'reference_id' => '1',
+			'reference_table' => 'smsinbox',
 			'report_message' => 'This is just a test No. 1',
 			'limit' => 'specific'
 		];
@@ -37,7 +38,8 @@ class Api_test extends TestCase
 			'type' => 'accuracy',
 			'team_id' => '1',
 			'metric_name' => 'metric_495645986',
-			'ts_data' => '2017-09-21 03:30:00',
+			'reference_id' => '1',
+			'reference_table' => 'smsinbox',
 			'report_message' => 'This is just a test No. 1',
 			'limit' => 'specific'
 		];
@@ -88,7 +90,8 @@ class Api_test extends TestCase
 			'metric_name' => 'new_metric_'.rand(),
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
-			'ts_data' => '2017-09-21 03:30:00',
+			'reference_id' => '1',
+			'reference_table' => 'smsinbox',
 			'report_message' => 'This is just a test No.'.rand().' for Accuracy report without metric',
 			'limit' => 'specific'
 		];
@@ -145,7 +148,8 @@ class Api_test extends TestCase
 			'metric_name' => 'new_metric_'.rand(),
 			'module' => 'new_module_'.rand(),
 			'ts_received' => '2017-09-21 03:33:33',
-			'ts_data' => '2017-09-21 03:30:00',
+			'reference_id' => '1',
+			'reference_table' => 'smsinbox',
 			'report_message' => 'This is just a test No.'.rand().' for Accuracy report new module and metric',
 			'limit' => 'specific'
 		];
@@ -301,7 +305,8 @@ class Api_test extends TestCase
 			'report_id' => '1',
 			'metric_id' => '1',
 			'ts_received' => '2017-09-21 03:33:33',
-			'ts_data' => '2017-09-21 03:30:00',
+			'reference_id' => '1',
+			'reference_table' => 'smsoubox',
 			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4, updating of accuracy report"
 		];
 		$send_data = ['data' => $data];

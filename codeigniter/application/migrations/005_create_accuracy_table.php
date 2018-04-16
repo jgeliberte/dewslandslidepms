@@ -25,6 +25,7 @@ class Migration_create_accuracy_table extends CI_Migration {
 			"ts_received TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
 			"ts_data" => array(
 				"type" => "TIMESTAMP",
+				"DEFAULT" => "0000-00-00 00:00:00"
 			),
 			"report_message" => array(
 				"type" => "VARCHAR",

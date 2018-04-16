@@ -17,7 +17,7 @@ class Api extends CI_Controller {
 
 	public function insertReport() {
 		$err = "";
-		 $report = $_POST['data'];
+		$report = $_POST['data'];
 		$report_exists = $this->checkDuplicateReport($report);
 		if ($report_exists == false) {
 			try {
@@ -98,8 +98,9 @@ class Api extends CI_Controller {
 				$report_summary = [
 					'metric_id' => $report['metric_id'],
 					'ts_received' => $report['ts_received'],
-					'ts_data' => $report['ts_data'],
-					'report_message' => $report['report_message']
+					'report_message' => $report['report_message'],
+					'reference_id' => $report['reference_id'],
+					'reference_table' => $report['reference_table']
 					];
 				$result = $this->pms_model->insertAccuracyReport($report_summary);
 				break;
@@ -240,8 +241,9 @@ class Api extends CI_Controller {
 					$updated_report = [
 						'metric_id' => $report['metric_id'],
 						'ts_received' => $report['ts_received'],
-						'ts_data' => $report['ts_data'],
-						'report_message' => $report['report_message']
+						'report_message' => $report['report_message'],
+						'reference_id' => $report['reference_id'],
+						'reference_report' => $report['reference_report']
 					];
 					$status = $this->pms_model->updateAccuracyReport($updated_report,$report['report_id']);
 					break;
