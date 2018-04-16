@@ -21,9 +21,9 @@ class Api_test extends TestCase
 		$data = [
 			'type' => 'accuracy',
 			'team_id' => '1',
-			'metric_name' => 'metric_1965136936',
+			'metric_name' => 'metric_495645986',
 			'ts_data' => '2017-09-21 03:30:00',
-			'report_message' => 'This is just a test No.'.rand(). " from test case No. 4",
+			'report_message' => 'This is just a test No. 1',
 			'limit' => 'specific'
 		];
 		$send_data = ['data' => $data];
@@ -32,12 +32,27 @@ class Api_test extends TestCase
 		$this->assertEquals(true,$result->status);
 	}
 
+	public function testInsertDuplicateAccuracyReport() {
+		$data = [
+			'type' => 'accuracy',
+			'team_id' => '1',
+			'metric_name' => 'metric_495645986',
+			'ts_data' => '2017-09-21 03:30:00',
+			'report_message' => 'This is just a test No. 1',
+			'limit' => 'specific'
+		];
+		$send_data = ['data' => $data];
+		$output = $this->request("POST",["Api","insertReport"],$send_data);
+		$result = json_decode($output);
+		$this->assertEquals(false,$result->status);
+	}
+
 	public function testInsertErrorRateReport() {
 		$data = [
 			'type' => 'error_rate',
 			'metric_id' => '1',
 			'team_id' => '1',
-			'metric_name' => 'metric_1965136936',
+			'metric_name' => 'metric_495645986',
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
 			'report_message' => 'This is just a test No.'.rand(). " from test case No. 5",
@@ -53,7 +68,7 @@ class Api_test extends TestCase
 			'type' => 'timeliness',
 			'metric_id' => '1',
 			'team_id' => '1',
-			'metric_name' => 'metric_1965136936',
+			'metric_name' => 'metric_495645986',
 			'module' => 'chatterbox',
 			'ts_received' => '2017-09-21 03:33:33',
 			'execution_time' => rand(),

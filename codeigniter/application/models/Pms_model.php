@@ -245,7 +245,7 @@ class Pms_model extends CI_Model {
 	}
 
 	public function deleteAccuracyReport($id) {
-	$this->db->where('report_id', $id);
+		$this->db->where('report_id', $id);
 		$result = $this->db->delete('accuracy');
 		return $result;
 	}
@@ -260,6 +260,27 @@ class Pms_model extends CI_Model {
 		$this->db->where('report_id', $id);
 		$result = $this->db->delete('timeliness');
 		return $result;
+	}
+
+	$data = [
+			'type' => 'accuracy',
+			'team_id' => '1',
+			'metric_name' => 'metric_495645986',
+			'ts_data' => '2017-09-21 03:30:00',
+			'report_message' => 'This is just a test No. 1',
+			'limit' => 'specific'
+		];
+
+	public function checkAccuracyExists($report) {
+
+	}
+
+	public function checkErrorRateExists($report) {
+
+	}
+
+	public function checkTimelinessExists($report) {
+
 	}
 }
 

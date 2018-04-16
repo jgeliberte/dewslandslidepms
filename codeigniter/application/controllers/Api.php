@@ -14,30 +14,36 @@ class Api extends CI_Controller {
 
 	public function insertReport() {
 		$err = "";
-		$report = $_POST;
-		try {
-			$report['ts_received'] = date('Y-m-d h:m:i');
-			$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
-			$metric_exist = sizeOf($metric) > 0 ? true : false;
-			if ($metric_exist) {
-				$report['metric_id'] = $metric['metric_id'];
-				$status = $this->categorizeReport($report);
-			} else {
-				$module = $this->pms_model->getModule($report['module_name'],$report['limit']);
-				$module_exist = sizeOf($module) > 0 ? true : false;
-				if ($module_exist) {
-					$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
-					$report['metric_id'] = $metric_id;
+		 $report = $_POST['data'];
+		$report_exists = $this->checkDuplicateReport($report);
+		if ($report_exists == false) {
+			try {
+				$report['ts_received'] = date('Y-m-d h:m:i');
+				$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
+				$metric_exist = sizeOf($metric) > 0 ? true : false;
+				if ($metric_exist) {
+					$report['metric_id'] = $metric['metric_id'];
+					$status = $this->categorizeReport($report);
 				} else {
-					$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module_name']),$report['metric_name']);
-					$report['metric_id'] = $module_id;
-					$report['module_id'] = $metric_id;
+					$module = $this->pms_model->getModule($report['module_name'],$report['limit']);
+					$module_exist = sizeOf($module) > 0 ? true : false;
+					if ($module_exist) {
+						$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
+						$report['metric_id'] = $metric_id;
+					} else {
+						$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module_name']),$report['metric_name']);
+						$report['metric_id'] = $module_id;
+						$report['module_id'] = $metric_id;
+					}
+					$status = $this->categorizeReport($report);
 				}
-				$status = $this->categorizeReport($report);
-			}
-		} catch (Exception $e) {
-			$err = $e->getMessage();
-		};
+			} catch (Exception $e) {
+				$err = $e->getMessage();
+			};
+		} else {
+			$status = false;
+			$err = "Duplicate report.";
+		}
 		
 		print json_encode($this->returnStatus($status, $err));
 		return $this->returnStatus($status, $err);
@@ -333,6 +339,25 @@ class Api extends CI_Controller {
 			$result = ['status' => false, 'err' => $err];
 		}
 		return $result;
+	}
+
+	public function checkDuplicateReport($report) {
+		var_dump($report['type']);
+		switch ($report['type']) {
+			case 'accuracy':
+				$status = $this->pms_model->checkAccuracyExists();
+				break;
+			case 'error_rate':
+				$status = $this->pms_model->checkErrorRateExists();
+				break;
+			case 'timeliness':
+				$status = $this->pms_model->checkTimelinessExists();
+				break;
+			default:
+				$status = false;
+				break;
+		}
+		exit;
 	}
 }
 
