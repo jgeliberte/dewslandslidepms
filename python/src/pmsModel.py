@@ -2,7 +2,6 @@ import pymysql as mysqlDriver
 import pandas.io.sql as psql
 import sys
 import datetime
-from var_dump import var_dump
 
 def connectDatabase(hostdb='local'):
     Hostdb = "localhost"

@@ -3,7 +3,6 @@ import pmsModel as model
 import sys
 import json
 from StringIO import StringIO
-from var_dump import var_dump
 
 def insertModule(team_id, module_name, module_description):
 	status = model.insertModule(team_id, module_name, module_description)
