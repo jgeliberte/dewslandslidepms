@@ -33,21 +33,21 @@ class Api_test extends TestCase
 		$this->assertEquals(true,$result->status);
 	}
 
-	public function testInsertDuplicateAccuracyReport() {
-		$data = [
-			'type' => 'accuracy',
-			'team_id' => '1',
-			'metric_name' => 'metric_495645986',
-			'reference_id' => '1',
-			'reference_table' => 'smsinbox',
-			'report_message' => 'This is just a test No. 1',
-			'limit' => 'specific'
-		];
-		$send_data = ['data' => $data];
-		$output = $this->request("POST",["Api","insertReport"],$send_data);
-		$result = json_decode($output);
-		$this->assertEquals(false,$result->status);
-	}
+	// public function testInsertDuplicateAccuracyReport() {
+	// 	$data = [
+	// 		'type' => 'accuracy',
+	// 		'team_id' => '1',
+	// 		'metric_name' => 'metric_495645986',
+	// 		'reference_id' => '1',
+	// 		'reference_table' => 'smsinbox',
+	// 		'report_message' => 'This is just a test No. 1',
+	// 		'limit' => 'specific'
+	// 	];
+	// 	$send_data = ['data' => $data];
+	// 	$output = $this->request("POST",["Api","insertReport"],$send_data);
+	// 	$result = json_decode($output);
+	// 	$this->assertEquals(false,$result->status);
+	// }
 
 	public function testInsertErrorRateReport() {
 		$data = [

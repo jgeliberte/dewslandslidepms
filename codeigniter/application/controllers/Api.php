@@ -11,8 +11,8 @@ class Api extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->library('form_validation');
 
-		header("Access-Control-Allow-Origin: http://localhost");
-		header("Access-Control-Allow-Methods: GET, POST");
+		// header("Access-Control-Allow-Origin: http://localhost");
+		// header("Access-Control-Allow-Methods: GET, POST");
 	}
 
 	public function insertReport() {
@@ -347,22 +347,20 @@ class Api extends CI_Controller {
 	}
 
 	public function checkDuplicateReport($report) {
-		var_dump($report['type']);
 		switch ($report['type']) {
 			case 'accuracy':
-				$status = $this->pms_model->checkAccuracyExists();
+				$status = $this->pms_model->checkAccuracyExists($report);
 				break;
 			case 'error_rate':
-				$status = $this->pms_model->checkErrorRateExists();
+				$status = $this->pms_model->checkErrorRateExists($report);
 				break;
 			case 'timeliness':
-				$status = $this->pms_model->checkTimelinessExists();
+				$status = $this->pms_model->checkTimelinessExists($report);
 				break;
 			default:
 				$status = false;
 				break;
 		}
-		exit;
 	}
 }
 

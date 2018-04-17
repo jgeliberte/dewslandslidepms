@@ -262,17 +262,30 @@ class Pms_model extends CI_Model {
 		return $result;
 	}
 
-	$data = [
-			'type' => 'accuracy',
-			'team_id' => '1',
-			'metric_name' => 'metric_495645986',
-			'ts_data' => '2017-09-21 03:30:00',
-			'report_message' => 'This is just a test No. 1',
-			'limit' => 'specific'
-		];
+	// $data = [
+	// 		'type' => 'accuracy',
+	// 		'team_id' => '1',
+	// 		'metric_name' => 'metric_495645986',
+	// 		'ts_data' => '2017-09-21 03:30:00',
+	// 		'report_message' => 'This is just a test No. 1',
+	// 		'limit' => 'specific'
+	// 	];
 
 	public function checkAccuracyExists($report) {
-
+		$metric = $this->getMetric($report['metric_name'],"specific");
+		if (sizeOf($metric) == 0) {
+			$status = false;
+		} else {
+			$this->db->select('*');
+			$this->db->from('accuracy');
+			$this->db->where('reference_id',$report['reference_id']);
+			$this->db->where('reference_table',$report['reference_table']);
+			$this->db->where('report_message',$report['report_message']);
+			$this->db->where('metric_id',$metric['metric_id']);
+			$result = $this->db->get();
+			$status = sizeOf($result) != 0 ? true : false;
+		}
+		return $status;
 	}
 
 	public function checkErrorRateExists($report) {
