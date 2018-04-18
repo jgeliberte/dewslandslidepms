@@ -17,7 +17,7 @@ class Api extends CI_Controller {
 
 	public function insertReport() {
 		$err = "";
-		$report = $_POST['data'];
+		$report = $_POST;
 		$report_exists = $this->checkDuplicateReport($report);
 		if ($report_exists == false) {
 			try {
