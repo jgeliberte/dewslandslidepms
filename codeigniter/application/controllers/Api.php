@@ -11,8 +11,8 @@ class Api extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->library('form_validation');
 
-		// header("Access-Control-Allow-Origin: http://localhost");
-		// header("Access-Control-Allow-Methods: GET, POST");
+		header("Access-Control-Allow-Origin: http://localhost");
+		header("Access-Control-Allow-Methods: GET, POST");
 	}
 
 	public function insertReport() {
@@ -243,7 +243,7 @@ class Api extends CI_Controller {
 						'ts_received' => $report['ts_received'],
 						'report_message' => $report['report_message'],
 						'reference_id' => $report['reference_id'],
-						'reference_report' => $report['reference_report']
+						'reference_table' => $report['reference_table']
 					];
 					$status = $this->pms_model->updateAccuracyReport($updated_report,$report['report_id']);
 					break;
@@ -361,6 +361,7 @@ class Api extends CI_Controller {
 				$status = false;
 				break;
 		}
+		return $status;
 	}
 }
 
