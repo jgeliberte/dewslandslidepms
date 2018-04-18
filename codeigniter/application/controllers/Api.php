@@ -10,34 +10,43 @@ class Api extends CI_Controller {
 		$this->load->model('pms_model');
 		$this->load->helper('url');
 		$this->load->library('form_validation');
+
+		header("Access-Control-Allow-Origin: http://localhost");
+		header("Access-Control-Allow-Methods: GET, POST");
 	}
 
 	public function insertReport() {
 		$err = "";
 		$report = $_POST;
-		try {
-			$report['ts_received'] = date('Y-m-d h:m:i');
-			$metric = $this->pms_model->getMetric($report['metric_name'], 'specific');
-			$metric_exist = sizeOf($metric) > 0 ? true : false;
-			if ($metric_exist) {
-				$report['metric_id'] = $metric['metric_id'];
-				$status = $this->categorizeReport($report);
-			} else {
-				$module = $this->pms_model->getModule($report['module_name'], 'specific');
-				$module_exist = sizeOf($module) > 0 ? true : false;
-				if ($module_exist) {
-					$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
-					$report['metric_id'] = $metric_id;
+		$report_exists = $this->checkDuplicateReport($report);
+		if ($report_exists == false) {
+			try {
+				$report['ts_received'] = date('Y-m-d h:m:i');
+				$metric = $this->pms_model->getMetric($report['metric_name'],$report['limit']);
+				$metric_exist = sizeOf($metric) > 0 ? true : false;
+				if ($metric_exist) {
+					$report['metric_id'] = $metric['metric_id'];
+					$status = $this->categorizeReport($report);
 				} else {
-					$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module_name']),$report['metric_name']);
-					$report['metric_id'] = $module_id;
-					$report['module_id'] = $metric_id;
+					$module = $this->pms_model->getModule($report['module_name'],$report['limit']);
+					$module_exist = sizeOf($module) > 0 ? true : false;
+					if ($module_exist) {
+						$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
+						$report['metric_id'] = $metric_id;
+					} else {
+						$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module_name']),$report['metric_name']);
+						$report['metric_id'] = $module_id;
+						$report['module_id'] = $metric_id;
+					}
+					$status = $this->categorizeReport($report);
 				}
-				$status = $this->categorizeReport($report);
-			}
-		} catch (Exception $e) {
-			$err = $e->getMessage();
-		};
+			} catch (Exception $e) {
+				$err = $e->getMessage();
+			};
+		} else {
+			$status = false;
+			$err = "Duplicate report.";
+		}
 		
 		print json_encode($this->returnStatus($status, $err));
 		return $this->returnStatus($status, $err);
@@ -89,8 +98,9 @@ class Api extends CI_Controller {
 				$report_summary = [
 					'metric_id' => $report['metric_id'],
 					'ts_received' => $report['ts_received'],
-					'ts_data' => $report['ts_data'],
-					'report_message' => $report['report_message']
+					'report_message' => $report['report_message'],
+					'reference_id' => $report['reference_id'],
+					'reference_table' => $report['reference_table']
 					];
 				$result = $this->pms_model->insertAccuracyReport($report_summary);
 				break;
@@ -231,8 +241,9 @@ class Api extends CI_Controller {
 					$updated_report = [
 						'metric_id' => $report['metric_id'],
 						'ts_received' => $report['ts_received'],
-						'ts_data' => $report['ts_data'],
-						'report_message' => $report['report_message']
+						'report_message' => $report['report_message'],
+						'reference_id' => $report['reference_id'],
+						'reference_table' => $report['reference_table']
 					];
 					$status = $this->pms_model->updateAccuracyReport($updated_report,$report['report_id']);
 					break;
@@ -333,6 +344,24 @@ class Api extends CI_Controller {
 			$result = ['status' => false, 'err' => $err];
 		}
 		return $result;
+	}
+
+	public function checkDuplicateReport($report) {
+		switch ($report['type']) {
+			case 'accuracy':
+				$status = $this->pms_model->checkAccuracyExists($report);
+				break;
+			case 'error_rate':
+				$status = $this->pms_model->checkErrorRateExists($report);
+				break;
+			case 'timeliness':
+				$status = $this->pms_model->checkTimelinessExists($report);
+				break;
+			default:
+				$status = false;
+				break;
+		}
+		return $status;
 	}
 }
 

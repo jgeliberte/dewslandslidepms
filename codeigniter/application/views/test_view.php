@@ -39,20 +39,25 @@
 </html>
 
 <script type="text/javascript">
-    // PMS_MODAL.attach("body", "xxx");
-    // PMS_MODAL.show();
+    const instance = PMS_MODAL.create({
+        modal_id: "xxx",
+        metric_name: "bulletin_accuracy",
+        module_name: "Bulletin"
+    });
+
+    instance.set({
+        ts_data: "2017-10-10 00:00:00",
+        reference_id: 12,
+        reference_table: "public_alert_release"
+    });
     
-    const instance = PMS_MODAL.create("xxx", "bulletin_accuracy");
-    // instance.attach("body", "xxx");
     instance.show();
-    // instance.send();
+
     console.log(instance);
 
-    const instance2 = PMS_MODAL.create("yyy", "ewi_sms_accuracy");
-    // instance2.attach("body", "yyy");
-	
-    // PMS_MODAL
-    // .attach("body", "xxx")
-    // .show()
-    // .send()
+    const instance2 = PMS_MODAL.create({
+        modal_id: "yyy",
+        metric_name: "ewi_sms_accuracy",
+        module_name: "Chatterbox"
+    });
 </script>
