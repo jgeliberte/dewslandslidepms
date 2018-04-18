@@ -283,7 +283,7 @@ class Pms_model extends CI_Model {
 			$this->db->where('report_message',$report['report_message']);
 			$this->db->where('metric_id',$metric['metric_id']);
 			$result = $this->db->get();
-			$status = sizeOf($result) != 0 ? true : false;
+			$status = sizeOf($result->result()) > 0 ? true : false;
 		}
 		return $status;
 	}
