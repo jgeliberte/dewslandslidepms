@@ -28,17 +28,18 @@ class Api extends CI_Controller {
 					$report['metric_id'] = $metric['metric_id'];
 					$status = $this->categorizeReport($report);
 				} else {
-					$module = $this->pms_model->getModule($report['module_name'],$report['limit']);
-					$module_exist = sizeOf($module) > 0 ? true : false;
-					if ($module_exist) {
-						$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
-						$report['metric_id'] = $metric_id;
-					} else {
-						$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module_name']),$report['metric_name']);
-						$report['metric_id'] = $module_id;
-						$report['module_id'] = $metric_id;
-					}
-					$status = $this->categorizeReport($report);
+					$status = false;
+					// $module = $this->pms_model->getModule($report['module_name'],$report['limit']);
+					// $module_exist = sizeOf($module) > 0 ? true : false;
+					// if ($module_exist) {
+					// 	$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
+					// 	$report['metric_id'] = $metric_id;
+					// } else {
+					// 	$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module_name']),$report['metric_name']);
+					// 	$report['metric_id'] = $module_id;
+					// 	$report['module_id'] = $metric_id;
+					// }
+					// $status = $this->categorizeReport($report);
 				}
 			} catch (Exception $e) {
 				$err = $e->getMessage();
@@ -47,7 +48,6 @@ class Api extends CI_Controller {
 			$status = false;
 			$err = "Duplicate report.";
 		}
-		
 		print json_encode($this->returnStatus($status, $err));
 		return $this->returnStatus($status, $err);
 	}
