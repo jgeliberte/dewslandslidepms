@@ -2,14 +2,14 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_create_error_rate_table extends CI_Migration {
+class Migration_create_error_logs_table extends CI_Migration {
 
 	/**
 	 * Name of the table to be used in this migration!
 	 *
 	 * @var string
 	 */
-	protected $_table_name = "error_rate";
+	protected $_table_name = "error_logs";
 
 	public function up () {
 		$fields = array(

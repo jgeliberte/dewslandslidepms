@@ -25,6 +25,10 @@ class Migration_create_timeliness_table extends CI_Migration {
 			"ts_received TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP",
 			"execution_time" => array(
 				"type" => "FLOAT",
+			),
+			"report_message" => array(
+				"type" => "VARCHAR",
+				"constraint" => "500"
 			)
 		);
 		// Add primary keyx
