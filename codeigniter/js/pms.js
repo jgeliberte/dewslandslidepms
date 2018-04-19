@@ -1,18 +1,21 @@
 
 const MODAL = {
     modal_id: "pms_modal",
+    metric_name: null,
+    module_name: null,
+    type: "accuracy",
     is_attached: false,
     form: null,
     data: {},
 
     __attach (modal_id = "pms_modal") {
         if ($(`#${modal_id}`).length > 0) {
-            console.log("%cPMS Modal ID already exists!", "background: #555555; color: yellow");
+            console.log("%c► PMS Modal:\nPMS Modal ID already exists!", "background: rgba(255,127,80,0.3); color: black");
             return;
         }
 
         $.ajax({
-            url: "http://localhost:8100/modal",
+            url: "http://pms/modal",
             type: "GET",
             contentType: "text/plain",
             xhrFields: {
@@ -27,7 +30,7 @@ const MODAL = {
             $("#pms_modal").attr("id", this.modal_id);
             this.is_attached = true;
 
-            this.__validate();
+            // this.__validate();
         });
     },
 
@@ -39,35 +42,40 @@ const MODAL = {
         }
     },
 
-    send (report) {
-        console.log("SEND");
+    __send (report, modal_id) {
+        console.log("%c► PMS Modal:\nSending PMS report:", "background: rgba(255,127,80,0.3); color: black");
         console.log(report);
 
-        $.post("http://localhost:8100/api/insertReport", report)
+        $.post("http://pms/api/insertReport", report)
         .done((result) => {
             console.log(result);
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);
-            alert(responseText);
+            console.log(`%c► PMS ${responseText}`, "background: rgba(255,127,80,0.3); color: black");
         });
+
+        $(`#${modal_id}`).modal("hide");
     },
 
     set (data) {
         const copy = Object.assign({}, this.data);
         this.data = { ...copy, ...data };
+        this.__validate();
     },
 
     print () {
         const { data, modal_id } = this;
-        console.log("%cPMS Modal Data Set", "background: #555555; color: yellow");
+        console.log("%c► PMS Modal:\nPMS Modal data set", "background: rgba(255,127,80,0.3); color: black");
         console.log({ modal_id, data });
     },
 
     __validate () {
         const {
-            send, modal_id, metric_name, module_name, data
+            __send, modal_id, metric_name,
+            module_name, type, data
         } = this;
+
         this.form = $(`#${modal_id} .pms-form`).validate({
             debug: true,
             rules: {
@@ -117,27 +125,79 @@ const MODAL = {
                 } else $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
             },
             submitHandler (form) {
-                console.log("VALIDATE");
                 const report = {
                     ...data,
                     metric_name,
                     module_name,
+                    type,
                     report_message: $("#report_message").val(),
-                    limit: "specific",
-                    type: "accuracy"
+                    limit: "specific"
                 };
 
-                send(report);
+                __send(report, modal_id);
             }
         });
     }
 };
 
 const PMS_MODAL = {
-    create ({ modal_id, module_name, metric_name }) {
-        // return Object.create(MODAL);
-        const obj = { ...MODAL, metric_name, module_name };
+    create (args) {
+        const { modal_id } = args;
+        const obj = { ...MODAL, ...args };
         obj.__attach(modal_id);
         return obj;
+    }
+};
+
+const PMS = {
+    __checkPayload (report) {
+        const categories = ["accuracy", "timeliness", "error_logs"];
+        const { type } = report;
+
+        if (!categories.includes(type)) {
+            throw new Error(`Type "${type}" is not valid: use either "accuracy", "timeliness", or "error_logs"`);
+        }
+
+        const payload = ["metric_name", "module_name", "report_message"];
+
+        switch (type) {
+            default: break;
+            case "accuracy":
+                payload.push("reference_id", "reference_table");
+                break;
+            case "timeliness":
+                payload.push("execution_time");
+                break;
+        }
+
+        const missing = [];
+        payload.forEach((key) => {
+            if (!Object.keys(report).includes(key)) {
+                missing.push(key);
+            }
+        });
+
+        if (missing.length !== 0) {
+            throw new Error(`Missing parameter(s): the following attributes must be filled - ${missing.join(", ")}`);
+        }
+    },
+
+    send (report) {
+        try {
+            this.__checkPayload(report);
+        } catch (error) {
+            alert(error);
+            console.log(`%c► PMS ${error}`, "background: rgba(255,127,80,0.3); color: black");
+            return;
+        }
+
+        $.post("http://pms/api/insertReport", report)
+        .done((result) => {
+            console.log(result);
+        })
+        .catch(({ responseText, status: conn_status, statusText }) => {
+            alert(`Status ${conn_status}: ${statusText}`);
+            console.log(`%c► PMS ${responseText}`, "background: rgba(255,127,80,0.3); color: black");
+        });
     }
 };
