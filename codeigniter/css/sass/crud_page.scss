@@ -1,0 +1,257 @@
+
+/****
+ *
+ *	Created by Kevin Dhale dela Cruz
+ *	CSS file for Individual Site Pages
+ *	
+****/
+
+@import "variables";
+
+#page-wrapper {
+    margin-top: 20px;
+    padding: 30px 10px 50px;
+    min-height: 100%;
+    position: relative;
+}
+
+#page-header {
+    font-size: 25px;
+    font-weight: 600;
+    color: $primary-blue;
+    border: solid $primary-blue;
+    border-radius: 6px;
+    margin-bottom: 40px;
+}
+
+.instruction {
+    margin-bottom: 20px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.tile {  
+    width: 100%;
+    display: inline-block;
+    box-sizing: border-box;
+    border-radius: 10px;
+    background: #fff;       
+    padding: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    
+    background: $primary-blue;
+    &:hover {
+        color: #ffffff;
+        background: darken($primary-blue, 10%);
+        pointer-events: auto;
+        cursor: pointer;
+    }
+  
+    .tile-title {
+        margin-top: 0px;
+    }
+
+    .tile-buttons {
+        text-align: right;
+    }
+
+    .tile-description {
+        text-indent: 0;
+        font-size: 14px;
+        margin: 0;
+        text-align: left;
+    }
+}
+
+.tile-selected {
+    background: darken($secondary-orange, 10%) !important;
+}
+
+.add-tile {
+    text-align: center;
+
+    span.fa {
+        font-size: 68px;
+    }
+}
+
+.nav.nav-tabs.nav-justified {
+    padding-bottom: 50px;
+    font-size: 16px;
+
+    li > a {
+        border-bottom: 2px solid $primary-blue;
+        border-radius: 8px 8px 0 0;
+    }
+
+    .active > a, .active > a:hover, .active > a:focus {
+        border: 2px solid $primary-blue;
+        background-color: lighten($primary-blue, 50%);
+    }
+}
+
+.go-back { margin-bottom: 10px; }
+
+//=====
+// 
+// Panel CSS for Community Timeline
+//
+//=====
+
+.panel.panel-primary {
+    
+    .panel-heading {
+	   background-color: $primary-blue;
+	   border: solid $primary-blue;
+
+       .panel-title > a {
+            display: block;
+            text-decoration: none;
+        }
+    }
+
+    .panel-collapse > .panel-body {
+        font-size: 14px;
+    }
+}
+
+// ===== END OF Panel CSS
+
+//=====
+// 
+// Line Divs on Community Timeline and Section Divs of other tabs 
+//
+//=====
+
+.container-line {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    height: 3px;
+    background-color: $primary-blue;
+    position: relative;
+
+    &.timeline-head {
+        margin-top: 30px;
+        margin-bottom: 40px;
+    }
+
+    &.tab-head {
+        margin-top: 30px;
+        margin-bottom: 60px;
+    }
+
+    &.section-head {
+        margin-top: 50px;
+        margin-bottom: 60px;
+    }
+}
+
+.circle {
+    display: inline-block;
+    vertical-align: middle;
+    width: 15px;
+    height: 15px;
+    background-color: $primary-blue;;
+    border: solid 1px $primary-blue;
+    border-radius: 50%;
+    position: absolute;
+    top: -6px;
+}
+
+.left { left: 0; }
+.right { right: 0; }
+
+.container-line-text {
+    display: inline-block;
+    vertical-align: middle;
+    color: $primary-blue;
+    border: solid 3px $primary-blue;
+    border-radius: 6px;
+    position: absolute;
+    background-color: white;
+
+    &.year {
+        font-size: 14px;
+        padding: 0 5px;
+        top: -13px;
+        left: calc(50% - 22px);
+    }
+
+    &.timeline-head-text {
+        @extend .base-section-div-text;
+        top: -18px;
+        left: calc(50% - 104px);
+    }
+
+    &.tab-head-text {
+        @extend .base-section-div-text;
+        top: -33px;
+        // left: computed on javascript
+    }
+
+    &.section-head-text {
+        @extend .base-section-div-text;
+        top: -18px;
+        // left: computed on javascript
+    }
+}
+
+.base-section-div-text {
+    font-size: 22px;
+    font-weight: 600;
+    padding: 0 10px;
+}
+
+
+//===== END OF Line Divs
+
+.popover { 
+    color: black; 
+
+    .popover-title {
+        background-color: $primary-blue;
+        border-color: $primary-blue;
+        color: white;
+    }
+}
+
+.button-row { margin-bottom: 15px; }
+
+#map {
+    max-width: 100%;
+    border: 1px solid #000;
+    margin-bottom: 10px;
+}
+
+#images-field > div.row {
+    margin-bottom: 10px;
+}
+
+.thumbnail-gallery > a > img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid black;
+}
+
+.ekko-lightbox .modal-footer { text-align: right !important; }
+
+.ekko-lightbox-nav-overlay {
+    z-index: 0 !important;
+    justify-content: space-between !important;
+    left: -90px !important;
+
+    & a {
+        flex: 0 0 auto !important;
+        opacity: 0.5 !important;
+
+        &:hover { opacity: 1 !important; }
+    }
+}
+
+.alert-warning { 
+    color: $primary-blue !important;
+    background-color: rgba($secondary-orange, .7);
+}
+
+#reportrangesurficial, #reportrangerain, #reportrangesubsurface { z-index: 0; }
