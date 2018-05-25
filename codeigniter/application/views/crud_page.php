@@ -105,17 +105,17 @@
                         <div><strong><span id="field-id">Team</span> Input</strong></div>
                         <div class="row"><hr/></div>
                             <div class="form-group">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" name="name" placeholder="Name">
+                                <label class="control-label" for="name">Name</label>
+                                <input type="text" class="form-control form-input" id="name" name="name" placeholder="Name">
                             </div>
                             <div class="form-group">
-                                <label for="description">Description</label>
-                                <input type="text" class="form-control" id="description" name="description" placeholder="Description">
+                                <label class="control-label" for="description">Description</label>
+                                <textarea row="5" maxlength="300" class="form-control form-input" id="description" name="description" placeholder="Description"></textarea>
                             </div>
                     </div>
                     <div class="modal-footer">
-                        <button id="submit" class="btn btn-info" role="submit">Okay</button>
-                        <button id="cancel" class="btn btn-info" data-dismiss="modal" role="button">Okay</button>
+                        <button id="submit" class="btn btn-danger" role="submit">Submit</button>
+                        <button id="cancel" class="btn btn-info" data-dismiss="modal" role="button">Cancel</button>
                     </div>
                 </form>
             </div>

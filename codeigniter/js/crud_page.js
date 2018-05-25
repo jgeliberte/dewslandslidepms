@@ -1,17 +1,28 @@
 
+let FORM_VALIDATE;
+
 $(document).ready(() => {
     reposition("#input-modal");
-    initializeInputForm();
 
-    getDynaslopeTeams()
-    .done((teams) => { buildTileRows(teams, "teams"); })
-    .catch((x) => {
-        showErrorModal(x, "loading Dynaslope Teams");
-    });
+    FORM_VALIDATE = initializeInputForm();
+
+    buildDynaslopeTeamField();
 
     initializeTileOnClick();
     initializeTileExpandOnClick();
+    initializeOnModalClose();
 });
+
+function buildDynaslopeTeamField () {
+    getDynaslopeTeams()
+    .done((teams) => {
+        $("#teams .tile-rows").empty();
+        buildTileRows(teams, "teams");
+    })
+    .catch((x) => {
+        showErrorModal(x, "loading Dynaslope Teams");
+    });
+}
 
 function getDynaslopeTeams () {
     return $.getJSON("/input/getDynaslopeTeams");
@@ -35,24 +46,14 @@ function buildTileRows (collection, tile_field) {
         } else {
             const { name, description } = collection[i];
 
-            let id_name;
-            switch (tile_field) {
-                case "teams":
-                    id_name = "team_id"; break;
-                case "modules":
-                    id_name = "module_id"; break;
-                default:
-                    break;
-            }
+            const id_name = `${tile_field.slice(0, -1)}_id`;
 
-            // console.log(collection[i][id_name], i, id_name);
-
-            $new_tile = $("#tile-template").clone().prop({
+            $new_tile = $("#tile-template").clone().attr({
                 id: "",
-                "data-id": parseInt(collection[i][id_name], 10)
+                "data-id": parseInt(collection[i][id_name], 10),
+                "data-name": name,
+                "data-description": description
             });
-
-            console.log($new_tile.data("id"), collection[i][id_name]);
 
             $new_tile.find(".tile-title")
             .text(name).end()
@@ -61,7 +62,6 @@ function buildTileRows (collection, tile_field) {
         }
 
         const $temp_tile = $column.append($new_tile);
-        console.log("dsdsfs", $new_tile.data("id"));
         $row.append($temp_tile);
 
         if (i + 2 % 4 === 0 || i + 1 === length) {
@@ -76,9 +76,10 @@ function initializeTileOnClick () {
         const $tile_field = $target.parents(".tile-field");
         const field_id = $tile_field.prop("id");
         const tile_id = $target.data("id");
-        const form_id = "#input-form";
 
-        $(`#${field_id} .tile-selected`).removeClass("tile-selected");
+        const $prev_selected = $(`#${field_id} .tile-selected`);
+        const prev_selected_id = $prev_selected.data("id");
+        $prev_selected.removeClass("tile-selected");
         $target.addClass("tile-selected");
 
         if ($target.hasClass("add-tile")) {
@@ -86,12 +87,30 @@ function initializeTileOnClick () {
             const $previous_field = $tile_field.prev(".tile-field");
             const prev_field_id = $previous_field.prop("id");
             const prev_tile_id = $previous_field.find(".tile-selected").data("id");
-            $(form_id).data({ prev_field_id, prev_tile_id, current_field_id: field_id });
+            const $form = $("#input-form");
 
-            const $input = $("#input-modal");
+            $form.data({
+                prev_field_id,
+                prev_tile_id,
+                current_field_id: field_id,
+                prev_selected_id,
+                "is-edit": false
+            });
+
+            const $modal = $("#input-modal");
             const uppercase_field = field_id.charAt(0).toUpperCase() + field_id.slice(1, -1);
-            $input.find("#field-id").text(uppercase_field);
-            $input.modal("show");
+            $modal.find("#field-id").text(uppercase_field);
+
+            FORM_VALIDATE.resetForm();
+            $(".form-group").removeClass("has-error has-success has-feedback");
+            $(".form-input").prop("disabled", false);
+            $form[0].reset();
+
+            $modal.find("#submit").text("Submit");
+            $modal.modal({
+                backdrop: "static",
+                show: true
+            });
         } else {
             chooseGetFunctionToImplement(field_id, tile_id)
             .then((result, ...args) => {
@@ -119,6 +138,7 @@ function chooseGetFunctionToImplement (field_id, tile_id) {
         case "teams":
             result = getModules(tile_id);
             build_id = "modules";
+            $("#metrics").slideUp();
             break;
         case "modules":
             result = getMetrics(tile_id);
@@ -135,7 +155,6 @@ function chooseGetFunctionToImplement (field_id, tile_id) {
 }
 
 function getModules (team_id) {
-    console.log(team_id);
     return $.getJSON(`/input/getModulesByTeamID/${team_id}`);
 }
 
@@ -144,24 +163,42 @@ function getMetrics (module_id) {
 }
 
 function initializeTileExpandOnClick () {
-    $(document).on("click", ".tile-expand", ({ currentTarget }) => {
+    $(document).on("click", ".tile-expand", (event) => {
+        event.stopPropagation();
+        const { currentTarget } = event;
         const $target = $(currentTarget);
-        const team_id = $target.parents(".tile").data("id");
-        console.log(team_id);
+        const tile_data = $target.parents(".tile").data();
 
-        // TO DO SHOW MODAL PLUS EDIT FUNCTIONALITY
+        $(".form-input").each((index, element) => {
+            $(element).val(tile_data[element.name]);
+        });
+
+        const $form = $("#input-form");
+        $form.data({
+            current_tile_id: tile_data.id,
+            current_field_id: $target.parents(".tile-field").attr("id"),
+            "is-edit": true
+        });
+
+        const $modal = $("#input-modal");
+        $modal.find("#submit").text("Submit Edit");
+        $modal.modal({
+            backdrop: "static",
+            show: true
+        });
     });
 }
 
 function initializeInputForm () {
     const form_id = "#input-form";
-    $(form_id).validate({
+    return $(form_id).validate({
         debug: true,
         rules: {
             name: "required",
             description: "required"
         },
         messages: { comments: "" },
+        focusCleanup: true,
         errorPlacement (error, element) {
             const placement = $(element).closest(".form-group");
             if (placement) {
@@ -189,36 +226,108 @@ function initializeInputForm () {
             $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
         },
         submitHandler (form) {
+            $("#input-modal").modal("hide");
+
+            const attr_data = $(form_id).data();
             const data = $(form_id).serializeArray();
             const input = {};
             data.forEach(({ name, value }) => { input[name] = value === "" ? null : value; });
 
-            const { prev_field_id, prev_tile_id, current_field_id } = $(form_id).data();
-            if (typeof prev_field_id !== "undefined") {
-                const field = prev_field_id.slice(0, -1);
-                input[`${field}_id`] = prev_tile_id;
+            const { current_field_id } = attr_data;
+            const table_name = current_field_id === "teams" ? "dynaslope_teams" : current_field_id;
+
+            let obj_to_send = {};
+            if ($(form_id).data("is-edit")) {
+                const { current_tile_id } = attr_data;
+                const field = current_field_id.slice(0, -1);
+
+                obj_to_send = {
+                    data: input,
+                    table_name,
+                    column: `${field}_id`,
+                    key: current_tile_id
+                };
+
+                updateDataOnDatabase(obj_to_send)
+                .then(() => {
+                    refreshUpdatedTile(current_field_id, current_tile_id, input);
+                })
+                .catch((x) => {
+                    showErrorModal(x, "updating data");
+                });
+            } else {
+                const { prev_field_id, prev_tile_id } = attr_data;
+
+                if (typeof prev_field_id !== "undefined") {
+                    const field = prev_field_id.slice(0, -1);
+                    input[`${field}_id`] = prev_tile_id;
+                }
+
+                obj_to_send = {
+                    data: input,
+                    table_name
+                };
+
+                insertDataToDatabase(obj_to_send)
+                .then(() => {
+                    refreshFields(current_field_id, prev_field_id);
+                })
+                .catch((x) => {
+                    showErrorModal(x, "inserting data");
+                });
             }
 
-            insertDataToDatabase(input, current_field_id);
+            console.log(obj_to_send);
         }
     });
 }
 
-function insertDataToDatabase (input, current_field_id) {
-    const table_name = current_field_id === "teams" ? "dynaslope_teams" : current_field_id;
-    const obj_to_send = {
-        data: input,
-        table_name
-    };
-
-    console.log(obj_to_send);
-
-    $.post("/input/generalInsertToDatabase", obj_to_send)
-    .done((x) => {
-        console.log(x);
+function initializeOnModalClose () {
+    $("#input-modal").on("hide.bs.modal", () => {
+        const { prev_selected_id, current_field_id } = $("#input-form").data();
+        const $cur_field = $(`#${current_field_id}`);
+        $cur_field.find(".add-tile").removeClass("tile-selected");
+        if (typeof prev_selected_id !== "undefined") {
+            $cur_field.find(`.tile[data-id=${prev_selected_id}]`).addClass("tile-selected");
+        }
     });
+}
 
-    // Refresh field
+function insertDataToDatabase (obj_to_send) {
+    return $.post("/input/generalInsertToDatabase", obj_to_send);
+}
+
+function updateDataOnDatabase (obj_to_send) {
+    return $.post("/input/generalUpdateData", obj_to_send);
+}
+
+function refreshFields (field_id, prev_field_id) {
+    switch (field_id) {
+        case "teams":
+            buildDynaslopeTeamField();
+            $("#modules, #metrics").slideUp();
+            break;
+        case "modules":
+            $("#metrics").slideUp();
+            // fall through
+        case "metrics":
+            $(`#${prev_field_id} .tile-selected`).trigger("click");
+            // fall through
+        default:
+            break;
+    }
+}
+
+function refreshUpdatedTile (current_field_id, current_tile_id, input) {
+    const $updated = $(`#${current_field_id}`).find(`.tile[data-id=${current_tile_id}]`);
+    const { name, description } = input;
+
+    $updated.data(input);
+
+    $updated.find(".tile-title")
+    .text(name).end()
+    .find(".tile-description")
+    .text(`${description.substring(0, 30)}...`);
 }
 
 function showErrorModal (ajax, module) {

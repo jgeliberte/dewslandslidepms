@@ -19,6 +19,11 @@ class Crud_model extends CI_Model {
     	$id = $this->db->insert_id();
     	return $id;
 	}
+
+	public function generalUpdateData($column, $key, $table, $data) {
+		$this->db->where($column, $key);
+		$this->db->update($table, $data);
+	}
 }
 
 ?>

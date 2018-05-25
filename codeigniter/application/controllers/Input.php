@@ -38,4 +38,12 @@ class Input extends CI_Controller {
 		$result = $this->crud_model->generalInsertToDatabase($table_name, $data);
 		echo json_encode($result);
 	}
+
+	public function generalUpdateData () {
+		$table_name = $_POST["table_name"];
+		$column = $_POST["column"];
+		$key = $_POST["key"];
+		$data = $_POST["data"];
+		$result = $this->crud_model->generalUpdateData($column, $key, $table_name, $data);
+	}
 }
