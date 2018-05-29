@@ -73,6 +73,6 @@ $route['api/insert_report'] = 'api/insertReport';
 
 
 
-$route['default_controller'] = 'welcome';
+$route['default_controller'] = 'dashboard';
 $route['404_override'] = '';
 // $route['translate_uri_dashes'] = FALSE;

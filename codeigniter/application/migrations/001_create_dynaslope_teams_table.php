@@ -20,7 +20,7 @@ class Migration_create_dynaslope_teams_table extends CI_Migration {
 			),
 			"name" => array(
 				"type" => "VARCHAR",
-				"constraint" => "20",
+				"constraint" => "60",
 				"unique" => TRUE
 			),
 			"description" => array(
