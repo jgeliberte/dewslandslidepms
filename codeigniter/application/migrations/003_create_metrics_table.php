@@ -22,15 +22,19 @@ class Migration_create_metrics_table extends CI_Migration {
 				"type" => "INT"
 			),
 			"CONSTRAINT FOREIGN KEY (module_id) references modules(module_id)",
-			"name" => array(
+			"metric_name" => array(
 				"type" => "VARCHAR",
 				"constraint" => "100",
 				"unique" => TRUE
 			),
-			"description" => array(
+			"metric_desc" => array(
 				"type" => "VARCHAR",
 				"constraint" => "300"
-			)
+			),
+			"metric_type" => array(
+				"type" => "INT",
+				"null" => FALSE
+			),
 		);
 		// Add primary key
 		$this->dbforge->add_key("metric_id", TRUE);

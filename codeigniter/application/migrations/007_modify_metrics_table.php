@@ -21,12 +21,12 @@ class Migration_modify_metrics_table extends CI_Migration {
 			"module_id" => array(
 				"type" => "INT"
 			),
-			"name" => array(
+			"metric_name" => array(
 				"type" => "VARCHAR",
 				"constraint" => "100",
 				"unique" => FALSE
 			),
-			"description" => array(
+			"metric_desc" => array(
 				"type" => "VARCHAR",
 				"constraint" => "300"
 			)

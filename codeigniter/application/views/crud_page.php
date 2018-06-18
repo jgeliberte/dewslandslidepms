@@ -109,9 +109,20 @@
                                 <input type="text" class="form-control form-input" id="name" name="name" placeholder="Name">
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="description">Description</label>
-                                <textarea row="5" maxlength="300" class="form-control form-input" id="description" name="description" placeholder="Description"></textarea>
+                                <label class="control-label" for="desc">Description</label>
+                                <textarea row="5" maxlength="300" class="form-control form-input" id="desc" name="desc" placeholder="Description"></textarea>
                             </div>
+                            <div id="metrics-options" hidden="hidden">
+                                <div class="form-group">
+                                    <label class="control-label" for="type">Metric Type</label>
+                                    <select class="form-control form-input metric-option" id="type" name="type">
+                                        <option value="1">Accuracy</option>
+                                        <option value="2">Error Log</option>
+                                        <option value="3">Timeliness</option>
+                                    </select>
+                                </div>
+                            </div>
+                           
                     </div>
                     <div class="modal-footer">
                         <button id="submit" class="btn btn-danger" role="submit">Submit</button>
