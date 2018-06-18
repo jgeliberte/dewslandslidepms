@@ -18,12 +18,12 @@ class Migration_create_dynaslope_teams_table extends CI_Migration {
 				"null" => FALSE,
 				"auto_increment" => TRUE,
 			),
-			"name" => array(
+			"team_name" => array(
 				"type" => "VARCHAR",
 				"constraint" => "60",
 				"unique" => TRUE
 			),
-			"description" => array(
+			"team_desc" => array(
 				"type" => "VARCHAR",
 				"constraint" => "300",
 			)

@@ -22,12 +22,12 @@ class Migration_create_modules_table extends CI_Migration {
 				"type" => "INT"
 			),
 			"CONSTRAINT FOREIGN KEY (team_id) references dynaslope_teams(team_id)",
-			"name" => array(
+			"module_name" => array(
 				"type" => "VARCHAR",
 				"constraint" => "100",
 				"unique" => TRUE
 			),
-			"description" => array(
+			"module_desc" => array(
 				"type" => "VARCHAR",
 				"constraint" => "300"
 			)

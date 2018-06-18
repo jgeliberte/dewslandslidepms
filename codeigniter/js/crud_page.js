@@ -44,7 +44,13 @@ function buildTileRows (collection, tile_field) {
         if (i + 1 === length) {
             $new_tile = $("#add-tile-template").clone();
         } else {
-            const { name, description } = collection[i];
+            const single_field = tile_field.slice(0, -1);
+            const _name = `${single_field}_name`;
+            const _desc = `${single_field}_desc`;
+            const {
+                [_name]: name,
+                [_desc]: description
+            } = collection[i];
 
             const id_name = `${tile_field.slice(0, -1)}_id`;
 
@@ -52,8 +58,13 @@ function buildTileRows (collection, tile_field) {
                 id: "",
                 "data-id": parseInt(collection[i][id_name], 10),
                 "data-name": name,
-                "data-description": description
+                "data-desc": description
             });
+
+            if (tile_field === "metrics") {
+                const { metric_type } = collection[i];
+                $new_tile.data("type", metric_type);
+            }
 
             $new_tile.find(".tile-title")
             .text(name).end()
@@ -81,6 +92,16 @@ function initializeTileOnClick () {
         const prev_selected_id = $prev_selected.data("id");
         $prev_selected.removeClass("tile-selected");
         $target.addClass("tile-selected");
+
+        const $metrics_opt = $("#metrics-options");
+        const $option = $(".metric-option");
+        if (field_id === "metrics") {
+            $metrics_opt.show();
+            $option.prop("disabled", false);
+        } else {
+            $metrics_opt.hide();
+            $option.prop("disabled", true);
+        }
 
         if ($target.hasClass("add-tile")) {
             // Get the previous div/tile_field
@@ -168,19 +189,32 @@ function initializeTileExpandOnClick () {
         const { currentTarget } = event;
         const $target = $(currentTarget);
         const tile_data = $target.parents(".tile").data();
+        const field_id = $target.parents(".tile-field").attr("id");
 
         $(".form-input").each((index, element) => {
             $(element).val(tile_data[element.name]);
         });
 
+        const $metrics_opt = $("#metrics-options");
+        const $option = $(".metric-option");
+        if (field_id === "metrics") {
+            $metrics_opt.show();
+            $option.prop("disabled", false);
+        } else {
+            $metrics_opt.hide();
+            $option.prop("disabled", true);
+        }
+
         const $form = $("#input-form");
         $form.data({
             current_tile_id: tile_data.id,
-            current_field_id: $target.parents(".tile-field").attr("id"),
+            current_field_id: field_id,
             "is-edit": true
         });
 
         const $modal = $("#input-modal");
+        const uppercase_field = field_id.charAt(0).toUpperCase() + field_id.slice(1, -1);
+        $modal.find("#field-id").text(uppercase_field);
         $modal.find("#submit").text("Submit Edit");
         $modal.modal({
             backdrop: "static",
@@ -195,7 +229,8 @@ function initializeInputForm () {
         debug: true,
         rules: {
             name: "required",
-            description: "required"
+            desc: "required",
+            type: "required"
         },
         messages: { comments: "" },
         focusCleanup: true,
@@ -231,10 +266,14 @@ function initializeInputForm () {
             const attr_data = $(form_id).data();
             const data = $(form_id).serializeArray();
             const input = {};
-            data.forEach(({ name, value }) => { input[name] = value === "" ? null : value; });
 
             const { current_field_id } = attr_data;
             const table_name = current_field_id === "teams" ? "dynaslope_teams" : current_field_id;
+
+            const single_field = current_field_id.slice(0, -1);
+            data.forEach(({ name, value }) => {
+                input[`${single_field}_${name}`] = value === "" ? null : value;
+            });
 
             let obj_to_send = {};
             if ($(form_id).data("is-edit")) {
@@ -320,7 +359,13 @@ function refreshFields (field_id, prev_field_id) {
 
 function refreshUpdatedTile (current_field_id, current_tile_id, input) {
     const $updated = $(`#${current_field_id}`).find(`.tile[data-id=${current_tile_id}]`);
-    const { name, description } = input;
+    const single_field = current_field_id.slice(0, -1);
+    const _name = `${single_field}_name`;
+    const _desc = `${single_field}_desc`;
+    const {
+        [_name]: name,
+        [_desc]: description
+    } = input;
 
     $updated.data(input);
 
