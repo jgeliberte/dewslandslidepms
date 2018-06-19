@@ -124,7 +124,6 @@ function initializeTileOnClick () {
 
             FORM_VALIDATE.resetForm();
             $(".form-group").removeClass("has-error has-success has-feedback");
-            $(".form-input").prop("disabled", false);
             $form[0].reset();
 
             $modal.find("#submit").text("Submit");
