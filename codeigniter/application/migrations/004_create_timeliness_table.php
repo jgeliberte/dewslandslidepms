@@ -16,7 +16,7 @@ class Migration_create_timeliness_table extends CI_Migration {
 			"report_id" => array(
 				"type" => "INT",
 				"null" => FALSE,
-				"auto_increment" => TRUE,
+				"auto_increment" => TRUE
 			),
 			"metric_id" => array(
 				"type" => "INT"
@@ -28,7 +28,8 @@ class Migration_create_timeliness_table extends CI_Migration {
 			),
 			"report_message" => array(
 				"type" => "VARCHAR",
-				"constraint" => "500"
+				"constraint" => "500",
+				"null" => TRUE
 			)
 		);
 		// Add primary keyx
