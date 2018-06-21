@@ -16,7 +16,7 @@ class Migration_create_modules_table extends CI_Migration {
 			"module_id" => array(
 				"type" => "INT",
 				"null" => FALSE,
-				"auto_increment" => TRUE,
+				"auto_increment" => TRUE
 			),
 			"team_id" => array(
 				"type" => "INT"
