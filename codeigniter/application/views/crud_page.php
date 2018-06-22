@@ -1,5 +1,6 @@
 
 <link rel="stylesheet" type="text/css" href="/css/local/crud_page.css">
+<link rel="stylesheet" type="text/css" href="/css/local/switch.css">
 <script type="text/javascript" src="/js/crud_page.js"></script>
 
 <div id="page-wrapper">
@@ -104,25 +105,56 @@
                     <div class="modal-body">
                         <div><strong><span id="field-id">Team</span> Input</strong></div>
                         <div class="row"><hr/></div>
+                        <div class="form-group">
+                            <label class="control-label" for="name">Name</label>
+                            <input type="text" class="form-control form-input" id="name" name="name" placeholder="Name">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="desc">Description</label>
+                            <textarea row="5" maxlength="300" class="form-control form-input" id="desc" name="desc" placeholder="Description"></textarea>
+                        </div>
+                        <div id="metrics-options" hidden="hidden">
                             <div class="form-group">
-                                <label class="control-label" for="name">Name</label>
-                                <input type="text" class="form-control form-input" id="name" name="name" placeholder="Name">
+                                <label class="control-label" for="type">Metric Type</label>
+                                <select class="form-control form-input metric-option" id="type" name="type">
+                                    <option value="1">Accuracy</option>
+                                    <option value="2">Error Log</option>
+                                    <option value="3">Timeliness</option>
+                                </select>
                             </div>
+                        </div>
+                        <div id="submetrics-switch" hidden="hidden">
                             <div class="form-group">
-                                <label class="control-label" for="desc">Description</label>
-                                <textarea row="5" maxlength="300" class="form-control form-input" id="desc" name="desc" placeholder="Description"></textarea>
+                                <!-- START OF SLIDER SWITCH FOR SUBMETRICS -->
+                                <label class="control-label" for="submetrics">Submetrics</label>
+                                <label class="switch">
+                                  <input type="checkbox" id="submetrics">
+                                  <span class="slider round"></span>
+                                </label>
+                                <!-- END OF SLIDER SWITCH FOR SUBMETRICS -->
+                            </div>                            
+                        </div>
+                        <div id="submetrics-option" hidden="hidden">
+                            <div class="form-group">
+                                <label class="control-label" for="submetric-name">Table Name</label>
+                                <input type="text" class="form-control form-input" id="submetric-table-name" name="submetric-table-name" placeholder="Submetrics Table Name">
                             </div>
-                            <div id="metrics-options" hidden="hidden">
-                                <div class="form-group">
-                                    <label class="control-label" for="type">Metric Type</label>
-                                    <select class="form-control form-input metric-option" id="type" name="type">
-                                        <option value="1">Accuracy</option>
-                                        <option value="2">Error Log</option>
-                                        <option value="3">Timeliness</option>
-                                    </select>
+                            <div class="form-group" id="submetric-template" hidden="hidden">
+                                <label class="control-label" for="submetric-name">Column Name</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-input submetric-column" placeholder="Submetric Name">
+                                    <span class="input-group-btn">
+                                        <button class="remove btn btn-danger" type="button">X</button>
+                                    </span>
                                 </div>
                             </div>
-                           
+                            <div id="submetric-columns"></div>
+                            <div class="row">
+                                <div class="col-sm-12 text-right">
+                                    <button type="button" id="add-submetric" class="btn btn-info" role="button">Add Column</button>
+                                </div>
+                            </div>
+                        </div>                         
                     </div>
                     <div class="modal-footer">
                         <button id="submit" class="btn btn-danger" role="submit">Submit</button>

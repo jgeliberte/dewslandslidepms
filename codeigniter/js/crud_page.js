@@ -11,6 +11,10 @@ $(document).ready(() => {
     initializeTileOnClick();
     initializeTileExpandOnClick();
     initializeOnModalClose();
+    showSwitch();
+    showSubmetricsInput();
+    addInputField();
+    removeInputField();
 });
 
 function buildDynaslopeTeamField () {
@@ -390,3 +394,52 @@ function showErrorModal (ajax, module) {
 
     console.log(`%c► Error ${module}\n► Status ${status}: ${statusText}\n\n${responseText}`, "background: rgba(255,127,80,0.3); color: black");
 }
+
+function showSwitch () {
+    $(document).on("change", "#type", ({ currentTarget }) => {
+        const $submetrics_switch = $("#submetrics-switch");
+        const $submetrics = $("#submetrics");
+        const $submetrics_opt = $("#submetrics-option");
+        console.log(currentTarget);
+        if ($(currentTarget).find(":selected").text() === "Accuracy") {
+            $submetrics_switch.show();
+        } else {
+            $submetrics_switch.hide();
+            $submetrics.prop("checked", false);
+            $submetrics_opt.hide();
+        }
+    });
+}
+
+function showSubmetricsInput () {
+    $(document).on("click", "#submetrics", (event) => {
+        const $submetrics = $("#submetrics");
+        const $submetrics_option = $("#submetrics-option");
+
+        if ($submetrics.is(":checked") === true) {
+            $submetrics_option.show();
+            $submetrics_option.prop("disabled", false);
+        } else {
+            $submetrics_option.hide();
+            $submetrics_option.prop("disabled", true);
+        }
+    });
+}
+
+function addInputField () {
+    $("#add-submetric").click(() => {
+        const clone = $("#submetric-template").clone()
+        .prop("hidden", false);
+        $("#submetric-columns").append(clone);
+    });
+}
+
+function removeInputField () {
+    $(document).on("click", ".remove", ({ currentTarget }) => {
+        console.log(currentTarget);
+        console.log($(currentTarget).closest("input"));
+        $(currentTarget).closest("div.form-group").remove();
+        // currentTarget.remove();
+    });
+}
+// $("#submetric-columns .submetric-column").each((index, elem) => elem.value)
