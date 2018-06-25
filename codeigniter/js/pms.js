@@ -48,7 +48,14 @@ const MODAL = {
 
         $.post("http://dewslpms.com/api/insertReport", report)
         .done((result) => {
-            console.log(result);
+            let res = JSON.parse(result);
+            if (res.status == true) {
+                $.notify('Report Submitted.','success');
+                $(".modal").modal("hide");
+            } else {
+                $.notify('Failed to submit report.','error ');
+            }
+            
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);
@@ -126,9 +133,9 @@ const MODAL = {
             },
             submitHandler (form) {
                 const report = {
-                    ...data,
                     metric_name,
                     module_name,
+                    ...data,
                     type,
                     report_message: $("#report_message").val(),
                     limit: "specific"
@@ -195,7 +202,13 @@ const PMS = {
 
         $.post("http://dewslpms.com/api/insertReport", report)
         .done((result) => {
-            console.log(result);
+            let res = JSON.parse(result);
+            if (res.status == true) {
+                $.notify('Report Submitted.','success');
+                $(".modal").modal("hide");
+            } else {
+                $.notify('Failed to submit report.','error');
+            }
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);

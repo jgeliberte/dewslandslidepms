@@ -25,7 +25,7 @@ class Pms_model extends CI_Model {
 	}
 
 	public function insertErrorRateReport($report) {
-		$result = $this->db->insert("error_rate",$report);
+		$result = $this->db->insert("error_logs",$report);
 		return $result;
 	}
 
@@ -37,15 +37,15 @@ class Pms_model extends CI_Model {
 	public function getTeam($team, $limit) {
 		$this->db->select("*");
 		$this->db->from("dynaslope_teams");
-		if ($limit == "specific") {$this->db->where("name",$team);$this->db->limit(1);}
+		if ($limit == "specific") {$this->db->where("team_name",$team);$this->db->limit(1);}
 		$result = $this->db->get();
 		$raw_data = $result->result();
 		if ($limit == "specific") {
 			if (sizeOf($raw_data) > 0) {
 				$data = [
 					'team_id' => $raw_data[0]->team_id,
-					'name' => $raw_data[0]->name,
-					'description' => $raw_data[0]->description
+					'name' => $raw_data[0]->team_name,
+					'description' => $raw_data[0]->team_desc
 				];
 			} else {
 				$data = $raw_data;
@@ -59,7 +59,7 @@ class Pms_model extends CI_Model {
 	public function getModule($module, $limit) {
 		$this->db->select('*');
 		$this->db->from('modules');
-		if ($limit == "specific") {$this->db->where('name',$module);$this->db->limit(1);}
+		if ($limit == "specific") {$this->db->where('module_name',$module);$this->db->limit(1);}
 		$result = $this->db->get();
 		$raw_data = $result->result();
 		if ($limit == "specific") {
@@ -67,8 +67,8 @@ class Pms_model extends CI_Model {
 				$data = [
 					'module_id' => $raw_data[0]->module_id,
 					'team_id' => $raw_data[0]->team_id,
-					'name' => $raw_data[0]->name,
-					'description' => $raw_data[0]->description
+					'name' => $raw_data[0]->module_name,
+					'description' => $raw_data[0]->module_desc
 				];
 			} else {
 				$data = $raw_data;
@@ -82,7 +82,7 @@ class Pms_model extends CI_Model {
 	public function getMetric($metric, $limit) {
 		$this->db->select('*');
 		$this->db->from('metrics');
-		if ($limit == "specific") {$this->db->where('name', $metric);$this->db->limit(1);}
+		if ($limit == "specific") {$this->db->where('metric_name', $metric);$this->db->limit(1);}
 		$result = $this->db->get();
 		$raw_data = $result->result();
 		if ($limit == "specific") {
@@ -90,8 +90,8 @@ class Pms_model extends CI_Model {
 				$data = [
 					'metric_id' => $raw_data[0]->metric_id,
 					'module_id' => $raw_data[0]->module_id,
-					'name' => $raw_data[0]->name,
-					'description' => $raw_data[0]->description
+					'name' => $raw_data[0]->metric_name,
+					'description' => $raw_data[0]->metric_desc
 				];
 			} else {
 				$data = $raw_data;
@@ -132,7 +132,7 @@ class Pms_model extends CI_Model {
 
 	public function getErrorRateReport($report_id, $metric_id, $limit) {
 		$this->db->select('*');
-		$this->db->from('error_rate');
+		$this->db->from('error_logs');
 		if ($limit == "specific") {
 			$this->db->where('report_id', $report_id);
 			$this->db->where('metric_id', $metric_id);
@@ -215,7 +215,7 @@ class Pms_model extends CI_Model {
 	public function updateErrorRateReport($report, $id) {
 		$this->db->set($report);
 		$this->db->where('report_id',$id);
-		$result = $this->db->update('error_rate');
+		$result = $this->db->update('error_logs');
 		return $result;
 	}
 
@@ -252,7 +252,7 @@ class Pms_model extends CI_Model {
 
 	public function deleteErrorRateReport($id) {
 		$this->db->where('report_id', $id);
-		$result = $this->db->delete('error_rate');
+		$result = $this->db->delete('error_logs');
 		return $result;
 	}
 
@@ -261,15 +261,6 @@ class Pms_model extends CI_Model {
 		$result = $this->db->delete('timeliness');
 		return $result;
 	}
-
-	// $data = [
-	// 		'type' => 'accuracy',
-	// 		'team_id' => '1',
-	// 		'metric_name' => 'metric_495645986',
-	// 		'ts_data' => '2017-09-21 03:30:00',
-	// 		'report_message' => 'This is just a test No. 1',
-	// 		'limit' => 'specific'
-	// 	];
 
 	public function checkAccuracyExists($report) {
 		$metric = $this->getMetric($report['metric_name'],"specific");
