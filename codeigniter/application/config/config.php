@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // $config['base_url'] = 'http://pms/';
-$config['base_url'] = 'http://dewslpms.com/';
+$config['base_url'] = 'http://localhost:5053/';
 
 /*
 |--------------------------------------------------------------------------

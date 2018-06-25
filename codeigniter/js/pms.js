@@ -15,7 +15,7 @@ const MODAL = {
         }
 
         $.ajax({
-            url: "http://dewslpms.com/modal",
+            url: "http://localhost:5053/modal",
             type: "GET",
             contentType: "text/plain",
             xhrFields: {
@@ -46,7 +46,7 @@ const MODAL = {
         console.log("%c► PMS Modal:\nSending PMS report:", "background: rgba(255,127,80,0.3); color: black");
         console.log(report);
 
-        $.post("http://dewslpms.com/api/insertReport", report)
+        $.post("http://localhost:5053/api/insertReport", report)
         .done((result) => {
             let res = JSON.parse(result);
             if (res.status == true) {
@@ -200,7 +200,7 @@ const PMS = {
             return;
         }
 
-        $.post("http://dewslpms.com/api/insertReport", report)
+        $.post("http://localhost:5053/api/insertReport", report)
         .done((result) => {
             let res = JSON.parse(result);
             if (res.status == true) {
