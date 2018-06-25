@@ -28,7 +28,7 @@ class Modal extends CI_Controller {
 
 		$modal = $this->load->view("pms_modal/main", $data, true);
 
-		header("Access-Control-Allow-Origin: http://localhost");
+		header("Access-Control-Allow-Origin: http://localhost:5053/");
 		echo json_encode($modal);
 	}
 }
