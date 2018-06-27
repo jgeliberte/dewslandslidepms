@@ -11,7 +11,7 @@ class Api extends CI_Controller {
 		$this->load->helper('url');
 		$this->load->library('form_validation');
 
-		header("Access-Control-Allow-Origin: http://localhost:5053/");
+		header("Access-Control-Allow-Origin: http://www.dewslandslide.com:5053/");
 		header("Access-Control-Allow-Methods: GET, POST");
 	}
 
