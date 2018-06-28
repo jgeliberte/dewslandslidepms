@@ -19,7 +19,7 @@ class Api extends CI_Controller {
 		$err = "";
 		$report = $_POST;
 		$report_exists = $this->checkDuplicateReport($report);
-		if (isset($report['limit']) == false ) {$report['limit'] = "specific"}
+		if (isset($report['limit']) == false ) {$report['limit'] = "specific";}
 		if ($report_exists == false) {
 			try {
 				$report['ts_received'] = date('Y-m-d h:m:i');
