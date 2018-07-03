@@ -14,7 +14,11 @@
 	            </div>
 
 	            <div class="modal-body">
-            		<?php echo $additional_entries; ?>
+	            	<div id="accuracy-checkbox">
+	            		<?php 
+	            			if (isset($submetric_checkboxes)) echo $submetric_checkboxes;
+	            		?>
+	            	</div>
 
 	                <div class="row">
 	                	<div class="form-group col-sm-12">

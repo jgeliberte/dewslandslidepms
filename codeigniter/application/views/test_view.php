@@ -10,12 +10,12 @@
 
 <script 
 	type="text/javascript"
-	src="/js/modal.js">
+	src="/js/pms.js">
 </script>
 
 <script 
     type="text/javascript"
-    src="/js/jquery.validate.min.js">
+    src="/js/third-party/jquery.validate.min.js">
 </script>
 
 <script 
@@ -34,30 +34,48 @@
 	<title>TEST</title>
 </head>
 <body>
-
+<button id="x">xxx</button>
 </body>
 </html>
 
 <script type="text/javascript">
-    const instance = PMS_MODAL.create({
-        modal_id: "xxx",
-        metric_name: "bulletin_accuracy",
-        module_name: "Bulletin"
-    });
+    $(document).ready(() => {
+        const instance = PMS_MODAL.create({
+            modal_id: "xxx",
+            // metric_name: "bulletin_accuracy",
+            module_name: "Bulletin"
+        });
 
-    instance.set({
-        ts_data: "2017-10-10 00:00:00",
-        reference_id: 12,
-        reference_table: "public_alert_release"
+        setTimeout(() => {
+            instance.set({
+                ts_data: "2017-10-10 00:00:00",
+                reference_id: 12,
+                reference_table: "public_alert_release"
+            });
+            
+            // instance.show();
+        }, 300);
+        
+
+        console.log(instance);
+
+        const instance2 = PMS_MODAL.create({
+            modal_id: "yyy",
+            metric_name: "ewi_sms_accuracy",
+            module_name: "Chatterbox"
+        });
+
+        instance2.show();
+
+        console.log(instance2);
+
+        $("#x").click(() => {
+            instance.set({
+                metric_name: "sample_2"
+            });
+
+            instance.show();
+        });
     });
     
-    instance.show();
-
-    console.log(instance);
-
-    const instance2 = PMS_MODAL.create({
-        modal_id: "yyy",
-        metric_name: "ewi_sms_accuracy",
-        module_name: "Chatterbox"
-    });
 </script>

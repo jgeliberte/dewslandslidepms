@@ -14,9 +14,14 @@ const MODAL = {
             return;
         }
 
+        const form = {
+            metric_name: this.metric_name
+        };
+
         $.ajax({
-            url: "http://pms/modal",
+            url: "http://dewslpms.com/modal",
             type: "GET",
+            data: form,
             contentType: "text/plain",
             xhrFields: {
                 withCredentials: false
@@ -46,7 +51,7 @@ const MODAL = {
         console.log("%c► PMS Modal:\nSending PMS report:", "background: rgba(255,127,80,0.3); color: black");
         console.log(report);
 
-        $.post("http://pms/api/insertReport", report)
+        $.post("http://dewslpms.com/api/insertReport", report)
         .done((result) => {
             console.log(result);
         })
@@ -61,6 +66,25 @@ const MODAL = {
     set (data) {
         const copy = Object.assign({}, this.data);
         this.data = { ...copy, ...data };
+
+        const { metric_name } = data;
+        if (typeof metric_name !== "undefined") {
+            const url = `http://dewslpms.com/modal/getSubmetricCheckboxes/${metric_name}/1`;
+            $.ajax({
+                url,
+                type: "GET",
+                contentType: "text/plain",
+                xhrFields: {
+                    withCredentials: false
+                },
+                crossDomain: true
+            })
+            .done((x) => {
+                const html = JSON.parse(x);
+                $(`#${this.modal_id} #accuracy-checkbox`).append(html);
+            });
+        }
+
         this.__validate();
     },
 
@@ -191,7 +215,7 @@ const PMS = {
             return;
         }
 
-        $.post("http://pms/api/insertReport", report)
+        $.post("http://dewslpms.com/api/insertReport", report)
         .done((result) => {
             console.log(result);
         })
