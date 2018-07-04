@@ -54,20 +54,27 @@
             });
             
             // instance.show();
-        }, 300);
+        }, 500);
         
 
-        console.log(instance);
+        // console.log(instance);
 
-        const instance2 = PMS_MODAL.create({
-            modal_id: "yyy",
-            metric_name: "ewi_sms_accuracy",
-            module_name: "Chatterbox"
-        });
+        // const instance2 = PMS_MODAL.create({
+        //     modal_id: "yyy",
+        //     metric_name: "bulletin_accuracy",
+        //     module_name: "Bulletin"
+        // });
 
-        instance2.show();
+        // setTimeout(() => {
+        //     instance2.set({
+        //         ts_data: "2017-10-10 00:00:00",
+        //         reference_id: 12,
+        //         reference_table: "public_alert_release"
+        //     });
 
-        console.log(instance2);
+        //     instance2.show();           
+        // }, 500);
+
 
         $("#x").click(() => {
             instance.set({

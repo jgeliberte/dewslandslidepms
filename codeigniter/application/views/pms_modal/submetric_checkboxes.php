@@ -11,7 +11,7 @@
 			<div class="row">
 		<?php endif; ?>
 				<div class="form-group col-sm-4">
-					<label class="checkbox-inline"><input type="checkbox" name="<?php echo $column; ?>" value="<?php echo $column; ?>">
+					<label class="checkbox-inline"><input class="acc-checkbox" type="checkbox" name="<?php echo 'cbox[]'; //$column; ?>" value="<?php echo $column; ?>">
 						<?php
 							$labels = explode("_", $column);
 							foreach ($labels as $word) {
