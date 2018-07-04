@@ -33,7 +33,7 @@ class Input extends CI_Controller {
 		for ($i = 0; $i < count($result); $i += 1) { 
 			if (!is_null($result[$i]->submetric_id)) {
 				$columns = $this->crud_model->getSubmetricTableColumns($result[$i]->submetric_table_name);
-				$columns = array_diff($columns, array("instance_id", "reference_id"));
+				$columns = array_diff($columns, array("instance_id", "metric_ref_id"));
 				$result[$i]->submetric_columns = array_values($columns);
 			}
 		}
@@ -75,7 +75,7 @@ class Input extends CI_Controller {
 				"null" => FALSE,
 				"auto_increment" => TRUE
 			),
-			"reference_id" => array(
+			"metric_ref_id" => array(
 				"type" => "INT",
 				"null" => FALSE
 			)
