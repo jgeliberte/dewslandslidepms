@@ -9,8 +9,8 @@ def insert_module(team_name, module_name, module_description):
 	status = model.insertModule(team_name, module_name, module_description)
 	return status
 
-def insert_metric(module_name, metric_name, metric_description):
-	status = model.insertMetric(module_name, metric_name, metric_description)
+def insert_metric(module_name, metric_name, metric_description, metric_category):
+	status = model.insertMetric(module_name, metric_name, metric_description, metric_category)
 	return status
 
 def insert_team(team_name, team_description):
@@ -37,7 +37,7 @@ def insert_timeliness_report(report):
 
 def insert_error_log_report(report):
 	metric = model.getMetric(report['metric_name'])
-	
+
 	if len(metric) != 0:
 		status = model.insertErrorRate(metric['metric_id'].values[0], report['report_message'])
 	else:
