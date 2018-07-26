@@ -26,7 +26,7 @@ class TestPMSLib(unittest.TestCase):
         status = pms.insert_metric('chatterbox','new_metric'+str(random.randint(1, 9999)), 'new netric descrsiption test case No. 3','timeliness')
         self.assertTrue(status)
 
-    def insert_accuracy_report(self):
+    def test_insert_accuracy_report(self):
         report = {
             "module_name": "chatterobx",
             "metric_name":"quick_search",
@@ -37,7 +37,7 @@ class TestPMSLib(unittest.TestCase):
         status = pms.insert_accuracy_report(report)
         self.assertTrue(status)
 
-    def insert_error_log_report(self):
+    def test_insert_error_log_report(self):
         report = {
             "module_name": "chatterobx",
             "metric_name":"quick_search",
@@ -47,7 +47,7 @@ class TestPMSLib(unittest.TestCase):
         status = pms.insert_error_log_report(report)
         self.assertTrue(status)
 
-    def insert_timeliness_report(self):
+    def test_insert_timeliness_report(self):
         report = {
             "module_name": "chatterobx",
             "metric_name":"quick_search",

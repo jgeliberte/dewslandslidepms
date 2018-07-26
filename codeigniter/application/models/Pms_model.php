@@ -37,15 +37,15 @@ class Pms_model extends CI_Model {
 	public function getTeam($team, $limit) {
 		$this->db->select("*");
 		$this->db->from("dynaslope_teams");
-		if ($limit == "specific") {$this->db->where("name",$team);$this->db->limit(1);}
+		if ($limit == "specific") {$this->db->where("team_name",$team);$this->db->limit(1);}
 		$result = $this->db->get();
 		$raw_data = $result->result();
 		if ($limit == "specific") {
 			if (sizeOf($raw_data) > 0) {
 				$data = [
 					'team_id' => $raw_data[0]->team_id,
-					'name' => $raw_data[0]->name,
-					'description' => $raw_data[0]->description
+					'team_name' => $raw_data[0]->team_name,
+					'team_desc' => $raw_data[0]->team_desc
 				];
 			} else {
 				$data = $raw_data;
@@ -59,7 +59,7 @@ class Pms_model extends CI_Model {
 	public function getModule($module, $limit) {
 		$this->db->select('*');
 		$this->db->from('modules');
-		if ($limit == "specific") {$this->db->where('name',$module);$this->db->limit(1);}
+		if ($limit == "specific") {$this->db->where('module_name',$module);$this->db->limit(1);}
 		$result = $this->db->get();
 		$raw_data = $result->result();
 		if ($limit == "specific") {
@@ -67,8 +67,8 @@ class Pms_model extends CI_Model {
 				$data = [
 					'module_id' => $raw_data[0]->module_id,
 					'team_id' => $raw_data[0]->team_id,
-					'name' => $raw_data[0]->name,
-					'description' => $raw_data[0]->description
+					'module_name' => $raw_data[0]->name,
+					'module_desc' => $raw_data[0]->module_desc
 				];
 			} else {
 				$data = $raw_data;
@@ -82,7 +82,7 @@ class Pms_model extends CI_Model {
 	public function getMetric($metric, $limit) {
 		$this->db->select('*');
 		$this->db->from('metrics');
-		if ($limit == "specific") {$this->db->where('name', $metric);$this->db->limit(1);}
+		if ($limit == "specific") {$this->db->where('metric_name', $metric);$this->db->limit(1);}
 		$result = $this->db->get();
 		$raw_data = $result->result();
 		if ($limit == "specific") {
@@ -90,8 +90,8 @@ class Pms_model extends CI_Model {
 				$data = [
 					'metric_id' => $raw_data[0]->metric_id,
 					'module_id' => $raw_data[0]->module_id,
-					'name' => $raw_data[0]->name,
-					'description' => $raw_data[0]->description
+					'metric_name' => $raw_data[0]->metric_name,
+					'metric_desc' => $raw_data[0]->metric_desc
 				];
 			} else {
 				$data = $raw_data;
@@ -262,15 +262,6 @@ class Pms_model extends CI_Model {
 		return $result;
 	}
 
-	// $data = [
-	// 		'type' => 'accuracy',
-	// 		'team_id' => '1',
-	// 		'metric_name' => 'metric_495645986',
-	// 		'ts_data' => '2017-09-21 03:30:00',
-	// 		'report_message' => 'This is just a test No. 1',
-	// 		'limit' => 'specific'
-	// 	];
-
 	public function checkAccuracyExists($report) {
 		$metric = $this->getMetric($report['metric_name'],"specific");
 		if (sizeOf($metric) == 0) {
@@ -286,6 +277,26 @@ class Pms_model extends CI_Model {
 			$status = sizeOf($result->result()) > 0 ? true : false;
 		}
 		return $status;
+	}
+
+	public function checkIfSubmetricExists($metric_id) {
+		$this->db->select('*');
+		$this->db->from('submetrics');
+		$this->db->where('metric_id',$metric_id);
+		$result = $this->db->get();
+		return $result->result();
+	}
+
+	public function insertSubmetricReport($report) {
+		$submetric = [
+			"" => "",
+			"" => "",
+			"" => "",
+			"" => ""
+		];
+		$this->db->insert($report['submetrics'],$metric);
+		$result = $this->db->insert_id();
+		return $result;
 	}
 
 	public function checkErrorRateExists($report) {
