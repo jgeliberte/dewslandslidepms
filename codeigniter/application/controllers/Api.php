@@ -38,6 +38,7 @@ class Api extends CI_Controller {
 			$status = false;
 			$err = "Duplicate report.";
 		}
+
 		print json_encode($this->returnStatus($status, $err));
 		return $this->returnStatus($status, $err);
 	}
@@ -92,12 +93,13 @@ class Api extends CI_Controller {
 					'reference_id' => $report['reference_id'],
 					'reference_table' => $report['reference_table']
 					];
-				$result = $this->pms_model->insertAccuracyReport($report['metric_id']);
-				if ($result == true && sizeOf($report['submetric']) > 0) {
-					foreach ($report['submetric'] as $submetric) {
+				$result = $this->pms_model->insertAccuracyReport($report_summary);
+
+				if ($result == true && sizeOf($report['submetrics']) > 0) {
+					foreach ($report['submetrics'] as $submetric) {
 						$exists = $this->pms_model->checkIfSubmetricExists($report['metric_id']);
 						if (sizeOf($exists) > 0) {
-							$result = $this->pms_model->insertSubmetricReport($report);
+							$result = $this->pms_model->insertSubmetricReport($exists[0],$submetric);
 						}
 					}
 				}
@@ -109,11 +111,11 @@ class Api extends CI_Controller {
 					'report_message' => $report['report_message']
 					];
 				$result = $this->pms_model->insertErrorRateReport($report_summary);
-				if ($result == true && sizeOf($report['submetric']) > 0) {
-					foreach ($report['submetric'] as $submetric) {
+				if ($result == true && sizeOf($report['submetrics']) > 0) {
+					foreach ($report['submetrics'] as $submetric) {
 						$exists = $this->pms_model->checkIfSubmetricExists($report['metric_id']);
 						if (sizeOf($exists) > 0) {
-							$result = $this->pms_model->insertSubmetricReport($report);
+							$result = $this->pms_model->insertSubmetricReport($exists[0],$submetric);
 						}
 					}
 				}
@@ -125,11 +127,11 @@ class Api extends CI_Controller {
 				'execution_time' => $report['execution_time']
 				];
 				$result = $this->pms_model->insertTimelinessReport($report_summary);
-				if ($result == true && sizeOf($report['submetric']) > 0) {
-					foreach ($report['submetric'] as $submetric) {
-						$exists = $this->pms_model->checkIfSubmetricExists($submetric);
+				if ($result == true && sizeOf($report['submetrics']) > 0) {
+					foreach ($report['submetrics'] as $submetric) {
+						$exists = $this->pms_model->checkIfSubmetricExists($report['metric_id']);
 						if (sizeOf($exists) > 0) {
-							$result = $this->pms_model->insertSubmetricReport($report);
+							$result = $this->pms_model->insertSubmetricReport($exists[0],$submetric);
 						}
 					}
 				}

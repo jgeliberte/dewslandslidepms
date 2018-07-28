@@ -287,15 +287,23 @@ class Pms_model extends CI_Model {
 		return $result->result();
 	}
 
-	public function insertSubmetricReport($report) {
-		$submetric = [
-			"" => "",
-			"" => "",
-			"" => "",
-			"" => ""
-		];
-		$this->db->insert($report['submetrics'],$metric);
-		$result = $this->db->insert_id();
+	public function insertSubmetricReport($metric, $submetric) {
+		$submetric_summary = [];
+		$fields = $this->db->list_fields($metric->submetric_table_name);
+		foreach ($fields as $field) {
+			if ($field != "instance_id") {
+				if ($field == "metric_ref_id") {
+					$submetric_summary["metric_ref_id"] = $metric->metric_id;
+				} else {
+					if ($field == $submetric) {
+						$submetric_summary[$field] = 1;
+					} else {
+						$submetric_summary[$field] = 0;
+					}
+				}
+			}
+		}
+		$result = $this->db->insert($metric->submetric_table_name,$submetric_summary);
 		return $result;
 	}
 

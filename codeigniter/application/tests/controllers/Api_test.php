@@ -76,9 +76,9 @@ class Api_test extends TestCase
 			'module_name' => 'chatterbox',
 			'reference_id' => '1',
 			'reference_table' => 'smsinbox',
-			'report_message' => 'This is just a test No. 6',
+			'report_message' => 'This is just a test No. '.rand(0,99999999999),
 			'limit' => 'specific',
-			'submetrics' => ['submetrics_random']
+			'submetrics' => ['test1']
 		];
 		$output = $this->request("POST",["Api","insertReport"],$data);
 		$result = json_decode($output);
