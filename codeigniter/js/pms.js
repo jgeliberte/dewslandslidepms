@@ -50,7 +50,6 @@ const MODAL = {
         .done((result) => {
             let res = JSON.parse(result);
             if (res.status == true) {
-                $.notify('Report Submitted.','success');
                 $(".modal").modal("hide");
             } else {
                 $.notify('Failed to submit report.','error ');
