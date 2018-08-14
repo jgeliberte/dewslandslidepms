@@ -49,12 +49,9 @@ const MODAL = {
         $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
         .done((result) => {
             let res = JSON.parse(result);
-            if (res.status == true) {
-                $(".modal").modal("hide");
-            } else {
+            if (res.status !== true) {
                 $.notify('Failed to submit report.','error ');
             }
-            
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);
@@ -202,9 +199,7 @@ const PMS = {
         $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
         .done((result) => {
             let res = JSON.parse(result);
-            if (res.status == true) {
-                $(".modal").modal("hide");
-            } else {
+            if (res.status !== true) {
                 $.notify('Failed to submit report.','error');
             }
         })
