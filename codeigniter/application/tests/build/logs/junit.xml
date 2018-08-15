@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="CodeIgniter Application Test Suite" tests="1" assertions="1" failures="0" errors="0" time="0.014113">
+    <testsuite name="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" tests="1" assertions="1" failures="0" errors="0" time="0.014113">
+      <testcase name="testAccuracyReportWithSubmetrics" class="Api_test" file="/var/www/dewslandslidepms/codeigniter/application/tests/controllers/Api_test.php" line="71" assertions="1" time="0.014113"/>
+    </testsuite>
+  </testsuite>
+</testsuites>

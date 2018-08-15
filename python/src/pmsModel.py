@@ -15,7 +15,6 @@ def connectDatabase(hostdb='local'):
                 passwd = Passdb, db=Namedb)
             cur = db.cursor()
             cur.execute("use "+ Namedb)
-            print('connection success.')
             return db, cur
         except mysqlDriver.OperationalError:
             print_out('.')
@@ -40,83 +39,188 @@ def executeQuery(query, hostdb='local'):
         status = False
     return status
 
-def insertTeam(team_name, team_description):
-    query = "INSERT INTO dynaslope_teams VALUES ('0','%s','%s');" %(team_name,\
-     team_description)
-    result = executeQuery(query)
+def getMetric(metric_name):
+    query = "SELECT metric_id FROM metrics WHERE metric_name = '%s';" %metric_name
+    result = getDataFrame(query)
     return result
 
-def insertModule(team_name, module_name, module_description):
-    get_team_id_query = "SELECT * FROM dynaslope_teams WHERE team_name = '%s';"\
-     %team_name
-    team_id = getDataFrame(get_team_id_query)
+# def getModule():
 
-    query = "INSERT INTO modules VALUES ('0','%s','%s','%s');"\
-     %(team_id['team_id'].values[0], module_name, module_description)
-    result = executeQuery(query)
-    return result
 
-def insertMetric(module_name, metric_name, metric_description, metric_category):
-    get_module_id_query = "SELECT * FROM modules WHERE module_name = '%s';" %module_name
-    module_id = getDataFrame(get_module_id_query)
-    if metric_category == "accurcay":
-        metric_type = 1
-    elif metric_category == "error_log":
-        metric_type = 2
-    elif metric_category  == "timeliness":
-        metric_type = 3
+# def getTeamName():
+
+def getTableReference(table_name):
+    query = "SELECT table_id FROM table_references WHERE table_name = '%s';" %table_name
+    result = getDataFrame(query)
+    if len(result) == 0:
+        insertTableReference(table_name)
+        query = "SELECT table_id FROM table_references WHERE table_name = '%s';" %table_name
+        result = getDataFrame(query)
     else:
-        metric_type = 1
+        query = "SELECT table_id FROM table_references WHERE table_name = '%s';" %table_name
+        result = getDataFrame(query)
+    return result
 
-    query = "INSERT INTO metrics VALUES ('0','%s','%s','%s','%s');"\
-     %(module_id['module_id'].values[0], metric_name, metric_description, metric_type)
+def insertTableReference(table_name):
+    query = "INSERT INTO table_references VALUES (0,'%s');" %table_name
     result = executeQuery(query)
     return result
 
-def insertAccuracy(metric_id, ts_data, report_message):
-    # get_metric_id_query = ""
-    # result = executeQuery(get_metric_id_query)
+def insertAccuracy(report):
+    try:
+        reference_table = getTableReference(report['reference_table'])
+        reference_id = report['reference_id']
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        report_message = report['report_message']
+        query = "INSERT INTO accuracy VALUES ('0','%s','%s','%s','%s','%s');"\
+         %(metric_id, report['ts_data'], report_message, reference_id, reference_table['table_id'][0])
+        result = executeQuery(query)
+        status = result
+    except:
+        status = False
 
-    now = datetime.datetime.now()
-    query = "INSERT INTO accuracy VALUES ('0','%s','%s','%s','%s');"\
-     %(metric_id, now.strftime("%Y-%m-%d %H:%M"), ts_data, report_message)
-    result = executeQuery(query)
-    return result
+    print status
+    return status
 
-def insertTimeliness(metric_id, execution_time):
-    # get_metric_id_query = ""
-    # result = executeQuery(get_metric_id_query)
+def insertAccuracyWithSubmetric(report):
+    try:
+        report_submit = insertAccuracy(report)
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        for sub in report['submetrics']:
+            check_if_exists_query = "SELECT * FROM submetrics WHERE metric_id = '%s';" %metric_id
+            check_if_exists = getDataFrame(check_if_exists_query)
+
+            fields_query = "SHOW columns FROM %s" %check_if_exists['submetric_table_name'][0]
+            fields = getDataFrame(fields_query)
+
+            field_names = ""
+            counter = 0
+            for field in fields['Field']:
+                if field != "instance_id" and field != "metric_ref_id":
+                    if counter == 0:
+                        if field == sub:
+                            field_names = field_names + "1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + "0"
+                    else:
+                        if field == sub:
+                            field_names = field_names + ",1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + ",0"
+
+            insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
+            result = executeQuery(insert_sub_metric)
+            status = result
+
+    except:
+        status = False
+    return status
+
+
+def insertTimeliness(report):
+    reference_table = getTableReference(report['reference_table'])
+    metric_id_container = getMetric(report['metric_name'])
+    metric_id = metric_id_container['metric_id'][0]
+    report_message = report['report_message']
 
     now = datetime.datetime.now()
     query = "INSERT INTO timeliness VALUES ('0','%s','%s','%s');"\
-     %(metric_id, now.strftime("%Y-%m-%d %H:%M"), execution_time)
+     %(metric_id, now.strftime("%Y-%m-%d %H:%M"), execution_time, report_message, report['reference_id'], reference_table['table_id'][0])
     result = executeQuery(query)
     return result
 
-def insertErrorRate(metric_id, report_message):
-    get_metric_id_query = ""
-    result = executeQuery(get_metric_id_query)
+def insertTimelinessWithSubmetric(report):
+    try:
+        report_submit = insertTimeliness(report)
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        for sub in report['submetrics']:
+            check_if_exists_query = "SELECT * FROM submetrics WHERE metric_id = '%s';" %metric_id
+            check_if_exists = getDataFrame(check_if_exists_query)
 
-    now = datetime.datetime.now()
-    query = "INSERT INTO error_rate VALUES ('0','%s','%s','%s');"\
-     %(metric_id, now.strftime("%Y-%m-%d %H:%M"), report_message)
-    result = executeQuery(query)
-    return result
+            fields_query = "SHOW columns FROM %s" %check_if_exists['submetric_table_name'][0]
+            fields = getDataFrame(fields_query)
 
-def getMetric(metric_name = "", limit = "all"):
-    if limit == "all":
-        query = "SELECT * FROM metrics"
-    else:
-        query = "SELECT * FROM metrics WHERE metric_name = '%s' limit 1;"\
-         %metric_name
-    result = getDataFrame(query)
-    return result
+            field_names = ""
+            counter = 0
+            for field in fields['Field']:
+                if field != "instance_id" and field != "metric_ref_id":
+                    if counter == 0:
+                        if field == sub:
+                            field_names = field_names + "1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + "0"
+                    else:
+                        if field == sub:
+                            field_names = field_names + ",1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + ",0"
 
-def getModule(module_name = "", limit = "all"):
-    if limit == "all":
-        query = "SELECT * FROM modules"
-    else:
-        query = "SELECT * FROM modules WHERE module_name = '%s' limit 1;"\
-         %module_name
-    result = getDataFrame(query)
-    return result 
+            insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
+            result = executeQuery(insert_sub_metric)
+            status = result
+
+    except:
+        status = False
+    return status
+
+def insertErrorLog(report):
+    try:
+        reference_table = getTableReference(report['reference_table'])
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        report_message = report['report_message']
+
+        now = datetime.datetime.now()
+        query = "INSERT INTO error_rate VALUES ('0','%s','%s','%s','%s','%s');"\
+         %(metric_id, now.strftime("%Y-%m-%d %H:%M"), report_message, report['reference_id'], reference_table['table_id'][0])
+        result = executeQuery(query)
+        status = result
+    except:
+        status = False
+
+
+    return status
+
+def insertErrorLogWithSubmetric(report):
+    try:
+        report_submit = insertErrorLog(report)
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        for sub in report['submetrics']:
+            check_if_exists_query = "SELECT * FROM submetrics WHERE metric_id = '%s';" %metric_id
+            check_if_exists = getDataFrame(check_if_exists_query)
+
+            fields_query = "SHOW columns FROM %s" %check_if_exists['submetric_table_name'][0]
+            fields = getDataFrame(fields_query)
+
+            field_names = ""
+            counter = 0
+            for field in fields['Field']:
+                if field != "instance_id" and field != "metric_ref_id":
+                    if counter == 0:
+                        if field == sub:
+                            field_names = field_names + "1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + "0"
+                    else:
+                        if field == sub:
+                            field_names = field_names + ",1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + ",0"
+
+            insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
+            result = executeQuery(insert_sub_metric)
+            status = result
+
+    except:
+        status = False
+    return status
