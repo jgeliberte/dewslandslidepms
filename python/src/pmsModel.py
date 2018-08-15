@@ -126,10 +126,9 @@ def insertTimeliness(report):
     metric_id_container = getMetric(report['metric_name'])
     metric_id = metric_id_container['metric_id'][0]
     report_message = report['report_message']
-
-    now = datetime.datetime.now()
+    
     query = "INSERT INTO timeliness VALUES ('0','%s','%s','%s');"\
-     %(metric_id, now.strftime("%Y-%m-%d %H:%M"), execution_time, report_message, report['reference_id'], reference_table['table_id'][0])
+     %(metric_id, report['ts_data'], execution_time, report_message, report['reference_id'], reference_table['table_id'][0])
     result = executeQuery(query)
     return result
 
@@ -177,9 +176,8 @@ def insertErrorLog(report):
         metric_id = metric_id_container['metric_id'][0]
         report_message = report['report_message']
 
-        now = datetime.datetime.now()
-        query = "INSERT INTO error_rate VALUES ('0','%s','%s','%s','%s','%s');"\
-         %(metric_id, now.strftime("%Y-%m-%d %H:%M"), report_message, report['reference_id'], reference_table['table_id'][0])
+        query = "INSERT INTO error_logs VALUES ('0','%s','%s','%s','%s','%s');"\
+         %(metric_id, report['ts_data'], report_message, report['reference_id'], reference_table['table_id'][0])
         result = executeQuery(query)
         status = result
     except:
