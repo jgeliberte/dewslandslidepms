@@ -9,18 +9,16 @@ class TestPMSLib(unittest.TestCase):
 
     def test_insert_accuracy_report_success_with_existing_metric(self):
         report = {
-            "type": "accuracy",
-            "module_name": "chatterbox",
             "metric_name":"quick_search",
             "submetrics": [],
             "reference_id": '1',
             "reference_table": 'smsoutbox',
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "Report description for test No. 4"+str(random.randint(1,21)*5)
         }
 
         status = pms.insert_accuracy_report(report)
-        self.assertTrue(status)
+        self.assertTrue(status['status'])
 
     def test_insert_accuracy_report_success_with_existing_module(self):
         report = {
@@ -30,7 +28,7 @@ class TestPMSLib(unittest.TestCase):
             "submetrics": [],
             "reference_id": '1',
             "reference_table": 'smsoutbox',
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "Report description for test No. 4"+str(random.randint(1,21)*5)
         }
 
@@ -45,7 +43,7 @@ class TestPMSLib(unittest.TestCase):
             "submetrics": [],
             "reference_id": '1',
             "reference_table": 'smsoutbox',
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "Report description for test No. 4"+str(random.randint(1,21)*5)
         }
         status = pms.insert_accuracy_report(report)
@@ -59,7 +57,7 @@ class TestPMSLib(unittest.TestCase):
             "submetrics": [],
             "reference_id": '1',
             "reference_table": 'smsoutbox',
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "Report description for test No. 4"+str(random.randint(1,21)*5)
         }
 
@@ -74,7 +72,7 @@ class TestPMSLib(unittest.TestCase):
             "submetrics": [],
             "reference_id": '1',
             "reference_table": 'smsoutbox',
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "Report description for test No. 4"+str(random.randint(1,21)*5)
         }
 
@@ -86,7 +84,7 @@ class TestPMSLib(unittest.TestCase):
             "type": "accuracy",
             "module_name": "chatterbox",
             "metric_name":"quick_search",
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": ['test1'],
@@ -101,7 +99,7 @@ class TestPMSLib(unittest.TestCase):
             "type": "accuracy",
             "module_name": "chatterbox",
             "metric_name":"invalid_metric",
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
@@ -116,7 +114,7 @@ class TestPMSLib(unittest.TestCase):
             "type": "accuracy",
             "module_name": "chatterbox",
             "metric_name":"quick_search",
-            "ts_data":"-0",
+            "ts":"-0",
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
@@ -131,7 +129,7 @@ class TestPMSLib(unittest.TestCase):
             "type": "accuracy",
             "module_name": "hg",
             "metric_name":"sdadsadsa",
-            "ts_data":"09-09 :09:00",
+            "ts":"09-09 :09:00",
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
@@ -151,7 +149,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "Report description for test No. 5"+str(random.randint(1,21)*25)
         }
 
@@ -165,7 +163,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "Report description for test No. 5"+str(random.randint(1,21)*25)
         }
 
@@ -179,7 +177,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "UTF 8 CHARACTER"+str(random.randint(1,21)*25)
         }
 
@@ -193,7 +191,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": ['test1'],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "report_message": "Report description for test No. 5"
         }
 
@@ -205,7 +203,7 @@ class TestPMSLib(unittest.TestCase):
             "type": "error_log",
             "module_name": "chatterbox",
             "metric_name":"quick_seasdasdasdasdarch",
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
@@ -220,7 +218,7 @@ class TestPMSLib(unittest.TestCase):
             "type": "error_log",
             "module_name": "chatterbox",
             "metric_name":"quick_search",
-            "ts_data":"00",
+            "ts":"00",
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
@@ -240,11 +238,11 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "execution_time": str(random.randint(1,21)*25)
         }
 
-        status = pms.insert_error_log_report(report)
+        status = pms.insert_timeliness_report(report)
         self.assertFalse(status)
 
     def test_insert_timeliness_report_success_existing_module(self):
@@ -255,7 +253,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "execution_time": str(random.randint(1,21)*25)
         }
         
@@ -271,7 +269,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "execution_time": str(random.randint(1,21)*25)
         }
         
@@ -286,7 +284,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "execution_time": str(random.randint(1,21)*25)
         }
         
@@ -301,7 +299,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": ['test1'],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "execution_time": "100"
         }
         
@@ -316,7 +314,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "execution_time": "100"
         }
 
@@ -331,7 +329,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '1',
             "reference_table": 'smsoutbox',
             "submetrics": [],
-            "ts_data":"2019-09-09 09:09:00",
+            "ts":"2019-09-09 09:09:00",
             "execution_time": str(random.randint(1,21)*2599999999999999999999999999)
         }
 
@@ -346,7 +344,7 @@ class TestPMSLib(unittest.TestCase):
             "reference_id": '',
             "reference_table": '',
             "submetrics": [],
-            "ts_data":"",
+            "ts":"",
             "execution_time": ""
         }
 

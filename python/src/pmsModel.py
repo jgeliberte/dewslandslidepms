@@ -74,13 +74,16 @@ def insertAccuracy(report):
         metric_id = metric_id_container['metric_id'][0]
         report_message = report['report_message']
         query = "INSERT INTO accuracy VALUES ('0','%s','%s','%s','%s','%s');"\
-         %(metric_id, report['ts_data'], report_message, reference_id, reference_table['table_id'][0])
+         %(metric_id, report['ts'], report_message, reference_id, reference_table['table_id'][0])
         result = executeQuery(query)
-        status = result
-    except:
-        status = False
-
-    print status
+        status = {
+            "status": result
+        }
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics, report_message and ts is set"
+        }
     return status
 
 def insertAccuracyWithSubmetric(report):
@@ -114,23 +117,38 @@ def insertAccuracyWithSubmetric(report):
 
             insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
             result = executeQuery(insert_sub_metric)
-            status = result
+            status = {
+                "status": result
+            }
 
-    except:
-        status = False
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics, report_message and ts is set"
+        }
     return status
 
 
 def insertTimeliness(report):
-    reference_table = getTableReference(report['reference_table'])
-    metric_id_container = getMetric(report['metric_name'])
-    metric_id = metric_id_container['metric_id'][0]
-    report_message = report['report_message']
-    
-    query = "INSERT INTO timeliness VALUES ('0','%s','%s','%s');"\
-     %(metric_id, report['ts_data'], execution_time, report_message, report['reference_id'], reference_table['table_id'][0])
-    result = executeQuery(query)
-    return result
+    try:
+        reference_table = getTableReference(report['reference_table'])
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        report_message = report['report_message']
+
+        query = "INSERT INTO timeliness VALUES ('0','%s','%s','%s');"\
+         %(metric_id, report['ts'], execution_time, report_message, report['reference_id'], reference_table['table_id'][0])
+        result = executeQuery(query)
+        status = {
+            "status": result
+        }
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics, report_message and ts is set"
+        }
+
+    return status
 
 def insertTimelinessWithSubmetric(report):
     try:
@@ -163,10 +181,16 @@ def insertTimelinessWithSubmetric(report):
 
             insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
             result = executeQuery(insert_sub_metric)
-            status = result
+            
+        status = {
+            "status": result
+        }
 
-    except:
-        status = False
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics, report_message and ts is set"
+        }
     return status
 
 def insertErrorLog(report):
@@ -177,12 +201,16 @@ def insertErrorLog(report):
         report_message = report['report_message']
 
         query = "INSERT INTO error_logs VALUES ('0','%s','%s','%s','%s','%s');"\
-         %(metric_id, report['ts_data'], report_message, report['reference_id'], reference_table['table_id'][0])
+         %(metric_id, report['ts'], report_message, report['reference_id'], reference_table['table_id'][0])
         result = executeQuery(query)
-        status = result
-    except:
-        status = False
-
+        status = {
+            "status": result
+        }
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics and ts is set"
+        }
 
     return status
 
@@ -217,8 +245,14 @@ def insertErrorLogWithSubmetric(report):
 
             insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
             result = executeQuery(insert_sub_metric)
-            status = result
+            status = {
+                "status": result
+            }
 
-    except:
-        status = False
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics and ts is set"
+        }
+
     return status
