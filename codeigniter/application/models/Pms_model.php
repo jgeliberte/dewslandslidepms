@@ -44,8 +44,8 @@ class Pms_model extends CI_Model {
 			if (sizeOf($raw_data) > 0) {
 				$data = [
 					'team_id' => $raw_data[0]->team_id,
-					'name' => $raw_data[0]->team_name,
-					'description' => $raw_data[0]->team_desc
+					'team_name' => $raw_data[0]->team_name,
+					'team_desc' => $raw_data[0]->team_desc<<<<<<< 2018-s10-input_page_submetrics
 				];
 			} else {
 				$data = $raw_data;
@@ -67,8 +67,8 @@ class Pms_model extends CI_Model {
 				$data = [
 					'module_id' => $raw_data[0]->module_id,
 					'team_id' => $raw_data[0]->team_id,
-					'name' => $raw_data[0]->module_name,
-					'description' => $raw_data[0]->module_desc
+					'module_name' => $raw_data[0]->name,
+					'module_desc' => $raw_data[0]->module_desc
 				];
 			} else {
 				$data = $raw_data;
@@ -90,8 +90,8 @@ class Pms_model extends CI_Model {
 				$data = [
 					'metric_id' => $raw_data[0]->metric_id,
 					'module_id' => $raw_data[0]->module_id,
-					'name' => $raw_data[0]->metric_name,
-					'description' => $raw_data[0]->metric_desc
+					'metric_name' => $raw_data[0]->metric_name,
+					'metric_desc' => $raw_data[0]->metric_desc
 				];
 			} else {
 				$data = $raw_data;
@@ -277,6 +277,34 @@ class Pms_model extends CI_Model {
 			$status = sizeOf($result->result()) > 0 ? true : false;
 		}
 		return $status;
+	}
+
+	public function checkIfSubmetricExists($metric_id) {
+		$this->db->select('*');
+		$this->db->from('submetrics');
+		$this->db->where('metric_id',$metric_id);
+		$result = $this->db->get();
+		return $result->result();
+	}
+
+	public function insertSubmetricReport($metric, $submetric) {
+		$submetric_summary = [];
+		$fields = $this->db->list_fields($metric->submetric_table_name);
+		foreach ($fields as $field) {
+			if ($field != "instance_id") {
+				if ($field == "metric_ref_id") {
+					$submetric_summary["metric_ref_id"] = $metric->metric_id;
+				} else {
+					if ($field == $submetric) {
+						$submetric_summary[$field] = 1;
+					} else {
+						$submetric_summary[$field] = 0;
+					}
+				}
+			}
+		}
+		$result = $this->db->insert($metric->submetric_table_name,$submetric_summary);
+		return $result;
 	}
 
 	public function checkErrorRateExists($report) {

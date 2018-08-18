@@ -2,6 +2,7 @@ import pymysql as mysqlDriver
 import pandas.io.sql as psql
 import sys
 import datetime
+from pprint import pprint
 
 def connectDatabase(hostdb='local'):
     Hostdb = "localhost"
@@ -10,10 +11,10 @@ def connectDatabase(hostdb='local'):
     Namedb = "performance_monitoring"
     while True:
         try:
-            db = mysqlDriver.connect(host = Hostdb, user = Userdb, passwd = Passdb, db=Namedb)
+            db = mysqlDriver.connect(host = Hostdb, user = Userdb, 
+                passwd = Passdb, db=Namedb)
             cur = db.cursor()
             cur.execute("use "+ Namedb)
-            print('connection success.')
             return db, cur
         except mysqlDriver.OperationalError:
             print_out('.')
@@ -38,51 +39,220 @@ def executeQuery(query, hostdb='local'):
         status = False
     return status
 
-def insertTeam(team_name, team_description):
-    query = "INSERT INTO dynaslope_teams VALUES ('0','%s','%s');" %(team_name, team_description)
-    result = executeQuery(query)
-    return result
-
-def insertModule(team_id, module_name, module_description):
-    query = "INSERT INTO modules VALUES ('0','%s','%s','%s');" %(team_id, module_name, module_description)
-    result = executeQuery(query)
-    return result
-
-def insertMetric(module_id, metric_name, metric_description):
-    query = "INSERT INTO metrics VALUES ('0','%s','%s','%s');" %(module_id, metric_name, metric_description)
-    result = executeQuery(query)
-    return result
-
-def insertAccuracy(metric_id, ts_data, report_message):
-    now = datetime.datetime.now()
-    query = "INSERT INTO accuracy VALUES ('0','%s','%s','%s','%s');" %(metric_id, now.strftime("%Y-%m-%d %H:%M"), ts_data, report_message)
-    result = executeQuery(query)
-    return result
-
-def insertTimeliness(metric_id, execution_time):
-    now = datetime.datetime.now()
-    query = "INSERT INTO timeliness VALUES ('0','%s','%s','%s');" %(metric_id, now.strftime("%Y-%m-%d %H:%M"), execution_time)
-    result = executeQuery(query)
-    return result
-
-def insertErrorRate(metric_id, report_message):
-    now = datetime.datetime.now()
-    query = "INSERT INTO error_rate VALUES ('0','%s','%s','%s');" %(metric_id, now.strftime("%Y-%m-%d %H:%M"), report_message)
-    result = executeQuery(query)
-    return result
-
-def getMetric(metric_name = "", limit = "all"):
-    if limit == "all":
-        query = "SELECT * FROM metrics"
-    else:
-        query = "SELECT * FROM metrics WHERE name = '%s' limit 1;" %metric_name
+def getMetric(metric_name):
+    query = "SELECT metric_id FROM metrics WHERE metric_name = '%s';" %metric_name
     result = getDataFrame(query)
     return result
 
-def getModules(module_name = "", limit = "all"):
-    if limit == "all":
-        query = "SELECT * FROM modules"
-    else:
-        query = "SELECT * FROM modules WHERE name = '%s' limit 1;" %module_name
+# def getModule():
+
+
+# def getTeamName():
+
+def getTableReference(table_name):
+    query = "SELECT table_id FROM table_references WHERE table_name = '%s';" %table_name
     result = getDataFrame(query)
-    return result 
+    if len(result) == 0:
+        insertTableReference(table_name)
+        query = "SELECT table_id FROM table_references WHERE table_name = '%s';" %table_name
+        result = getDataFrame(query)
+    else:
+        query = "SELECT table_id FROM table_references WHERE table_name = '%s';" %table_name
+        result = getDataFrame(query)
+    return result
+
+def insertTableReference(table_name):
+    query = "INSERT INTO table_references VALUES (0,'%s');" %table_name
+    result = executeQuery(query)
+    return result
+
+def insertAccuracy(report):
+    try:
+        reference_table = getTableReference(report['reference_table'])
+        reference_id = report['reference_id']
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        report_message = report['report_message']
+        query = "INSERT INTO accuracy VALUES ('0','%s','%s','%s','%s','%s');"\
+         %(metric_id, report['ts'], report_message, reference_id, reference_table['table_id'][0])
+        result = executeQuery(query)
+        status = {
+            "status": result
+        }
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics, report_message and ts is set"
+        }
+    return status
+
+def insertAccuracyWithSubmetric(report):
+    try:
+        report_submit = insertAccuracy(report)
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        for sub in report['submetrics']:
+            check_if_exists_query = "SELECT * FROM submetrics WHERE metric_id = '%s';" %metric_id
+            check_if_exists = getDataFrame(check_if_exists_query)
+
+            fields_query = "SHOW columns FROM %s" %check_if_exists['submetric_table_name'][0]
+            fields = getDataFrame(fields_query)
+
+            field_names = ""
+            counter = 0
+            for field in fields['Field']:
+                if field != "instance_id" and field != "metric_ref_id":
+                    if counter == 0:
+                        if field == sub:
+                            field_names = field_names + "1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + "0"
+                    else:
+                        if field == sub:
+                            field_names = field_names + ",1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + ",0"
+
+            insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
+            result = executeQuery(insert_sub_metric)
+            status = {
+                "status": result
+            }
+
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics, report_message and ts is set"
+        }
+    return status
+
+
+def insertTimeliness(report):
+    try:
+        reference_table = getTableReference(report['reference_table'])
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        report_message = report['report_message']
+
+        query = "INSERT INTO timeliness VALUES ('0','%s','%s','%s');"\
+         %(metric_id, report['ts'], execution_time, report_message, report['reference_id'], reference_table['table_id'][0])
+        result = executeQuery(query)
+        status = {
+            "status": result
+        }
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics, report_message and ts is set"
+        }
+
+    return status
+
+def insertTimelinessWithSubmetric(report):
+    try:
+        report_submit = insertTimeliness(report)
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        for sub in report['submetrics']:
+            check_if_exists_query = "SELECT * FROM submetrics WHERE metric_id = '%s';" %metric_id
+            check_if_exists = getDataFrame(check_if_exists_query)
+
+            fields_query = "SHOW columns FROM %s" %check_if_exists['submetric_table_name'][0]
+            fields = getDataFrame(fields_query)
+
+            field_names = ""
+            counter = 0
+            for field in fields['Field']:
+                if field != "instance_id" and field != "metric_ref_id":
+                    if counter == 0:
+                        if field == sub:
+                            field_names = field_names + "1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + "0"
+                    else:
+                        if field == sub:
+                            field_names = field_names + ",1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + ",0"
+
+            insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
+            result = executeQuery(insert_sub_metric)
+            
+        status = {
+            "status": result
+        }
+
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics, report_message and ts is set"
+        }
+    return status
+
+def insertErrorLog(report):
+    try:
+        reference_table = getTableReference(report['reference_table'])
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        report_message = report['report_message']
+
+        query = "INSERT INTO error_logs VALUES ('0','%s','%s','%s','%s','%s');"\
+         %(metric_id, report['ts'], report_message, report['reference_id'], reference_table['table_id'][0])
+        result = executeQuery(query)
+        status = {
+            "status": result
+        }
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics and ts is set"
+        }
+
+    return status
+
+def insertErrorLogWithSubmetric(report):
+    try:
+        report_submit = insertErrorLog(report)
+        metric_id_container = getMetric(report['metric_name'])
+        metric_id = metric_id_container['metric_id'][0]
+        for sub in report['submetrics']:
+            check_if_exists_query = "SELECT * FROM submetrics WHERE metric_id = '%s';" %metric_id
+            check_if_exists = getDataFrame(check_if_exists_query)
+
+            fields_query = "SHOW columns FROM %s" %check_if_exists['submetric_table_name'][0]
+            fields = getDataFrame(fields_query)
+
+            field_names = ""
+            counter = 0
+            for field in fields['Field']:
+                if field != "instance_id" and field != "metric_ref_id":
+                    if counter == 0:
+                        if field == sub:
+                            field_names = field_names + "1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + "0"
+                    else:
+                        if field == sub:
+                            field_names = field_names + ",1"
+                            counter = counter + 1
+                        else:
+                            field_names = field_names + ",0"
+
+            insert_sub_metric = "INSERT INTO %s VALUES (0,'%s',%s)" %(check_if_exists['submetric_table_name'][0],metric_id,field_names)
+            result = executeQuery(insert_sub_metric)
+            status = {
+                "status": result
+            }
+
+    except Exception as e:
+        status = {
+            "status": False,
+            "message": str(e) + ": Please check if metric_name, reference_id, reference_table, submetrics and ts is set"
+        }
+
+    return status

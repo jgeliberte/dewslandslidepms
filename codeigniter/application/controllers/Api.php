@@ -10,7 +10,6 @@ class Api extends CI_Controller {
 		$this->load->model('pms_model');
 		$this->load->helper('url');
 		$this->load->library('form_validation');
-
 		header("Access-Control-Allow-Origin: http://www.dewslandslide.com");
 		header("Access-Control-Allow-Methods: GET, POST");
 	}
@@ -30,17 +29,6 @@ class Api extends CI_Controller {
 					$status = $this->categorizeReport($report);
 				} else {
 					$status = false;
-					// $module = $this->pms_model->getModule($report['module_name'],$report['limit']);
-					// $module_exist = sizeOf($module) > 0 ? true : false;
-					// if ($module_exist) {
-					// 	$metric_id = $this->insertMetric($module['module_id'],$report['metric_name']);
-					// 	$report['metric_id'] = $metric_id;
-					// } else {
-					// 	$metric_id = $this->insertMetric($module_id = $this->insertModule($report['team_id'],$report['module_name']),$report['metric_name']);
-					// 	$report['metric_id'] = $module_id;
-					// 	$report['module_id'] = $metric_id;
-					// }
-					// $status = $this->categorizeReport($report);
 				}
 			} catch (Exception $e) {
 				$err = $e->getMessage();
@@ -49,6 +37,7 @@ class Api extends CI_Controller {
 			$status = false;
 			$err = "Duplicate report.";
 		}
+
 		print json_encode($this->returnStatus($status, $err));
 		return $this->returnStatus($status, $err);
 	}
@@ -104,14 +93,31 @@ class Api extends CI_Controller {
 					'reference_table' => $report['reference_table']
 					];
 				$result = $this->pms_model->insertAccuracyReport($report_summary);
+
+				if ($result == true && sizeOf($report['submetrics']) > 0) {
+					foreach ($report['submetrics'] as $submetric) {
+						$exists = $this->pms_model->checkIfSubmetricExists($report['metric_id']);
+						if (sizeOf($exists) > 0) {
+							$result = $this->pms_model->insertSubmetricReport($exists[0],$submetric);
+						}
+					}
+				}
 				break;
-			case 'error_rate':
+			case 'error_log':
 				$report_summary = [
 					'metric_id' => $report['metric_id'],
-					'ts_received' => $report['ts_received'],
+					'ts_received' => $report['ts _received'],
 					'report_message' => $report['report_message']
 					];
 				$result = $this->pms_model->insertErrorRateReport($report_summary);
+				if ($result == true && sizeOf($report['submetrics']) > 0) {
+					foreach ($report['submetrics'] as $submetric) {
+						$exists = $this->pms_model->checkIfSubmetricExists($report['metric_id']);
+						if (sizeOf($exists) > 0) {
+							$result = $this->pms_model->insertSubmetricReport($exists[0],$submetric);
+						}
+					}
+				}
 				break;
 			case 'timeliness':
 				$report_summary = [
@@ -120,6 +126,14 @@ class Api extends CI_Controller {
 				'execution_time' => $report['execution_time']
 				];
 				$result = $this->pms_model->insertTimelinessReport($report_summary);
+				if ($result == true && sizeOf($report['submetrics']) > 0) {
+					foreach ($report['submetrics'] as $submetric) {
+						$exists = $this->pms_model->checkIfSubmetricExists($report['metric_id']);
+						if (sizeOf($exists) > 0) {
+							$result = $this->pms_model->insertSubmetricReport($exists[0],$submetric);
+						}
+					}
+				}
 				break;
 			default:
 				echo "Unknown category!\n\n";
@@ -164,7 +178,7 @@ class Api extends CI_Controller {
 				$result = $this->pms_model->getAccuracyReport($report_id, $metric_id , $limit);
 				break;
 
-			case 'error_rate':
+			case 'error_log':
 				$result = $this->pms_model->getErrorRateReport($report_id, $metric_id , $limit);
 				break;
 
@@ -248,7 +262,7 @@ class Api extends CI_Controller {
 					];
 					$status = $this->pms_model->updateAccuracyReport($updated_report,$report['report_id']);
 					break;
-				case 'error_rate':
+				case 'error_log':
 					$updated_report = [
 						'metric_id' => $report['metric_id'],
 						'ts_received' => $report['ts_received'],
@@ -322,7 +336,7 @@ class Api extends CI_Controller {
 			case 'accuracy':
 				$status = $this->pms_model->deleteAccuracyReport($report['report_id']);
 				break;
-			case 'error_rate':
+			case 'error_log':
 				$status = $this->pms_model->deleteErrorRateReport($report['report_id']);
 				break;
 			case 'timeliness':
@@ -352,7 +366,7 @@ class Api extends CI_Controller {
 			case 'accuracy':
 				$status = $this->pms_model->checkAccuracyExists($report);
 				break;
-			case 'error_rate':
+			case 'error_log':
 				$status = $this->pms_model->checkErrorRateExists($report);
 				break;
 			case 'timeliness':

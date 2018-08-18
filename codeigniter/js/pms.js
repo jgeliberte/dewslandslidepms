@@ -5,18 +5,29 @@ const MODAL = {
     module_name: null,
     type: "accuracy",
     is_attached: false,
-    form: null,
+    validator: null,
     data: {},
 
     __attach (modal_id = "pms_modal") {
+        $.validator.addMethod(
+            "atLeastOneChecked",
+            (value, element) => $("#accuracy-checkbox .acc-checkbox:checked").length > 0,
+            "Check at least one"
+        );
+
         if ($(`#${modal_id}`).length > 0) {
             console.log("%c► PMS Modal:\nPMS Modal ID already exists!", "background: rgba(255,127,80,0.3); color: black");
             return;
         }
 
+        const form = {
+            metric_name: this.metric_name
+        };
+
         $.ajax({
             url: "http://www.dewslandslide.com:5053/modal",
             type: "GET",
+            data: form,
             contentType: "text/plain",
             xhrFields: {
                 withCredentials: false
@@ -30,15 +41,25 @@ const MODAL = {
             $("#pms_modal").attr("id", this.modal_id);
             this.is_attached = true;
 
-            // this.__validate();
+            $.validator.addClassRules({
+                "acc-checkbox": {
+                    atLeastOneChecked: true
+                }
+            });
+
+            this.__validate();
         });
     },
 
     show () {
+        const $modal = $(`#${this.modal_id}`);
         if (this.is_attached) {
-            $(`#${this.modal_id}`).modal("show");
+            const $form = $(`#${this.modal_id} .pms-form`);
+            $form.validate().resetForm();
+            $form[0].reset();
+            $modal.modal("show");
         } else {
-            setTimeout(() => { $(`#${this.modal_id}`).modal("show"); }, 1000);
+            setTimeout(() => { $modal.modal("show"); }, 1000);
         }
     },
 
@@ -47,7 +68,7 @@ const MODAL = {
         console.log(report);
 
         $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
-        .done((result) => {
+        .done((result) => {>>>>>>> master
             let res = JSON.parse(result);
             if (res.status !== true) {
                 $.notify('Failed to submit report.','error ');
@@ -64,7 +85,41 @@ const MODAL = {
     set (data) {
         const copy = Object.assign({}, this.data);
         this.data = { ...copy, ...data };
+
+        const { metric_name } = data;
+        if (typeof metric_name !== "undefined") {
+            this.metric_name = metric_name;
+
+            const $acc_cbox = $(`#${this.modal_id} #accuracy-checkbox`);
+            if ($.trim($acc_cbox.html()).length === 0) {
+                this.__getSubmetricCheckboxes(metric_name)
+                .done((x) => {
+                    const html = JSON.parse(x);
+                    $acc_cbox.append(html);
+
+                    $.validator.addClassRules({
+                        "acc-checkbox": {
+                            atLeastOneChecked: true
+                        }
+                    });
+                });
+            }
+        }
+
         this.__validate();
+    },
+
+    __getSubmetricCheckboxes (metric_name) {
+        const url = `http://dewslpms.com/modal/getSubmetricCheckboxes/${metric_name}/1`;
+        return $.ajax({
+            url,
+            type: "GET",
+            contentType: "text/plain",
+            xhrFields: {
+                withCredentials: false
+            },
+            crossDomain: true
+        });
     },
 
     print () {
@@ -79,7 +134,8 @@ const MODAL = {
             module_name, type, data
         } = this;
 
-        this.form = $(`#${modal_id} .pms-form`).validate({
+        if (this.validator !== null) this.validator.destroy();
+        this.validator = $(`#${modal_id} .pms-form`).validate({
             debug: true,
             rules: {
                 report_message: "required"
@@ -128,12 +184,18 @@ const MODAL = {
                 } else $(element).next("span").addClass("glyphicon-ok").removeClass("glyphicon-remove");
             },
             submitHandler (form) {
+                const submetrics = [];
+                $(form).find("#accuracy-checkbox .acc-checkbox:checked").each((i, elem) => {
+                    submetrics.push(elem.value);
+                });
+
                 const report = {
                     metric_name,
                     module_name,
                     ...data,
                     type,
-                    report_message: $("#report_message").val(),
+                    report_message: $(form).find("#report_message").val(),
+                    submetrics,
                     limit: "specific"
                 };
 
