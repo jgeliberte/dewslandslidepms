@@ -25,7 +25,7 @@ class Pms_model extends CI_Model {
 	}
 
 	public function insertErrorRateReport($report) {
-		$result = $this->db->insert("error_rate",$report);
+		$result = $this->db->insert("error_logs",$report);
 		return $result;
 	}
 
@@ -45,7 +45,7 @@ class Pms_model extends CI_Model {
 				$data = [
 					'team_id' => $raw_data[0]->team_id,
 					'team_name' => $raw_data[0]->team_name,
-					'team_desc' => $raw_data[0]->team_desc
+					'team_desc' => $raw_data[0]->team_desc<<<<<<< 2018-s10-input_page_submetrics
 				];
 			} else {
 				$data = $raw_data;
@@ -132,7 +132,7 @@ class Pms_model extends CI_Model {
 
 	public function getErrorRateReport($report_id, $metric_id, $limit) {
 		$this->db->select('*');
-		$this->db->from('error_rate');
+		$this->db->from('error_logs');
 		if ($limit == "specific") {
 			$this->db->where('report_id', $report_id);
 			$this->db->where('metric_id', $metric_id);
@@ -215,7 +215,7 @@ class Pms_model extends CI_Model {
 	public function updateErrorRateReport($report, $id) {
 		$this->db->set($report);
 		$this->db->where('report_id',$id);
-		$result = $this->db->update('error_rate');
+		$result = $this->db->update('error_logs');
 		return $result;
 	}
 
@@ -252,7 +252,7 @@ class Pms_model extends CI_Model {
 
 	public function deleteErrorRateReport($id) {
 		$this->db->where('report_id', $id);
-		$result = $this->db->delete('error_rate');
+		$result = $this->db->delete('error_logs');
 		return $result;
 	}
 

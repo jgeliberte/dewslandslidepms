@@ -25,7 +25,7 @@ const MODAL = {
         };
 
         $.ajax({
-            url: "http://dewslpms.com/modal",
+            url: "http://www.dewslandslide.com:5053/modal",
             type: "GET",
             data: form,
             contentType: "text/plain",
@@ -67,9 +67,12 @@ const MODAL = {
         console.log("%c► PMS Modal:\nSending PMS report:", "background: rgba(255,127,80,0.3); color: black");
         console.log(report);
 
-        $.post("http://dewslpms.com/api/insertReport", report)
-        .done((result) => {
-            console.log(result);
+        $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
+        .done((result) => {>>>>>>> master
+            let res = JSON.parse(result);
+            if (res.status !== true) {
+                $.notify('Failed to submit report.','error ');
+            }
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);
@@ -187,9 +190,9 @@ const MODAL = {
                 });
 
                 const report = {
-                    ...data,
                     metric_name,
                     module_name,
+                    ...data,
                     type,
                     report_message: $(form).find("#report_message").val(),
                     submetrics,
@@ -220,15 +223,17 @@ const PMS = {
             throw new Error(`Type "${type}" is not valid: use either "accuracy", "timeliness", or "error_logs"`);
         }
 
-        const payload = ["metric_name", "module_name", "report_message"];
-
+        const payload = ["metric_name", "module_name"];
         switch (type) {
             default: break;
             case "accuracy":
-                payload.push("reference_id", "reference_table");
+                payload.push("reference_id", "reference_table", "report_message");
                 break;
             case "timeliness":
                 payload.push("execution_time");
+                break;
+            case "error_logs":
+                payload.push("report_message");
                 break;
         }
 
@@ -253,9 +258,12 @@ const PMS = {
             return;
         }
 
-        $.post("http://dewslpms.com/api/insertReport", report)
+        $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
         .done((result) => {
-            console.log(result);
+            let res = JSON.parse(result);
+            if (res.status !== true) {
+                $.notify('Failed to submit report.','error');
+            }
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);
