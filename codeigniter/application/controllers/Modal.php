@@ -17,11 +17,21 @@ class Modal extends CI_Controller {
 
 		if (!is_null($metric_name)) {
 			$data["submetric_checkboxes"] = $this->getSubmetricCheckboxes($metric_name);
+    }
+    
+		if ($page === "bulletin") {
+			$additional = $this->load->view("pms_modal/bulletin_entries", $data, true);
+		} else if ($page === "ewi_sms") {
+			$additional = $this->load->view("pms_modal/ewi_sms_entries", $data, true);
+		} else if ($page === "chatterbox") {
+			$additional = $this->load->view("pms_modal/chatterbox_entries", $data, true);
+		} else {
+			$additional = "";
 		}
 
 		$modal = $this->load->view("pms_modal/main", $data, true);
 
-		header("Access-Control-Allow-Origin: http://localhost");
+		header("Access-Control-Allow-Origin: http://www.dewslandslide.com");
 		echo json_encode($modal);
 	}
 

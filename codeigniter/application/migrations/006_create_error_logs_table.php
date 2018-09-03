@@ -16,7 +16,7 @@ class Migration_create_error_logs_table extends CI_Migration {
 			"report_id" => array(
 				"type" => "INT",
 				"null" => FALSE,
-				"auto_increment" => TRUE,
+				"auto_increment" => TRUE
 			),
 			"metric_id" => array(
 				"type" => "INT"
