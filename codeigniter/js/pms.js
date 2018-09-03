@@ -25,7 +25,7 @@ const MODAL = {
         };
 
         $.ajax({
-            url: "http://dewslpms.com/modal",
+            url: "http://192.168.150.76/modal",
             type: "GET",
             data: form,
             contentType: "text/plain",
@@ -67,7 +67,7 @@ const MODAL = {
         console.log("%c► PMS Modal:\nSending PMS report:", "background: rgba(255,127,80,0.3); color: black");
         console.log(report);
 
-        $.post("http://dewslpms.com/api/insertReport", report)
+        $.post("http://192.168.150.76/api/insertReport", report)
         .done((result) => {
             console.log(result);
         })
@@ -107,7 +107,7 @@ const MODAL = {
     },
 
     __getSubmetricCheckboxes (metric_name) {
-        const url = `http://dewslpms.com/modal/getSubmetricCheckboxes/${metric_name}/1`;
+        const url = `http://192.168.150.76/modal/getSubmetricCheckboxes/${metric_name}/1`;
         return $.ajax({
             url,
             type: "GET",
@@ -253,7 +253,7 @@ const PMS = {
             return;
         }
 
-        $.post("http://dewslpms.com/api/insertReport", report)
+        $.post("http://192.168.150.76/api/insertReport", report)
         .done((result) => {
             console.log(result);
         })
