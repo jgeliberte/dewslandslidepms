@@ -25,7 +25,11 @@ const MODAL = {
         };
 
         $.ajax({
-            url: "http://dewslpms.com/modal",
+<<<<<<< HEAD
+            url: "http://192.168.150.76/modal",
+=======
+            url: "http://www.dewslandslide.com:5053/modal",
+>>>>>>> 008a9f91a848a7bc1c1c6384b2a925476d39e660
             type: "GET",
             data: form,
             contentType: "text/plain",
@@ -67,9 +71,18 @@ const MODAL = {
         console.log("%c► PMS Modal:\nSending PMS report:", "background: rgba(255,127,80,0.3); color: black");
         console.log(report);
 
-        $.post("http://dewslpms.com/api/insertReport", report)
+<<<<<<< HEAD
+        $.post("http://192.168.150.76/api/insertReport", report)
         .done((result) => {
             console.log(result);
+=======
+        $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
+        .done((result) => {>>>>>>> master
+            let res = JSON.parse(result);
+            if (res.status !== true) {
+                $.notify('Failed to submit report.','error ');
+            }
+>>>>>>> 008a9f91a848a7bc1c1c6384b2a925476d39e660
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);
@@ -107,7 +120,7 @@ const MODAL = {
     },
 
     __getSubmetricCheckboxes (metric_name) {
-        const url = `http://dewslpms.com/modal/getSubmetricCheckboxes/${metric_name}/1`;
+        const url = `http://192.168.150.76/modal/getSubmetricCheckboxes/${metric_name}/1`;
         return $.ajax({
             url,
             type: "GET",
@@ -187,9 +200,9 @@ const MODAL = {
                 });
 
                 const report = {
-                    ...data,
                     metric_name,
                     module_name,
+                    ...data,
                     type,
                     report_message: $(form).find("#report_message").val(),
                     submetrics,
@@ -220,15 +233,17 @@ const PMS = {
             throw new Error(`Type "${type}" is not valid: use either "accuracy", "timeliness", or "error_logs"`);
         }
 
-        const payload = ["metric_name", "module_name", "report_message"];
-
+        const payload = ["metric_name", "module_name"];
         switch (type) {
             default: break;
             case "accuracy":
-                payload.push("reference_id", "reference_table");
+                payload.push("reference_id", "reference_table", "report_message");
                 break;
             case "timeliness":
                 payload.push("execution_time");
+                break;
+            case "error_logs":
+                payload.push("report_message");
                 break;
         }
 
@@ -253,9 +268,16 @@ const PMS = {
             return;
         }
 
-        $.post("http://dewslpms.com/api/insertReport", report)
+<<<<<<< HEAD
+        $.post("http://192.168.150.76/api/insertReport", report)
+=======
+        $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
+>>>>>>> 008a9f91a848a7bc1c1c6384b2a925476d39e660
         .done((result) => {
-            console.log(result);
+            let res = JSON.parse(result);
+            if (res.status !== true) {
+                $.notify('Failed to submit report.','error');
+            }
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);

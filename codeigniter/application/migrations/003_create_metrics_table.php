@@ -16,7 +16,7 @@ class Migration_create_metrics_table extends CI_Migration {
 			"metric_id" => array(
 				"type" => "INT",
 				"null" => FALSE,
-				"auto_increment" => TRUE,
+				"auto_increment" => TRUE
 			),
 			"module_id" => array(
 				"type" => "INT"

@@ -136,6 +136,10 @@ function initializeTileOnClick () {
             const uppercase_field = field_id.charAt(0).toUpperCase() + field_id.slice(1, -1);
             $modal.find("#field-id").text(uppercase_field);
 
+            FORM_VALIDATE.resetForm();
+            $(".form-group").removeClass("has-error has-success has-feedback");
+            $form[0].reset();
+          
             $modal.find("#submit").text("Submit");
             $modal.modal({
                 backdrop: "static",
