@@ -25,11 +25,7 @@ const MODAL = {
         };
 
         $.ajax({
-<<<<<<< HEAD
             url: "http://192.168.150.76/modal",
-=======
-            url: "http://www.dewslandslide.com:5053/modal",
->>>>>>> 008a9f91a848a7bc1c1c6384b2a925476d39e660
             type: "GET",
             data: form,
             contentType: "text/plain",
@@ -71,18 +67,9 @@ const MODAL = {
         console.log("%c► PMS Modal:\nSending PMS report:", "background: rgba(255,127,80,0.3); color: black");
         console.log(report);
 
-<<<<<<< HEAD
         $.post("http://192.168.150.76/api/insertReport", report)
         .done((result) => {
             console.log(result);
-=======
-        $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
-        .done((result) => {>>>>>>> master
-            let res = JSON.parse(result);
-            if (res.status !== true) {
-                $.notify('Failed to submit report.','error ');
-            }
->>>>>>> 008a9f91a848a7bc1c1c6384b2a925476d39e660
         })
         .catch(({ responseText, status: conn_status, statusText }) => {
             alert(`Status ${conn_status}: ${statusText}`);
@@ -268,11 +255,7 @@ const PMS = {
             return;
         }
 
-<<<<<<< HEAD
         $.post("http://192.168.150.76/api/insertReport", report)
-=======
-        $.post("http://www.dewslandslide.com:5053/api/insertReport", report)
->>>>>>> 008a9f91a848a7bc1c1c6384b2a925476d39e660
         .done((result) => {
             let res = JSON.parse(result);
             if (res.status !== true) {
