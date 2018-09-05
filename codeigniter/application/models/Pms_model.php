@@ -45,7 +45,7 @@ class Pms_model extends CI_Model {
 				$data = [
 					'team_id' => $raw_data[0]->team_id,
 					'team_name' => $raw_data[0]->team_name,
-					'team_desc' => $raw_data[0]->team_desc<<<<<<< 2018-s10-input_page_submetrics
+					'team_desc' => $raw_data[0]->team_desc
 				];
 			} else {
 				$data = $raw_data;
