@@ -2,7 +2,7 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Migration_modify_accuracy_table extends CI_Migration {
+class Migration_modify_accuracy_2_table extends CI_Migration {
 
 	/**
 	 * Name of the table to be used in this migration!
