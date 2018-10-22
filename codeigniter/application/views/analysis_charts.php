@@ -29,11 +29,7 @@
                 </div>
             </div>
             <div class="col-sm-3">
-            	<div>Select a metric to view...</div>
-            	<select class="form-control" id="selection-area">
-            		<option value="bulletin">Bulletin</option>
-					<option value="ewi">EWI</option>
-            	</select>
+            	<div><?php echo $options_bar ?></div>
             </div>
             <div class="col-sm-9" id="chart-container">
         </div>
