@@ -34,7 +34,8 @@
             $links = array(
                 array('link_uri' => '', 'link_name' => 'DASHBOARD'),
                 array('link_uri' => 'input', 'link_name' => 'INPUT PAGE'),
-                array('link_uri' => 'faq', 'link_name' => 'FAQ')
+                array('link_uri' => 'faq', 'link_name' => 'FAQ'),
+                array('link_uri' => 'analysis_charts', 'link_name' => 'ANALYSIS CHARTS')
             );
 
             foreach ($links as $link) 
