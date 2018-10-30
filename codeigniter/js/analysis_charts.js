@@ -1,9 +1,7 @@
 
-let SERIES_ARR = [$("metric-selection").val()];
 let TEAM_METRICS = [];
 
 $(document).ready(() => {
-    getTimelinessInfo();
     initializeTeamNameOnChange();
     initializeModuleNameOnChange();
     initializeMetricNameOnChange();
@@ -18,8 +16,23 @@ $(document).ready(() => {
             $("#team_name").append(`<option value="${team_id}">${team_name}</option>`);
         });
     });
-    getSeriesData($("#metric_name").val());
 });
+
+function getTimelinessInfo () {
+    return $.getJSON("/Analysis_charts/getTimelinessResult");
+}
+
+function getAccuracyInfo () {
+    return $.getJSON("/Analysis_charts/getAccuracyResult");
+}
+
+function getErrorInfo () {
+    return $.getJSON("/Analysis_charts/getErrorLogsResult");
+}
+
+function getTeamMetrics () {
+    return $.getJSON("/Analysis_charts/getTeamMetrics");
+}
 
 function getAllTeamNames (attr) {
     const flags = {};
@@ -48,8 +61,9 @@ function initializeModuleNameOnChange () {
         const $metric_input = $("#metric_name");
         $metric_input.find("option").not("[value='']").remove();
         const metric_names = getMetricNames(module_id);
-        metric_names.forEach(({ metric_name }) => {
-            $metric_input.append(`<option value="${metric_name}">${metric_name}</option>`);
+        metric_names.forEach(({ metric_name, metric_type, metric_id }) => {
+            $metric_input.append(`<option id="${metric_id}" value="${metric_name}" 
+                data-metric-type="${metric_type}">${metric_name}</option>`);
         });
     });
 }
@@ -57,7 +71,8 @@ function initializeModuleNameOnChange () {
 function initializeMetricNameOnChange () {
     $("#metric_name").change(({ currentTarget: { value: metric } }) => {
         const metric_name = metric === "" ? "" : metric;
-        getSeriesData(metric_name);
+        const metric_type = $("#metric_name").find(":selected").data("metric-type");
+        getSeriesData(metric_name, metric_type);
     });
 }
 
@@ -78,8 +93,12 @@ function getModuleNames (team_id) {
 function getMetricNames (module_id) {
     const flags = {};
     const metric_names = TEAM_METRICS.filter((entry, index, self) => {
-        const { metric_module_id: metric, metric_name, metric_type } = entry;
-        if (metric === module_id && metric_type == 3) {
+        const {
+            metric_module_id: metric, metric_name,
+            metric_id, metric_type
+        } = entry;
+
+        if (metric === module_id) {
             if (flags[metric_name]) return false;
             flags[metric_name] = true;
             return true;
@@ -89,55 +108,106 @@ function getMetricNames (module_id) {
     return metric_names;
 }
 
-function getTimelinessInfo () {
-    return $.getJSON("/Analysis_charts/getTimelinessResult");
-}
+function getSeriesData (metric_name, metric_type) {
+    const SERIES_ARR = [];
 
-// function initializeSelectOnChange () {
-//     $("#metric-selection").change(({ currentTarget: { value: metric } }) => {
-//         const metric_name = metric === "all" ? "all" : metric;
-//         getSeriesData(metric_name);
-//     });
-// }
+    let LOOKUP = [
+        ["scatter", "Accuracy Plot", "Percent Accuracy", metric_name, "%"],
+        ["scatter", "Error Logs Plot", "Error Instances", metric_name, ""],
+        ["scatter", "Timeliness Plot", "Execution Time", metric_name, " mins."]
+    ];
 
-function getTeamMetrics () {
-    return $.getJSON("/Analysis_charts/getTeamMetrics");
-}
-
-function getSeriesData (metric_name) {
-    SERIES_ARR = [];
     getTimelinessInfo().done((data) => {
-        Object.entries(data[0]).forEach((timeliness_data) => {
-            if (metric_name === timeliness_data[0]) {
-                console.log(timeliness_data[0]);
-                const series_data = {
-                    name: timeliness_data[0].toUpperCase(),
-                    data: timeliness_data[1]
-                };
-                SERIES_ARR.push(series_data);
-            } else if (metric_name === "") {
-                const series_data_all = {
-                    name: timeliness_data[0].toUpperCase(),
-                    data: timeliness_data[1]
-                };
-                SERIES_ARR.push(series_data_all);
-            }
+        getAccuracyInfo().done((data2) => {
+            getErrorInfo().done((data3) => {
+                let data_source;
+                switch (metric_type) {
+                    case 1:
+                        data_source = data2;
+                        LOOKUP.splice(1, 2);
+                        break;
+                    case 2:
+                        data_source = data3;
+                        LOOKUP = LOOKUP.slice(1, -1);
+                        break;
+                    case 3:
+                        data_source = data;
+                        LOOKUP.splice(0, 2);
+                        break;
+                    default: data_source = ""; break;
+                }
+
+                Object.entries(data_source[0]).forEach(([results, info]) => {
+                    const series_data = {
+                        name: results.toUpperCase(),
+                        data: []
+                    };
+                    if (metric_name === results) {
+                        info.forEach((datum) => {
+                            const chart_data = [datum.ts_received, datum.value];
+                            series_data.data.push(chart_data);
+                        });
+                        SERIES_ARR.push(series_data);
+                    }
+                });
+                plotMetricChart(SERIES_ARR, LOOKUP[0]);
+                plotMetricTable(data_source, metric_name, LOOKUP[0]);
+            });
         });
-        plotTimeliness(SERIES_ARR);
     });
 }
 
-function plotTimeliness (series_array) {
+function plotMetricTable (data_source, metric_name, lookup) {
+    $("#metric-table").DataTable().clear().destroy();
+    $("#metric-table").prop("hidden", false);
+    $("#metric-value").text(lookup[2]);
+    Object.entries(data_source[0]).forEach(([results, data]) => {
+        data.forEach((result) => {
+            if (metric_name === results) {
+                const table_row = $("#row-template").clone().removeAttr("id").prop("hidden", false);
+                const {
+                    ts_received, value, report_id, report_message,
+                    reference_id, reference_table
+                } = result;
+
+                const lookup_array = [
+                    ["#report-id", report_id],
+                    ["#ts-received", moment(ts_received).format("YYYY-MM-DD H:mm:ss")],
+                    ["#value", value],
+                    ["#report-message", report_message],
+                    ["#reference-id", reference_id],
+                    ["#reference-table", reference_table]
+                ];
+                lookup_array.forEach(([element, text]) => {
+                    table_row.find(element).text(text);
+                });
+                $("#metric-table-body").append(table_row);
+            }
+        });
+    });
+    $("#metric-table").DataTable({
+        "order": [[1, "desc"]],
+        "columnDefs": [{"width": "20%", "targets": [3, 4, 5]}],
+    });
+}
+
+function plotMetricChart (series_array, chart_details) {
+    Highcharts.setOptions({
+        time: {
+            useUTC: false
+        }
+    });
+
     Highcharts.chart("chart-container", {
         chart: {
-            type: "scatter",
+            type: chart_details[0],
             zoomType: "xy"
         },
         title: {
-            text: "Timeliness Chart"
+            text: chart_details[1]
         },
         subtitle: {
-            text: "Bulletin and EWI"
+            text: chart_details[3].toUpperCase()
         },
         xAxis: {
             title: {
@@ -145,7 +215,7 @@ function plotTimeliness (series_array) {
                 text: "Date Received"
             },
             labels: {
-                format: "{value:%Y-%b-%e}"
+                format: "{value:%Y-%b-%e %H:%m:%S}"
             },
             startOnTick: true,
             endOnTick: true,
@@ -153,19 +223,9 @@ function plotTimeliness (series_array) {
         },
         yAxis: {
             title: {
-                text: "Execution Time"
+                text: chart_details[2]
             }
         },
-        // legend: {
-        //     layout: "vertical",
-        //     align: "left",
-        //     verticalAlign: "top",
-        //     x: 500,
-        //     y: 70,
-        //     floating: true,
-        //     backgroundColor: "#FFFFFF",
-        //     borderWidth: 1
-        // },
         plotOptions: {
             scatter: {
                 marker: {
@@ -186,10 +246,20 @@ function plotTimeliness (series_array) {
                 },
                 tooltip: {
                     headerFormat: "<b>{series.name}</b><br>",
-                    pointFormat: "Received: {point.x:%Y-%b-%e}<br>Execution Time: {point.y}"
+                    pointFormat: `Received: {point.x:%Y-%b-%e %H:%M:%S}<br>${chart_details[2]}: {point.y}${chart_details[4]}`
                 }
             }
         },
-        series: series_array
+        series: series_array,
+        lang: {
+            noData: "No data available"
+        },
+        noData: {
+            style: {
+                fontWeight: "bold",
+                fontSize: "15px",
+                color: "#303030"
+            }
+        }
     });
 }

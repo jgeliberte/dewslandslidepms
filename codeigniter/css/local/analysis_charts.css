@@ -1,0 +1,8 @@
+.table-striped>tbody>tr:nth-child(odd)>td, 
+.table-striped>tbody>tr:nth-child(odd)>th {
+   background-color: rgba(248, 153, 29, 0.5);
+ }
+
+ thead#header {
+ 	color:rgba(23, 82, 109); 
+ }
