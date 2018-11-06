@@ -83,6 +83,7 @@ class Api extends CI_Controller {
 	}
 
 	public function categorizeReport($report) {
+		$table_id = $this->getTableReference($report['reference_table']);
 		switch ($report['type']) {
 			case 'accuracy':
 				$report_summary = [
@@ -90,7 +91,7 @@ class Api extends CI_Controller {
 					'ts_received' => $report['ts_received'],
 					'report_message' => $report['report_message'],
 					'reference_id' => $report['reference_id'],
-					'reference_table' => $report['reference_table']
+					'reference_table' => $table_id
 					];
 				$result = $this->pms_model->insertAccuracyReport($report_summary);
 
@@ -123,7 +124,9 @@ class Api extends CI_Controller {
 				$report_summary = [
 				'metric_id' => $report['metric_id'],
 				'ts_received' => $report['ts_received'],
-				'execution_time' => $report['execution_time']
+				'execution_time' => $report['execution_time'],
+				'reference_id' => $report['reference_id'],
+				'reference_table' => $table_id
 				];
 				$result = $this->pms_model->insertTimelinessReport($report_summary);
 				if ($result == true && sizeOf($report['submetrics']) > 0) {
@@ -377,6 +380,21 @@ class Api extends CI_Controller {
 				break;
 		}
 		return $status;
+	}
+
+	public function getTableReference($table_name) {
+		$table_id = $this->pms_model->getTableReference($table_name);
+		if (sizeOf($table_id) == 0) {
+			$table_id = $this->insertTableReference($table_name);
+		}
+		return $table_id[0]->table_id;
+	}
+
+	public function insertTableReference($table_name) {
+		$data = [
+			"table_name" => $table_name
+		];
+		$result = $this->pms_model->insertTableReference($data);
 	}
 }
 

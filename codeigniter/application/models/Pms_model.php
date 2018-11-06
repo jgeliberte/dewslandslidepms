@@ -30,6 +30,7 @@ class Pms_model extends CI_Model {
 	}
 
 	public function insertTimelinessReport($report) {
+		print_r($report);
 		$result = $this->db->insert("timeliness",$report);
 		return $result;
 	}
@@ -313,6 +314,19 @@ class Pms_model extends CI_Model {
 
 	public function checkTimelinessExists($report) {
 
+	}
+
+	public function getTableReference($table_name) {
+		$this->db->select('*');
+		$this->db->from('table_references');
+		$this->db->where('table_name',$table_name);
+		$result = $this->db->get();
+		return $result->result();
+	}
+
+	public function insertTableReference($table_name) {
+		$result = $this->db->insert("table_references",$table_name);
+		return $result;
 	}
 }
 
