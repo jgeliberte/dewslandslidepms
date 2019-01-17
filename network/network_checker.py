@@ -57,20 +57,24 @@ def QueryProcess(data):
               "`rrt_min`, `rrt_avg`) VALUES ('%s)"% input_responces)
     return query
 
-def NetworkChecker(ip_add, number=60):
+
+def NetworkChecker(ip_add, number=30000):
     p = pings.Ping(quiet=False)
     response = p.ping(ip_add, times=number)
     network_response = response.to_dict()
     network_status = response.is_reached()
     output = {"response":network_response, "status":network_status, 'ip':ip_add}
     query = QueryProcess(output)
-    DbWrite(query)
-    return output
+    message = response.messages[1].find("ICMP")
+    if message == -1:
+       DbWrite(query)
+       return response.messages
+    
 
 if __name__ == '__main__':
     ip_add = sys.argv[1]
-    number = sys.argv[2]
+#    number = sys.argv[2]
     
     while True:
-        print (NetworkChecker(ip_add, number))
+        print (NetworkChecker(ip_add))
     
