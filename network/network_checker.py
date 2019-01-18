@@ -1,7 +1,12 @@
 import sys
 import pings
 import MySQLdb
-from datetime import datetime
+from datetime import datetime, timedelta
+
+
+def date_diff_in_Seconds(dt2, dt1):
+  timedelta = dt2 - dt1
+  return timedelta.days * 24 * 3600 + timedelta.seconds * 1000
 
 
 def DbConnect():
@@ -42,39 +47,74 @@ def DbWrite(query):
         return ret_val
     
 
-def QueryProcess(data):
+def QueryProcess(ip_info, ts_info):
+    print(ts_info)
     timestamp = '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.now())
-    ip_address = str(data["ip"])
-    status = str(data["status"])
-    rtt_min = str(data["response"]["min_rtt"])
-    rtt_max = str(data["response"]["max_rtt"])
-    rtt_avg = str(data["response"]["avg_rtt"])
+    ip_address = str(ip_info["output"]["ip"])
+    status = str(ip_info["output"]["status"])
+    from_ts = str(ts_info["from_timestamp"])
+    to_ts = str(ts_info["to_timestamp"])
+    diff_ts = str(ts_info["diff_timestamp"])
     input_responces = str(ip_address +"','" + timestamp + "','" + status + 
-                      "','"+ rtt_min + "','" + rtt_max + "','" + rtt_avg + "'" )
+                      "','"+ from_ts + "','" + to_ts + "','" + diff_ts + "'" )
     
     query =  ("INSERT IGNORE INTO performance_monitoring.network_logs "+
-              "(`ip_address`, `timestamp`, `status`, `rtt_max`, "+
-              "`rrt_min`, `rrt_avg`) VALUES ('%s)"% input_responces)
+              "(`ip_address`, `timestamp`, `status`, `from_timestamp`, "+
+              "`to_timestamp`, `ts_difference`) VALUES ('%s)"% input_responces)
     return query
 
 
-def NetworkChecker(ip_add, number=30000):
-    p = pings.Ping(quiet=False)
+def ProcessInfo(time_array,ip_info):
+    total_ts = date_diff_in_Seconds(time_array[-1], time_array[0])
+    ts_info = ({'from_timestamp':time_array[0], 'to_timestamp':time_array[-1], 
+                                'diff_timestamp':total_ts})
+    print ("total time from " + str(time_array[-1]) +" to "
+             + str(time_array[0]) +" = "+ str(total_ts) )
+    
+    query = QueryProcess(ip_info, ts_info)
+    DbWrite(query)
+
+
+
+def NetworkChecker(ip_add, number=1):
+    p = pings.Ping(quiet=True)
     response = p.ping(ip_add, times=number)
-    network_response = response.to_dict()
     network_status = response.is_reached()
-    output = {"response":network_response, "status":network_status, 'ip':ip_add}
-    query = QueryProcess(output)
+    output = {"status":network_status, "ip":ip_add}
     message = response.messages[1].find("ICMP")
     if message == -1:
-       DbWrite(query)
-       return response.messages
+       return {"output":output, "mesage":response.messages}
     
 
 if __name__ == '__main__':
     ip_add = sys.argv[1]
-#    number = sys.argv[2]
-    
+    ip_down = []
+    ip_up = []    
     while True:
-        print (NetworkChecker(ip_add))
-    
+        timestamp = datetime.now()
+
+        ip_info= NetworkChecker(ip_add)
+        if ip_info["output"]["status"] == False:
+            ip_down.append(timestamp)
+            if len(ip_up) != 0:
+                print("UpTime")
+                ProcessInfo(ip_up,ip_info)
+                
+            downtime = date_diff_in_Seconds(ip_down[-1],ip_down[0])
+            print ("Down from " + str(ip_down[0]) +" to "
+                   + str(timestamp) +" = "+ str(downtime) )
+            ip_up.clear()
+            
+        else:
+            ip_up.append(timestamp)
+            if len(ip_down) != 0:
+                print("DownTime")
+                ProcessInfo(ip_down,ip_info)
+                
+            up_time = date_diff_in_Seconds(ip_up[-1],ip_up[0])
+            print ("Uptime from " + str(ip_up[0]) +" to "
+                   + str(ip_up[-1]) +" = "+ str(up_time))
+            ip_down.clear()
+        
+       
+            
