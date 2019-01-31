@@ -1,7 +1,7 @@
 import sys
 import pings
 import MySQLdb
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
 def date_diff_in_Seconds(dt2, dt1):
@@ -48,19 +48,19 @@ def DbWrite(query):
     
 
 def QueryProcess(ip_info, ts_info):
-    print(ts_info)
     timestamp = '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.now())
     ip_address = str(ip_info["output"]["ip"])
-    status = str(ip_info["output"]["status"])
     from_ts = str(ts_info["from_timestamp"])
     to_ts = str(ts_info["to_timestamp"])
     diff_ts = str(ts_info["diff_timestamp"])
-    input_responces = str(ip_address +"','" + timestamp + "','" + status + 
-                      "','"+ from_ts + "','" + to_ts + "','" + diff_ts + "'" )
+    report_message = (ip_address + ": Down from " + from_ts + " to " + to_ts +
+                    "with a " + diff_ts + "ms")
+    input_responces = str("'42,'" + timestamp + "','" + report_message 
+                          + "',0,0'" )
     
-    query =  ("INSERT IGNORE INTO performance_monitoring.network_logs "+
-              "(`ip_address`, `timestamp`, `status`, `from_timestamp`, "+
-              "`to_timestamp`, `ts_difference`) VALUES ('%s)"% input_responces)
+    query =  ("INSERT IGNORE INTO performance_monitoring.error_logs "+
+              "(`metric_it`, `ts_recieved`, `report_message`, `reference_id, "+
+              "`reference_table`) VALUES ('%s)"% input_responces)
     return query
 
 
@@ -96,10 +96,6 @@ if __name__ == '__main__':
         ip_info= NetworkChecker(ip_add)
         if ip_info["output"]["status"] == False:
             ip_down.append(timestamp)
-            if len(ip_up) != 0:
-                print("UpTime")
-                ProcessInfo(ip_up,ip_info)
-                
             downtime = date_diff_in_Seconds(ip_down[-1],ip_down[0])
             print ("Down from " + str(ip_down[0]) +" to "
                    + str(timestamp) +" = "+ str(downtime) )
