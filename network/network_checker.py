@@ -59,7 +59,7 @@ def QueryProcess(ip_info, ts_info):
         to_ts = str(ts_info["to_timestamp"])
         diff_ts = str(ts_info["diff_timestamp"])
         report_message = (ip_address + ": Down from " + from_ts + " to " + to_ts +
-                        "with a " + diff_ts + "ms")
+                        " with a " + diff_ts + " ms ")
     input_responces = str("42','" + timestamp + "','" + report_message 
                         + "','0','0'" )
     
@@ -106,18 +106,18 @@ if __name__ == '__main__':
         temp_data = (temp_file.read())
         temp_file.close()
         
-        # if (str(p[5]) != str(temp_data)):
-        print("Restart")
-        ip_info ={"output":{"ip":ip_add}}
-        ts_info = "System Restart last " + str(p[5])
-        query = QueryProcess(ip_info, ts_info)
-        print (query)
-        DbWrite(query)
-            # temp_file = open('temp_log.txt','w+')
-            # temp_data = (temp_file.write(str(p[5])))
-            # temp_file.close()
-        # else:
-        #     print(str(p[5]))
+        if (str(p[5]) != str(temp_data)):
+            print("Restart")
+            ip_info ={"output":{"ip":ip_add}}
+            ts_info = "System Restart last " + str(p[5])
+            query = QueryProcess(ip_info, ts_info)
+            print (query)
+            DbWrite(query)
+            temp_file = open('temp_log.txt','w+')
+            temp_data = (temp_file.write(str(p[5])))
+            temp_file.close()
+        else:
+            print(str(p[5]))
     else:    
         while True:
             timestamp = datetime.now()
@@ -127,14 +127,15 @@ if __name__ == '__main__':
                 ip_down.append(timestamp)
                 downtime = date_diff_in_Seconds(ip_down[-1],ip_down[0])
                 print ("Down from " + str(ip_down[0]) +" to "
-                    + str(timestamp) +" = "+ str(downtime) )
+                    + str(ip_down[-1]) +" = "+ str(downtime) )
                 ip_up.clear()
                 
             else:
                 ip_up.append(timestamp)
                 if len(ip_down) != 0:
                     print("DownTime")
-                    ProcessInfo(ip_down,ip_info)
+                    if (str(ip_down[0]) != str(ip_down[-1])):
+                         ProcessInfo(ip_down,ip_info)
                     
                 up_time = date_diff_in_Seconds(ip_up[-1],ip_up[0])
                 print ("Uptime from " + str(ip_up[0]) +" to "
