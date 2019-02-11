@@ -25,7 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 
 // $config['base_url'] = 'http://pms/';
-$config['base_url'] = 'http://www.dewslandslide.com:5053/';
+$config['base_url'] = 'http://192.168.150.76/';
+#$config['base_url'] = 'http://www.dewslandslide.com:5053/';
 
 /*
 |--------------------------------------------------------------------------
