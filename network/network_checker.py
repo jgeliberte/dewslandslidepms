@@ -55,8 +55,8 @@ def QueryProcess(ip_info, ts_info):
     if ip_address == "192.168.150.76":
         report_message = (ip_address + ": " + ts_info)
     else:    
-        from_ts = str(ts_info["from_timestamp"])
-        to_ts = str(ts_info["to_timestamp"])
+        from_ts = str(ts_info["from_timestamp"]).split(".")[0]
+        to_ts = str(ts_info["to_timestamp"])split(".")[0]
         diff_ts = str(ts_info["diff_timestamp"])
         report_message = (ip_address + ": Down from " + from_ts + " to " + to_ts +
                         " with a " + diff_ts + " ms ")
