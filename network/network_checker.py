@@ -64,7 +64,7 @@ def QueryProcess(ip_info, ts_info):
                         + "',0,0'" )
     
     query =  ("INSERT IGNORE INTO performance_monitoring.error_logs "+
-              "(`metric_it`, `ts_recieved`, `report_message`, `reference_id, "+
+              "(`metric_id`, `ts_received`, `report_message`, `reference_id, "+
               "`reference_table`) VALUES ('%s)"% input_responces)
     return query
 
