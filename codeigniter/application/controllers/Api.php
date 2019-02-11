@@ -10,7 +10,8 @@ class Api extends CI_Controller {
 		$this->load->model('pms_model');
 		$this->load->helper('url');
 		$this->load->library('form_validation');
-		header("Access-Control-Allow-Origin: http://www.dewslandslide.com");
+		date_default_timezone_set('Asia/Manila');
+		header("Access-Control-Allow-Origin: http://dynaslope.phivolcs.dost.gov.ph");
 		header("Access-Control-Allow-Methods: GET, POST");
 	}
 
@@ -106,9 +107,12 @@ class Api extends CI_Controller {
 			case 'error_log':
 				$report_summary = [
 					'metric_id' => $report['metric_id'],
-					'ts_received' => $report['ts _received'],
-					'report_message' => $report['report_message']
+					'ts_received' => $report['ts_received'],
+					'report_message' => $report['report_message'],
+					'reference_id' => $report['reference_id'],
+					'reference_table' => $table_id
 					];
+				var_dump($report_summary);
 				$result = $this->pms_model->insertErrorRateReport($report_summary);
 				if ($result == true && sizeOf($report['submetrics']) > 0) {
 					foreach ($report['submetrics'] as $submetric) {
@@ -126,11 +130,13 @@ class Api extends CI_Controller {
 				'execution_time' => $report['execution_time']
 				];
 				$result = $this->pms_model->insertTimelinessReport($report_summary);
-				if ($result == true && sizeOf($report['submetrics']) > 0) {
-					foreach ($report['submetrics'] as $submetric) {
-						$exists = $this->pms_model->checkIfSubmetricExists($report['metric_id']);
-						if (sizeOf($exists) > 0) {
-							$result = $this->pms_model->insertSubmetricReport($exists[0],$submetric);
+				if (isset($report['submetrics']) && sizeOf($report['submetrics']) > 0) {
+					if ($result == true) {
+						foreach ($report['submetrics'] as $submetric) {
+							$exists = $this->pms_model->checkIfSubmetricExists($report['metric_id']);
+							if (sizeOf($exists) > 0) {
+								$result = $this->pms_model->insertSubmetricReport($exists[0],$submetric);
+							}
 						}
 					}
 				}
