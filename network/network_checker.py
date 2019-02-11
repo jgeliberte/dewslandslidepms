@@ -2,6 +2,8 @@ import sys
 import pings
 import MySQLdb
 from datetime import datetime
+import subprocess
+import tempfile
 
 
 def date_diff_in_Seconds(dt2, dt1):
@@ -50,13 +52,16 @@ def DbWrite(query):
 def QueryProcess(ip_info, ts_info):
     timestamp = '{0:%Y-%m-%d %H:%M:%S}'.format(datetime.now())
     ip_address = str(ip_info["output"]["ip"])
-    from_ts = str(ts_info["from_timestamp"])
-    to_ts = str(ts_info["to_timestamp"])
-    diff_ts = str(ts_info["diff_timestamp"])
-    report_message = (ip_address + ": Down from " + from_ts + " to " + to_ts +
-                    "with a " + diff_ts + "ms")
-    input_responces = str("'42,'" + timestamp + "','" + report_message 
-                          + "',0,0'" )
+    if ip_address == "192.168.150.76":
+        report_message = (ip_address + ": " + ts_info)
+    else:    
+        from_ts = str(ts_info["from_timestamp"])
+        to_ts = str(ts_info["to_timestamp"])
+        diff_ts = str(ts_info["diff_timestamp"])
+        report_message = (ip_address + ": Down from " + from_ts + " to " + to_ts +
+                        "with a " + diff_ts + "ms")
+    input_responces = str("'42','" + timestamp + "','" + report_message 
+                        + "',0,0'" )
     
     query =  ("INSERT IGNORE INTO performance_monitoring.error_logs "+
               "(`metric_it`, `ts_recieved`, `report_message`, `reference_id, "+
@@ -90,27 +95,49 @@ if __name__ == '__main__':
     ip_add = sys.argv[1]
     ip_down = []
     ip_up = []    
-    while True:
-        timestamp = datetime.now()
-
-        ip_info= NetworkChecker(ip_add)
-        if ip_info["output"]["status"] == False:
-            ip_down.append(timestamp)
-            downtime = date_diff_in_Seconds(ip_down[-1],ip_down[0])
-            print ("Down from " + str(ip_down[0]) +" to "
-                   + str(timestamp) +" = "+ str(downtime) )
-            ip_up.clear()
-            
+    timestamp = datetime.now()
+    ip_info= NetworkChecker(ip_add)
+    if ip_add == "192.168.150.76":
+        p = subprocess.check_output(["who -b"], universal_newlines=True, shell=True)
+        p = p.splitlines()
+        p = p[0].split("  ")
+        temp_file = open('temp_log.txt','r')
+        temp_data = (temp_file.read())
+        temp_file.close()
+        
+        if (str(p[5]) != str(temp_data)):
+            print("Restart")
+            ip_info ={"output":{"ip":ip_add}}
+            ts_info = "System Restart last " + str(p[5])
+            query = QueryProcess(ip_info, ts_info)
+            DbWrite(query)
+            temp_file = open('temp_log.txt','w+')
+            temp_data = (temp_file.write(str(p[5])))
+            temp_file.close()
         else:
-            ip_up.append(timestamp)
-            if len(ip_down) != 0:
-                print("DownTime")
-                ProcessInfo(ip_down,ip_info)
+            print(str(p[5]))
+    else:    
+        while True:
+            timestamp = datetime.now()
+
+            ip_info= NetworkChecker(ip_add)
+            if ip_info["output"]["status"] == False:
+                ip_down.append(timestamp)
+                downtime = date_diff_in_Seconds(ip_down[-1],ip_down[0])
+                print ("Down from " + str(ip_down[0]) +" to "
+                    + str(timestamp) +" = "+ str(downtime) )
+                ip_up.clear()
                 
-            up_time = date_diff_in_Seconds(ip_up[-1],ip_up[0])
-            print ("Uptime from " + str(ip_up[0]) +" to "
-                   + str(ip_up[-1]) +" = "+ str(up_time))
-            ip_down.clear()
+            else:
+                ip_up.append(timestamp)
+                if len(ip_down) != 0:
+                    print("DownTime")
+                    ProcessInfo(ip_down,ip_info)
+                    
+                up_time = date_diff_in_Seconds(ip_up[-1],ip_up[0])
+                print ("Uptime from " + str(ip_up[0]) +" to "
+                    + str(ip_up[-1]) +" = "+ str(up_time))
+                ip_down.clear()
         
        
             
