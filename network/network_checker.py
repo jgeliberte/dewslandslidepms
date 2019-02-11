@@ -60,12 +60,13 @@ def QueryProcess(ip_info, ts_info):
         diff_ts = str(ts_info["diff_timestamp"])
         report_message = (ip_address + ": Down from " + from_ts + " to " + to_ts +
                         "with a " + diff_ts + "ms")
-    input_responces = str("'42','" + timestamp + "','" + report_message 
-                        + "',0,0'" )
+    input_responces = str("42','" + timestamp + "','" + report_message 
+                        + "','0','0'" )
     
-    query =  ("INSERT IGNORE INTO performance_monitoring.error_logs "+
-              "(`metric_id`, `ts_received`, `report_message`, `reference_id, "+
+    query =  ("INSERT INTO `performance_monitoring`.`error_logs`  "+
+              "(`metric_id`, `ts_received`, `report_message`, `reference_id`, "+
               "`reference_table`) VALUES ('%s)"% input_responces)
+
     return query
 
 
@@ -105,17 +106,18 @@ if __name__ == '__main__':
         temp_data = (temp_file.read())
         temp_file.close()
         
-        if (str(p[5]) != str(temp_data)):
-            print("Restart")
-            ip_info ={"output":{"ip":ip_add}}
-            ts_info = "System Restart last " + str(p[5])
-            query = QueryProcess(ip_info, ts_info)
-            DbWrite(query)
-            temp_file = open('temp_log.txt','w+')
-            temp_data = (temp_file.write(str(p[5])))
-            temp_file.close()
-        else:
-            print(str(p[5]))
+        # if (str(p[5]) != str(temp_data)):
+        print("Restart")
+        ip_info ={"output":{"ip":ip_add}}
+        ts_info = "System Restart last " + str(p[5])
+        query = QueryProcess(ip_info, ts_info)
+        print (query)
+        DbWrite(query)
+            # temp_file = open('temp_log.txt','w+')
+            # temp_data = (temp_file.write(str(p[5])))
+            # temp_file.close()
+        # else:
+        #     print(str(p[5]))
     else:    
         while True:
             timestamp = datetime.now()
